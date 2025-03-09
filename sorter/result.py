@@ -97,6 +97,8 @@ class SorterResult:
                 thumbnail_response: Response = get(thumbnail_url)
                 if thumbnail_response.ok:
                     self.image_bytes = thumbnail_response.content
+                else:
+                    self.image_bytes = None
 
             # Get data (source, creator, name, etc)
             if api_result_data := api_result.get("data"):
