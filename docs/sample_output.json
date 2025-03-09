@@ -1,0 +1,339 @@
+{
+    "header": {
+        "user_id": "000000",
+        "account_type": "1",
+        "short_limit": "4",
+        "long_limit": "100",
+        "long_remaining": 75,
+        "short_remaining": 1,
+        "status": 0,
+        "results_requested": 3,
+        "index": {
+            "0": {
+                "status": 0,
+                "parent_id": 0,
+                "id": 0,
+                "results": 3
+            },
+            "2": {
+                "status": 0,
+                "parent_id": 2,
+                "id": 2,
+                "results": 3
+            },
+            "5": {
+                "status": 0,
+                "parent_id": 5,
+                "id": 5,
+                "results": 3
+            },
+            "51": {
+                "status": 0,
+                "parent_id": 5,
+                "id": 51,
+                "results": 3
+            },
+            "52": {
+                "status": 0,
+                "parent_id": 5,
+                "id": 52,
+                "results": 3
+            },
+            "53": {
+                "status": 0,
+                "parent_id": 5,
+                "id": 53,
+                "results": 3
+            },
+            "6": {
+                "status": 0,
+                "parent_id": 6,
+                "id": 6,
+                "results": 3
+            },
+            "8": {
+                "status": 0,
+                "parent_id": 8,
+                "id": 8,
+                "results": 3
+            },
+            "9": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 9,
+                "results": 6
+            },
+            "10": {
+                "status": 0,
+                "parent_id": 10,
+                "id": 10,
+                "results": 3
+            },
+            "11": {
+                "status": 0,
+                "parent_id": 11,
+                "id": 11,
+                "results": 3
+            },
+            "12": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 12,
+                "results": 6
+            },
+            "16": {
+                "status": 0,
+                "parent_id": 16,
+                "id": 16,
+                "results": 3
+            },
+            "18": {
+                "status": 0,
+                "parent_id": 18,
+                "id": 18,
+                "results": 3
+            },
+            "19": {
+                "status": 0,
+                "parent_id": 19,
+                "id": 19,
+                "results": 3
+            },
+            "20": {
+                "status": 0,
+                "parent_id": 20,
+                "id": 20,
+                "results": 3
+            },
+            "21": {
+                "status": 0,
+                "parent_id": 21,
+                "id": 21,
+                "results": 3
+            },
+            "211": {
+                "status": 0,
+                "parent_id": 21,
+                "id": 211,
+                "results": 3
+            },
+            "22": {
+                "status": 0,
+                "parent_id": 22,
+                "id": 22,
+                "results": 3
+            },
+            "23": {
+                "status": 0,
+                "parent_id": 23,
+                "id": 23,
+                "results": 3
+            },
+            "24": {
+                "status": 0,
+                "parent_id": 24,
+                "id": 24,
+                "results": 3
+            },
+            "25": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 25,
+                "results": 6
+            },
+            "26": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 26,
+                "results": 6
+            },
+            "27": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 27,
+                "results": 6
+            },
+            "28": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 28,
+                "results": 6
+            },
+            "29": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 29,
+                "results": 6
+            },
+            "30": {
+                "status": 0,
+                "parent_id": 9,
+                "id": 30,
+                "results": 6
+            },
+            "31": {
+                "status": 0,
+                "parent_id": 31,
+                "id": 31,
+                "results": 3
+            },
+            "32": {
+                "status": 0,
+                "parent_id": 32,
+                "id": 32,
+                "results": 3
+            },
+            "33": {
+                "status": 0,
+                "parent_id": 33,
+                "id": 33,
+                "results": 3
+            },
+            "34": {
+                "status": 0,
+                "parent_id": 34,
+                "id": 34,
+                "results": 3
+            },
+            "341": {
+                "status": 0,
+                "parent_id": 341,
+                "id": 341,
+                "results": 3
+            },
+            "35": {
+                "status": 0,
+                "parent_id": 35,
+                "id": 35,
+                "results": 3
+            },
+            "36": {
+                "status": 0,
+                "parent_id": 36,
+                "id": 36,
+                "results": 3
+            },
+            "37": {
+                "status": 0,
+                "parent_id": 37,
+                "id": 37,
+                "results": 3
+            },
+            "371": {
+                "status": 0,
+                "parent_id": 371,
+                "id": 371,
+                "results": 3
+            },
+            "38": {
+                "status": 0,
+                "parent_id": 38,
+                "id": 38,
+                "results": 3
+            },
+            "39": {
+                "status": 0,
+                "parent_id": 39,
+                "id": 39,
+                "results": 3
+            },
+            "40": {
+                "status": 0,
+                "parent_id": 40,
+                "id": 40,
+                "results": 3
+            },
+            "41": {
+                "status": 0,
+                "parent_id": 41,
+                "id": 41,
+                "results": 3
+            },
+            "42": {
+                "status": 0,
+                "parent_id": 42,
+                "id": 42,
+                "results": 3
+            },
+            "43": {
+                "status": 0,
+                "parent_id": 43,
+                "id": 43,
+                "results": 3
+            },
+            "44": {
+                "status": 0,
+                "parent_id": 44,
+                "id": 44,
+                "results": 3
+            }
+        },
+        "search_depth": "128",
+        "minimum_similarity": 44.41,
+        "query_image_display": "/userdata/4bislpsef.jpg.png",
+        "query_image": "4bislpsef.jpg",
+        "results_returned": 3
+    },
+    "results": [
+        {
+            "header": {
+                "similarity": "93.83",
+                "thumbnail": "https://img3.saucenao.com/booru/e/3/e3a65f5875fd37d3d68d232f080876f3_2.jpg?auth=Ezjj1v7sgJDUn0iolj6TQA&exp=1741719600",
+                "index_id": 9,
+                "index_name": "Index #9: Danbooru - e3a65f5875fd37d3d68d232f080876f3_0.jpg",
+                "dupes": 1,
+                "hidden": 0
+            },
+            "data": {
+                "ext_urls": [
+                    "https://danbooru.donmai.us/post/show/8484508",
+                    "https://gelbooru.com/index.php?page=post&s=view&id=11052100"
+                ],
+                "danbooru_id": 8484508,
+                "gelbooru_id": 11052100,
+                "creator": "tsuezu",
+                "material": "blue archive",
+                "characters": "ichika (blue archive), kasumi (blue archive)",
+                "source": "https://www.pixiv.net/artworks/124635686"
+            }
+        },
+        {
+            "header": {
+                "similarity": "43.41",
+                "thumbnail": "https://img1.saucenao.com/res/pixiv/5226/52261785_p0_master1200.jpg?auth=s2PCcGwUKiKRBiyIu0f70g&exp=1741719600",
+                "index_id": 5,
+                "index_name": "Index #5: Pixiv Images - 52261785_p0_master1200.jpg",
+                "dupes": 0,
+                "hidden": 0
+            },
+            "data": {
+                "ext_urls": [
+                    "https://www.pixiv.net/member_illust.php?mode=medium&illust_id=52261785"
+                ],
+                "title": "8/30閃華の刻新刊サンプル",
+                "pixiv_id": 52261785,
+                "member_name": "魚月",
+                "member_id": 14525683
+            }
+        },
+        {
+            "header": {
+                "similarity": "43.35",
+                "thumbnail": "https://img1.saucenao.com/res/pixiv/5226/manga/52261785_p0.jpg?auth=dGnPM_sb1DNWeavBgx3xaQ&exp=1741719600",
+                "index_id": 5,
+                "index_name": "Index #5: Pixiv Images - 52261785_p0.jpg",
+                "dupes": 0,
+                "hidden": 0
+            },
+            "data": {
+                "ext_urls": [
+                    "https://www.pixiv.net/member_illust.php?mode=medium&illust_id=52261785"
+                ],
+                "title": "8/30閃華の刻新刊サンプル",
+                "pixiv_id": 52261785,
+                "member_name": "魚月",
+                "member_id": 14525683
+            }
+        }
+    ]
+}
