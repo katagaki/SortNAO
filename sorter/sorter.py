@@ -1,5 +1,6 @@
 import json
 import os
+import traceback
 from time import sleep
 from typing import Literal
 from urllib.parse import urlencode
@@ -191,9 +192,13 @@ class Sorter:
                     if (os.path.isfile(os.path.join(self.input_directory, filename)) and
                             filename.lower().endswith((".jpg", ".jpeg", ".png"))):
                         log(f"Processing '{filename}'...")
-                        self.output[filename] = self.__lookup_file_web(filename)
-                        self.__write_json_output()
+                        try:
+                            self.output[filename] = self.__lookup_file_web(filename)
+                            self.__write_json_output()
+                        except Exception as e:
+                            log(f"Error processing '{filename}': {str(e)}\n{traceback.format_exc()}", "error")
                         sleep(30)
+
             case "api":
                 self.output: dict[str, list[SorterResult]] = {}
                 parameters: dict[str, str] = {
@@ -207,11 +212,14 @@ class Sorter:
                     if (os.path.isfile(os.path.join(self.input_directory, filename)) and
                             filename.lower().endswith((".jpg", ".jpeg", ".png"))):
                         log(f"Processing '{filename}'...")
-                        self.output[filename] = self.__lookup_file_api(
-                            filename,
-                            lookup_url
-                        )
-                        self.__write_json_output()
+                        try:
+                            self.output[filename] = self.__lookup_file_api(
+                                filename,
+                                lookup_url
+                            )
+                            self.__write_json_output()
+                        except Exception as e:
+                            log(f"Error processing '{filename}': {str(e)}\n{traceback.format_exc()}", "error")
                         sleep(saucenao_sleep_time)
 
         return self.output
