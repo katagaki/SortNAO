@@ -37,8 +37,10 @@ class Organizer:
             for result in results:
                 filename_suffix: str = ""
                 if characters := result.characters:
+                    characters = characters.replace("/", "-")
                     filename_suffix = f"{characters}"
                 if material := result.material:
+                    material = material.replace("/", "-")
                     filename_suffix = (
                         filename_suffix
                         .replace(f" ({material}), ", ",")
