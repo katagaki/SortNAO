@@ -4,6 +4,7 @@ import os
 saucenao_base_url: str = "https://saucenao.com"
 saucenao_search_url: str = f"{saucenao_base_url}/search.php"
 saucenao_api_key: str = os.environ["SAUCENAO_API_KEY"]
+saucenao_sleep_time: int = int(os.environ.get("SAUCENAO_API_SLEEP_TIME", "10"))
 
 # Browser
 browser_user_agent: str = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"

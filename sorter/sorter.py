@@ -1,11 +1,8 @@
 import json
 import os
-from logging import getLogger, StreamHandler, INFO, Logger
-from sys import stdout
 from time import sleep
 from typing import Literal
 from urllib.parse import urlencode
-from warnings import warn
 
 from playwright.sync_api import Response as PlaywrightResponse
 from playwright.sync_api import (
@@ -18,10 +15,12 @@ from playwright.sync_api import (
 from requests import Response as RequestsResponse
 from requests import post
 
+from common import log
 from sorter.constants import (
     saucenao_base_url,
     saucenao_search_url,
     saucenao_api_key,
+    saucenao_sleep_time,
     browser_user_agent,
     browser_args,
     browser_init_script,
@@ -38,7 +37,6 @@ class Sorter:
     mode: str
     input_directory: str
     output_directory: str
-    logger: Logger
     playwright: Playwright | None
     browser_context: BrowserContext | None
     current_page: Page | None
@@ -54,9 +52,6 @@ class Sorter:
         self.mode = mode
         self.input_directory = input_directory
         self.output_directory = output_directory
-        self.logger = getLogger("sortnao")
-        self.logger.setLevel(INFO)
-        self.logger.addHandler(StreamHandler(stream=stdout))
         self.playwright = None
         self.browser_context = None
         self.current_page = None
@@ -149,7 +144,7 @@ class Sorter:
             "file": (filename, image_bytes)
         })
         response.raise_for_status()
-        print(f"API response: {response.text}")
+        log(f"API response: {response.text}")
         response_json: dict = response.json()
         with open(response_json_output_path, "w", encoding="utf-8") as response_json_file:
             response_json_file.write(json.dumps(response_json, skipkeys=True, indent=4, ensure_ascii=False))
@@ -186,20 +181,6 @@ class Sorter:
         with open(os.path.join(self.output_directory, "output.json"), "w", encoding="utf-8") as output_file:
             output_file.write(output_string)
 
-    # Logging
-
-    def __log(self, message: str, level: Literal["info", "warn", "error"] = "info"):
-        if logger := self.logger:
-            match level:
-                case "info":
-                    logger.info(message)
-                case "warn":
-                    warn(message)
-                case "error":
-                    logger.error(message)
-                case _:
-                    logger.debug(message)
-
     # Public Functions
 
     def lookup_files(self) -> dict[str, list[SorterResult]]:
@@ -209,7 +190,7 @@ class Sorter:
                 for filename in os.listdir(self.input_directory):
                     if (os.path.isfile(os.path.join(self.input_directory, filename)) and
                             filename.lower().endswith((".jpg", ".jpeg", ".png"))):
-                        print(f"Processing '{filename}'...")
+                        log(f"Processing '{filename}'...")
                         self.output[filename] = self.__lookup_file_web(filename)
                         self.__write_json_output()
                         sleep(30)
@@ -225,12 +206,12 @@ class Sorter:
                 for filename in os.listdir(self.input_directory):
                     if (os.path.isfile(os.path.join(self.input_directory, filename)) and
                             filename.lower().endswith((".jpg", ".jpeg", ".png"))):
-                        print(f"Processing '{filename}'...")
+                        log(f"Processing '{filename}'...")
                         self.output[filename] = self.__lookup_file_api(
                             filename,
                             lookup_url
                         )
                         self.__write_json_output()
-                        sleep(10)
+                        sleep(saucenao_sleep_time)
 
         return self.output
