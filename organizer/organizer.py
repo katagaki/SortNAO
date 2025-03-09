@@ -47,7 +47,7 @@ class Organizer:
                     filename_suffix = f"{material}_{filename_suffix}"
 
                 if len(filename_suffix) > 0:
-                    new_filename = f"{filename_suffix}{filename}"
+                    new_filename = f"{filename_suffix}_{filename}"
                     break
 
             log(f"Copying '{filename}' to '{new_filename}'...")
