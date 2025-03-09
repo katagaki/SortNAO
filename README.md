@@ -2,7 +2,24 @@
 
 Simple illustration sorting using SauceNAO.
 
-Place your files in a folder named "inputs" in the project root folder to begin.
+## Setup
+
+1. Using [uv](https://docs.astral.sh/uv/getting-started/installation/), 
+create a virtual environment and sync the project's dependencies.
+
+```zsh
+uv venv
+source ./.venv/bin/activate
+uv sync
+```
+
+2. Place your files in a folder named "inputs" in the project root folder.
+
+3. Prepare your `.env` file if you are using the official API implementation.
+
+4. Execute `app.py` within the virtual environment to begin the process.
+
+
 
 ## Using the official API
 
@@ -19,6 +36,8 @@ Once you have done that, you can use the Sorter class like this:
 with Sorter("api") as sorter:
     sorter.lookup_files()
 ```
+
+
 
 ## Using Playwright web automation
 
