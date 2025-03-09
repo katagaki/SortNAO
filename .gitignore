@@ -13,6 +13,7 @@ wheels/
 .chromium/
 inputs/
 outputs/
+outputs_organized/
 
 # Environment variables
 .env

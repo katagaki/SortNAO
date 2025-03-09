@@ -15,7 +15,7 @@ from playwright.sync_api import (
     BrowserContext,
     ElementHandle
 )
-from requests import Response as RequestsResponse, get
+from requests import Response as RequestsResponse
 from requests import post
 
 from sorter.constants import (
@@ -158,80 +158,11 @@ class Sorter:
         if response_results := response_json.get("results"):
             result_objects: list[SorterResult] = []
             for response_result in response_results:
-                image_bytes: bytes | None = None
-                creator: str | None = None
-                source: str | None = None
-                material: str | None = None
-                characters: str | None = None
-                pixiv_id: str | None = None
-                pixiv_member: str | None = None
-
-                # Get header (similarity, thumbnail, etc)
-                if response_result_header := response_result.get("header"):
-                    thumbnail_url: str = response_result_header["thumbnail"]
-                    thumbnail_response: RequestsResponse = get(thumbnail_url)
-                    if thumbnail_response.ok:
-                        image_bytes = thumbnail_response.content
-
-                # Get data (source, creator, name, etc)
-                if response_result_data := response_result.get("data"):
-                    creator_value: list[str] | str = response_result_data.get("creator")
-                    if isinstance(creator_value, list):
-                        creator = "\n".join(creator_value)
-                    elif isinstance(creator_value, str):
-                        creator = creator_value
-                    source = response_result_data.get("source")
-                    material = response_result_data.get("material")
-                    characters = response_result_data.get("characters")
-                    pixiv_id = response_result_data.get("pixiv_id")
-                    pixiv_member = response_result_data.get("member_id")
-
                 result_objects.append(SorterResult(
-                    image_bytes=image_bytes,
-                    creator=creator,
-                    source=source,
-                    material=material,
-                    characters=characters,
-                    pixiv_id=pixiv_id,
-                    pixiv_member=pixiv_member
+                    api_result=response_result
                 ))
             return result_objects
         return []
-
-    # Public Functions
-
-    def lookup_files(self) -> dict[str, list[SorterResult]]:
-        match self.mode:
-            case "web":
-                self.output: dict[str, list[SorterResult]] = {}
-                for filename in os.listdir(self.input_directory):
-                    if (os.path.isfile(os.path.join(self.input_directory, filename)) and
-                            filename.lower().endswith((".jpg", ".jpeg", ".png"))):
-                        print(f"Processing '{filename}'...")
-                        self.output[filename] = self.__lookup_file_web(filename)
-                        self.__write_json_output()
-                        sleep(30)
-            case "api":
-                self.output: dict[str, list[SorterResult]] = {}
-                parameters: dict[str, str] = {
-                    "db": "999",
-                    "output_type": "2",
-                    "api_key": saucenao_api_key,
-                    "numres": "3"
-                }
-                lookup_url: str = f"{saucenao_search_url}?{urlencode(parameters)}"
-                for filename in os.listdir(self.input_directory):
-                    if (os.path.isfile(os.path.join(self.input_directory, filename)) and
-                            filename.lower().endswith((".jpg", ".jpeg", ".png"))):
-                        print(f"Processing '{filename}'...")
-                        self.output[filename] = self.__lookup_file_api(
-                            filename,
-                            lookup_url
-                        )
-                        self.__write_json_output()
-                        sleep(10)
-
-        return self.output
 
     # Output Functions
 
@@ -268,3 +199,38 @@ class Sorter:
                     logger.error(message)
                 case _:
                     logger.debug(message)
+
+    # Public Functions
+
+    def lookup_files(self) -> dict[str, list[SorterResult]]:
+        match self.mode:
+            case "web":
+                self.output: dict[str, list[SorterResult]] = {}
+                for filename in os.listdir(self.input_directory):
+                    if (os.path.isfile(os.path.join(self.input_directory, filename)) and
+                            filename.lower().endswith((".jpg", ".jpeg", ".png"))):
+                        print(f"Processing '{filename}'...")
+                        self.output[filename] = self.__lookup_file_web(filename)
+                        self.__write_json_output()
+                        sleep(30)
+            case "api":
+                self.output: dict[str, list[SorterResult]] = {}
+                parameters: dict[str, str] = {
+                    "db": "999",
+                    "output_type": "2",
+                    "api_key": saucenao_api_key,
+                    "numres": "3"
+                }
+                lookup_url: str = f"{saucenao_search_url}?{urlencode(parameters)}"
+                for filename in os.listdir(self.input_directory):
+                    if (os.path.isfile(os.path.join(self.input_directory, filename)) and
+                            filename.lower().endswith((".jpg", ".jpeg", ".png"))):
+                        print(f"Processing '{filename}'...")
+                        self.output[filename] = self.__lookup_file_api(
+                            filename,
+                            lookup_url
+                        )
+                        self.__write_json_output()
+                        sleep(10)
+
+        return self.output

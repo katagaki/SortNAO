@@ -1,4 +1,5 @@
 from playwright.sync_api import ElementHandle
+from requests import Response, get
 
 from sorter.constants import (
     classname_div_result_image,
@@ -25,19 +26,12 @@ class SorterResult:
 
     def __init__(
             self,
-
             # For Web
             element: ElementHandle | None = None,
             images: dict[str, bytes] | None = None,
 
             # For API
-            image_bytes: bytes | None = None,
-            creator: str | None = None,
-            source: str | None = None,
-            material: str | None = None,
-            characters: str | None = None,
-            pixiv_id: str | None = None,
-            pixiv_member: str | None = None
+            api_result: dict | None = None
     ):
         if element and images:
             # Get image from result
@@ -95,15 +89,32 @@ class SorterResult:
                 self.pixiv_id = None
                 self.pixiv_member = None
 
+        elif api_result:
+            # Get header (similarity, thumbnail, etc)
+            if api_result_header := api_result.get("header"):
+                thumbnail_url: str = api_result_header["thumbnail"]
+                self.image_url = thumbnail_url
+                thumbnail_response: Response = get(thumbnail_url)
+                if thumbnail_response.ok:
+                    self.image_bytes = thumbnail_response.content
+
+            # Get data (source, creator, name, etc)
+            if api_result_data := api_result.get("data"):
+                creator_value: list[str] | str = api_result_data.get("creator")
+                if isinstance(creator_value, list):
+                    self.creator = "\n".join(creator_value)
+                elif isinstance(creator_value, str):
+                    self.creator = creator_value
+                else:
+                    self.creator = None
+                self.source = api_result_data.get("source")
+                self.material = api_result_data.get("material")
+                self.characters = api_result_data.get("characters")
+                self.pixiv_id = api_result_data.get("pixiv_id")
+                self.pixiv_member = api_result_data.get("member_id")
+
         else:
-            self.image_url = None
-            self.image_bytes = image_bytes
-            self.creator = creator
-            self.source = source
-            self.material = material
-            self.characters = characters
-            self.pixiv_id = pixiv_id
-            self.pixiv_member = pixiv_member
+            raise RuntimeError("No lookup input provided")
 
     def to_dict(self) -> dict[str, str | bytes]:
         return {
