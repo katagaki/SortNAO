@@ -10,24 +10,23 @@ import SwiftUI
 
 struct OrganizerView: View {
     @State var viewPath: [ViewPath] = []
+    @State var apiKey: String = ""
     
     var body: some View {
         NavigationStack(path: $viewPath) {
             ToroList {
-                Text("""
-                     Welcome to SortNAO!
-                     To get started, tap \(Image(systemName: "plus")) and select a folder to add your files.
-                     """)
-                ToroSection(header: "hello", footer: "uma musume") {
-                    Text("world")
+                ToroSection(header: "Welcome to SortNAO") {
+                    Text("""
+                         To get started, tap \(Image(systemName: "plus")) and select a folder to add your files.
+                         """)
+                }
+                ToroSection(header: "Set Up API Key") {
+                    Text("Enter your SauceNAO API key below.")
+                    SecureField("SauceNAO API Key", text: $apiKey)
+                        .textFieldStyle(.roundedBorder)
+                    ActionButton(text: "Save", icon: "key.fill", isPrimary: true, action: doNothing)
                 }
                 ToroSection(header: "Uncategorized", footer: "Categorize these files", contentInsets: .init()) {
-                    ImageGrid()
-                }
-                ToroSection(header: "ブルーアーカイブ", contentInsets: .init()) {
-                    ImageGrid()
-                }
-                ToroSection(header: "ウマ娘", contentInsets: .init()) {
                     ImageGrid()
                 }
             }
@@ -50,7 +49,10 @@ struct OrganizerView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    ToroToolbarButton(iconName: "gearshape.fill", action: openSettingsView)
+                    HStack {
+                        ToroToolbarButton(iconName: "person.fill", action: openAccountView)
+                        ToroToolbarButton(iconName: "gearshape.fill", action: openSettingsView)
+                    }
                 }
             }
         }
@@ -58,6 +60,10 @@ struct OrganizerView: View {
     
     func openSettingsView() {
         viewPath.append(.settings)
+    }
+
+    func openAccountView() {
+        
     }
 
     func doNothing() {

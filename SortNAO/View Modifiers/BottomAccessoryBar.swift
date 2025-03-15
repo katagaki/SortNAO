@@ -33,7 +33,7 @@ struct BottomAccessoryBar: ViewModifier {
                 HStack(alignment: .center, spacing: 20.0) {
                     Group {
                         ToroThumbButton(imageName: "plus", action: addAction)
-                        ToroThumbButton(imageName: "bubbles.and.sparkles.fill", accentColor: .send, action: organizeAction)
+                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill", accentColor: .send, action: organizeAction)
                     }
                     .shadow(color: .black.opacity(0.3), radius: 4.0, y: 3.0)
                 }

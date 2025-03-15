@@ -21,7 +21,7 @@ struct ToroToolbarButton: View {
                 Image(systemName: iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 16.0, height: 16.0)
+                    .frame(width: 14.0, height: 14.0)
                     .symbolRenderingMode(.monochrome)
             }
         }

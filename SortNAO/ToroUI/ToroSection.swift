@@ -16,29 +16,38 @@ struct ToroSection<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0.0) {
             if let header {
-                Text(header)
-                    .font(.subheadline)
-                    .bold()
-                    .padding(.horizontal, 16.0)
-                    .padding(.vertical, 8.0)
-                Divider()
+                HStack {
+                    Text(header)
+                        .font(.subheadline)
+                        .bold()
+                        .padding(.horizontal, 16.0)
+                        .padding(.vertical, 8.0)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.regularMaterial)
             }
             VStack(alignment: .leading, spacing: 10.0) {
                 content
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding(contentInsets)
+            .background(.ultraThinMaterial.opacity(0.5))
             if let footer {
-                Divider()
-                Text(footer)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 16.0)
-                    .padding(.vertical, 8.0)
+                HStack {
+                    Text(footer)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 16.0)
+                        .padding(.vertical, 8.0)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.regularMaterial)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.bar)
+        .background(.backgroundGradientTop.opacity(0.3))
         .clipShape(.rect(cornerRadius: 10.0))
-        .shadow(color: .black.opacity(0.1), radius: 8.0, y: 5.0)
+        .compositingGroup()
+        .shadow(color: .black.opacity(0.15), radius: 8.0, y: 5.0)
     }
 }

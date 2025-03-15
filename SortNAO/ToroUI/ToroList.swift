@@ -22,5 +22,6 @@ struct ToroList<Content: View>: View {
         }
         .scrollBounceBehavior(.always)
         .scrollIndicators(.never)
+        .scrollDismissesKeyboard(.immediately)
     }
 }
