@@ -55,11 +55,26 @@ document.head.appendChild(meta);
 // Tweak global font
 
 const styleSheet = document.styleSheets[0]
-styleSheet.insertRule("* { font-family: sans-serif; font-size: 1rem; }", styleSheet.cssRules.length)
+styleSheet.insertRule(`
+    * {
+        font-family: sans-serif;
+        font-size: 1rem;
+    }
+`, styleSheet.cssRules.length)
+styleSheet.insertRule(`
+    @media (prefers-color-scheme: light) {
+        body, td, th, a, a:visited,
+        .settingsmenuheader, .settingsmenuitem,
+        .settingsmenuitem a:link, .settingsmenuitem a:visited, .settingsmenuitem a:hover {
+            background-color: unset;
+            color: unset;
+        }
+    }
+`, styleSheet.cssRules.length)
 
 // Remove purchase options
 
-var settingsMenuItems = document.getElementsByClassName("settingsmenuitem")
+const settingsMenuItems = document.getElementsByClassName("settingsmenuitem")
 Array.from(settingsMenuItems).forEach(settingsMenuItem => {
     let textContent = settingsMenuItem.textContent
     if (textContent === "upgrades" || textContent === "exit") {
@@ -69,7 +84,7 @@ Array.from(settingsMenuItems).forEach(settingsMenuItem => {
 
 // Remove account creation option
 
-var loginFormLinks = document.getElementsByTagName("a")
+const loginFormLinks = document.getElementsByTagName("a")
 Array.from(loginFormLinks).forEach(loginFormLink => {
     let textContent = loginFormLink.textContent
     if (textContent.includes("Reset Password")) {
@@ -81,7 +96,7 @@ Array.from(loginFormLinks).forEach(loginFormLink => {
 
 // Remove API information
 
-var pageLinks = document.getElementsByTagName("p")
+const pageLinks = document.getElementsByTagName("p")
 Array.from(pageLinks).forEach(pageLink => {
     let textContent = pageLink.textContent
     if (textContent.includes("Index Details:") ||
@@ -91,7 +106,7 @@ Array.from(pageLinks).forEach(pageLink => {
     }
 })
 
-var pageDivs = document.getElementsByTagName("div")
+const pageDivs = document.getElementsByTagName("div")
 Array.from(pageDivs).forEach(pageDiv => {
     let textContent = pageDiv.textContent
     if (textContent.includes("api is in beta")) {
@@ -106,35 +121,35 @@ Array.from(pageDivs).forEach(pageDiv => {
 
 // Tweak login form
 
-var inputFormItems = document.getElementsByClassName("input-form")
+const inputFormItems = document.getElementsByClassName("input-form")
 Array.from(inputFormItems).forEach(formItem => {
     formItem.setAttribute("style", "margin-left: 20px !important;")
 })
 
-var inputItems = document.getElementsByTagName("input")
+const inputItems = document.getElementsByTagName("input")
 Array.from(inputItems).forEach(inputItem => {
     if (inputItem.type === "text" || inputItem.type === "password") {
         inputItem.size = "30"
     }
 })
 
-var googleRecaptchaItems = document.getElementsByClassName("g-recaptcha")
+const googleRecaptchaItems = document.getElementsByClassName("g-recaptcha")
 Array.from(googleRecaptchaItems).forEach(googleRecaptchaItem => {
     googleRecaptchaItem.style = ""
 })
 
 // Tweak sizes
 
-var mainArea = document.getElementById("mainarea")
+const mainArea = document.getElementById("mainarea")
 mainArea.setAttribute("style", `
     max-width: 100vw;
     min-width: 100vw;
 `)
 
-var leftMenuItem = document.getElementById("left")
+const leftMenuItem = document.getElementById("left")
 leftMenuItem.setAttribute("style", "width: 100px !important;")
 
-var middleAreaItem = document.getElementById("middle")
+const middleAreaItem = document.getElementById("middle")
 middleAreaItem.setAttribute("style", `
     display: flex;
     flex-direction: column;
@@ -147,13 +162,15 @@ middleAreaItem.setAttribute("style", `
 document.getElementById("headerarea").remove()
 """
 
+            func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+                webView.layer.opacity = 0.0
+            }
+
             func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
                 guard let webViewURL = webView.url else { return }
                 let urlString = webViewURL.absoluteString
                 webView.evaluateJavaScript(self.processPageJS) { _, _ in
                     switch urlString {
-                    case accountPageURL.absoluteString:
-                        webView.layer.opacity = 1.0
                     case loginPageURL.absoluteString, logoutPageURL.absoluteString:
                         webView.load(URLRequest(url: accountPageURL))
                     default:
