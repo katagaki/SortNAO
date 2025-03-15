@@ -44,6 +44,7 @@ struct OrganizerView: View {
             .navigationTitle("SortNAO")
             .navigationDestination(for: ViewPath.self) { viewPath in
                 switch viewPath {
+                case .account: Color.clear
                 case .settings: SettingsView()
                 }
             }
@@ -57,13 +58,13 @@ struct OrganizerView: View {
             }
         }
     }
-    
-    func openSettingsView() {
-        viewPath.append(.settings)
-    }
 
     func openAccountView() {
-        
+        viewPath.append(.account)
+    }
+
+    func openSettingsView() {
+        viewPath.append(.settings)
     }
 
     func doNothing() {

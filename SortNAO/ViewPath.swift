@@ -6,5 +6,6 @@
 //
 
 enum ViewPath {
+    case account
     case settings
 }
