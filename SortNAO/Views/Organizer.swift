@@ -55,6 +55,20 @@ struct Organizer: View {
                         )
                     }
                 }
+                if categorized.count > 0 {
+                    ForEach(Array(categorized.keys).sorted(), id: \.self) { category in
+                        ToroSection(
+                            header: "\(category)",
+                            contentInsets: .init()
+                        ) {
+                            ImageGrid(
+                                images: .constant(categorized[category] ?? [:]),
+                                previewImage: openPreview,
+                                namespace: namespace
+                            )
+                        }
+                    }
+                }
             }
             .background(
                 .linearGradient(
@@ -158,6 +172,23 @@ struct Organizer: View {
     func startOrganizingIllustrations() {
         Task {
             await nao.searchQueue()
+            let materialMap: [String: [URL]] = nao.booruMaterialMap()
+            var categorized: [String: [URL: Image]] = [:]
+            for material in materialMap.keys {
+                let urls: [URL] = materialMap[material] ?? []
+                categorized[material, default: [:]] = urls.reduce(into: [:]) { result, url in
+                    result[url] = self.uncategorized[url]
+                }
+            }
+            var uncategorized: [URL: Image] = [:]
+            let uncategorizedURLs: [URL] = Array(nao.queue.keys)
+            for url in uncategorizedURLs {
+                uncategorized[url] = self.uncategorized[url]
+            }
+            withAnimation {
+                self.categorized = categorized
+                self.uncategorized = uncategorized
+            }
         }
     }
 

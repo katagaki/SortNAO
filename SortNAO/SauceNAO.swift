@@ -47,8 +47,16 @@ class SauceNAO {
         self.apiKey = nil
     }
 
-    public func booruMaterialKeys() {
-
+    public func booruMaterialMap() -> [String: [URL]] {
+        var materialMap: [String: [URL]] = [:]
+        for url in self.results.keys {
+            for result in self.results[url]!.results {
+                if let material = result.data.material {
+                    materialMap[material, default: []].append(url)
+                }
+            }
+        }
+        return materialMap
     }
 
     public func searchQueue() async {
