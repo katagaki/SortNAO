@@ -27,11 +27,13 @@ struct OrganizerView: View {
                          To get started, tap \(Image(systemName: "plus")) and select a folder to add your images.
                          """)
                 }
-                ToroSection(header: "Set Up API Key") {
-                    Text("Enter your SauceNAO API key below.")
-                    SecureField("SauceNAO API Key", text: $apiKey)
-                        .textFieldStyle(.roundedBorder)
-                    ActionButton(text: "Save", icon: "key.fill", isPrimary: true, action: setAPIKey)
+                if !nao.isAPIKeySet {
+                    ToroSection(header: "Set Up API Key") {
+                        Text("Enter your SauceNAO API key below.")
+                        SecureField("SauceNAO API Key", text: $apiKey)
+                            .textFieldStyle(.roundedBorder)
+                        ActionButton(text: "Save", icon: "key.fill", isPrimary: true, action: setAPIKey)
+                    }
                 }
                 if uncategorized.count > 0 {
                     ToroSection(header: "Uncategorized", footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these files.", contentInsets: .init()) {
@@ -53,6 +55,8 @@ struct OrganizerView: View {
             .bottomAccessoryBar {
                 ToroThumbButton(imageName: "plus", action: openPicker)
                 ToroThumbButton(imageName: "sparkles.rectangle.stack.fill", accentColor: .send, action: startOrganizingIllustrations)
+                    .grayscale(nao.isReady ? 0.0 : 1.0)
+                    .disabled(!nao.isReady)
             }
             .navigationTitle("SortNAO")
             .navigationDestination(for: ViewPath.self) { viewPath in
@@ -77,7 +81,9 @@ struct OrganizerView: View {
     }
     
     func setAPIKey() {
-        nao.setAPIKey(apiKey)
+        withAnimation {
+            nao.setAPIKey(apiKey)
+        }
     }
 
     func openAccountView() {
@@ -122,7 +128,7 @@ struct OrganizerView: View {
                 guard let uiImage = UIImage(data: imageData) else {
                     continue
                 }
-                guard let uiImageDisplay = await uiImage.byPreparingForDisplay() else {
+                guard let uiImageDisplay = await uiImage.byPreparingThumbnail(ofSize: CGSize(width: 200.0, height: 200.0)) else {
                     continue
                 }
                 self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)

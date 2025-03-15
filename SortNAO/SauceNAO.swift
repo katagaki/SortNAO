@@ -11,17 +11,16 @@ import UIKit
 @Observable
 class SauceNAO {
     @ObservationIgnored private let endpoint = URL(string: "https://saucenao.com/search.php")!
-    @ObservationIgnored private var apiKey: String?
+    private var apiKey: String?
     
     public var queue: [URL: Data] = [:]
     public var results: [URL: Response] = [:]
     
+    public var isReady: Bool { !queue.isEmpty && apiKey != nil }
+    public var isAPIKeySet: Bool { apiKey != nil }
+    
     public init(apiKey: String? = nil) {
         self.apiKey = apiKey
-    }
-    
-    public func isReady() -> Bool {
-        return !queue.isEmpty && apiKey != nil
     }
     
     public func queue(_ imageURL: URL) {
