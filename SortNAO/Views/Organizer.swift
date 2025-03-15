@@ -90,7 +90,7 @@ struct Organizer: View {
             .navigationTitle("SortNAO")
             .navigationDestination(for: ViewPath.self) { viewPath in
                 switch viewPath {
-                case .account: Color.clear
+                case .account: Account()
                 case .settings: More()
                 case .preview(let imageURL): ImagePreview(imageURL: imageURL, namespace: namespace)
                 case .moreAttributions: Licenses()

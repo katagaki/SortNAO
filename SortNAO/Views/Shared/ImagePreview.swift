@@ -26,7 +26,7 @@ struct ImagePreview: View {
             }
         }
         .onAppear(perform: loadImage)
-        .navigationTitle("Image Preview")
+        .navigationTitle(imageURL.lastPathComponent)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTransition(.zoom(sourceID: imageURL.absoluteString, in: namespace))
     }
