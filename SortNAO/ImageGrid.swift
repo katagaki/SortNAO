@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct ImageGrid: View {
-    @State var images: [Any] = []
+    @Binding var images: [URL: Image]
+    var previewImage: ((URL) -> Void)
+    var namespace: Namespace.ID
     
     var body: some View {
         LazyVGrid(
             columns: [GridItem(.adaptive(minimum: 80.0), spacing: 2.0)],
             spacing: 2.0
         ) {
-            // TODO: Use actual images
-            ForEach(0...(.random(in: 10...50)), id: \.self) { _ in
-                Button(action: doNothing) {
-                    ToroImage()
+            ForEach(
+                Array(images.keys).sorted(by: { $0.absoluteString < $1.absoluteString }),
+                id: \.self
+            ) { imageURL in
+                Button {
+                    previewImage(imageURL)
+                } label: {
+                    ToroImage(image: images[imageURL]!)
+                        .matchedTransitionSource(id: imageURL.absoluteString, in: namespace)
                 }
             }
         }
-    }
-
-    func doNothing() {
-        
     }
 }

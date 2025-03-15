@@ -12,22 +12,24 @@ struct ToroImage: View {
 
     var body: some View {
         ZStack(alignment: .center ) {
-            Group {
-                if let image {
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    Image(systemName: "photo.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .tint(.white)
-                }
+            Color.clear
+            if let image {
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+                    .aspectRatio(1.0, contentMode: .fill)
+                    .clipped()
+            } else {
+                Image(systemName: "xmark.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24.0, height: 24.0)
+                    .foregroundStyle(.primary)
+                    .symbolRenderingMode(.multicolor)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(10.0)
         }
-        .aspectRatio(1.0, contentMode: .fit)
-        .background(Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1)))
+        .background(.accent)
+        .contentShape(.rect)
     }
 }

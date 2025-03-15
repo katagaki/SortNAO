@@ -10,6 +10,7 @@ import SwiftUI
 struct ToroToolbarButton: View {
     @State var iconName: String
     @State var action: (() -> Void)
+    
     var body: some View {
         Button {
             action()

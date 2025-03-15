@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-struct BottomAccessoryBar: ViewModifier {
-    var addAction: (() -> Void)
-    var organizeAction: (() -> Void)
-
+struct BottomAccessoryBar<Buttons: View>: ViewModifier {
+    @ViewBuilder var buttons: Buttons
+    
     func body(content: Content) -> some View {
         content
             .safeAreaInset(edge: .bottom, spacing: 0.0) {
@@ -32,8 +31,7 @@ struct BottomAccessoryBar: ViewModifier {
             .safeAreaInset(edge: .bottom, spacing: 0.0) {
                 HStack(alignment: .center, spacing: 20.0) {
                     Group {
-                        ToroThumbButton(imageName: "plus", action: addAction)
-                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill", accentColor: .send, action: organizeAction)
+                        buttons
                     }
                     .shadow(color: .black.opacity(0.3), radius: 4.0, y: 3.0)
                 }
@@ -44,13 +42,7 @@ struct BottomAccessoryBar: ViewModifier {
 }
 
 extension View {
-    func bottomAccessoryBar(
-        addAction: @escaping (() -> Void),
-        organizeAction: @escaping (() -> Void)
-    ) -> some View {
-        self.modifier(BottomAccessoryBar(
-            addAction: addAction,
-            organizeAction: organizeAction
-        ))
+    func bottomAccessoryBar<Buttons: View>(@ViewBuilder buttons: () -> Buttons) -> some View {
+        self.modifier(BottomAccessoryBar(buttons: buttons))
     }
 }

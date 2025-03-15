@@ -5,52 +5,61 @@
 //  Created by シン・ジャスティン on 2025/03/15.
 //
 
+import SwiftUI
 import UIKit
 
+@Observable
 class SauceNAO {
-    private let endpoint = URL(string: "https://saucenao.com/search.php")!
-    private var queue: [String: Data] = [:]
-    private var results: [String: Response] = [:]
-    private var apiKey: String
+    @ObservationIgnored private let endpoint = URL(string: "https://saucenao.com/search.php")!
+    @ObservationIgnored private var apiKey: String?
     
-    public init(apiKey: String) {
+    public var queue: [URL: Data] = [:]
+    public var results: [URL: Response] = [:]
+    
+    public init(apiKey: String? = nil) {
         self.apiKey = apiKey
     }
     
-    public func queue(_ imageName: String, url: URL) {
+    public func isReady() -> Bool {
+        return !queue.isEmpty && apiKey != nil
+    }
+    
+    public func queue(_ imageURL: URL) {
         do {
-            self.queue[imageName] = try Data(contentsOf: url)
+            self.queue[imageURL] = try Data(contentsOf: imageURL)
         } catch {
             debugPrint(error.localizedDescription)
         }
     }
     
-    public func queue(_ imageName: String, data: Data) {
-        self.queue[imageName] = data
-    }
+    public func queue(_ imageURL: URL, data: Data) { self.queue[imageURL] = data }
     
-    public func remove(_ imageName: String) {
-        self.queue.removeValue(forKey: imageName)
-    }
+    public func remove(_ imageURL: URL) { self.queue.removeValue(forKey: imageURL) }
+    
+    public func setAPIKey(_ apiKey: String) { self.apiKey = apiKey }
     
     public func searchQueue() async {
-        var successfulImageNames: [String] = []
-        for (imageName, imageData) in queue {
+        var successfulImageNames: [URL] = []
+        for (imageURL, imageData) in queue {
             do {
-                let results = try await self.search(imageName, imageData: imageData)
-                self.results[imageName] = results
-                successfulImageNames.append(imageName)
+                let results = try await self.search(imageURL, imageData: imageData)
+                self.results[imageURL] = results
+                successfulImageNames.append(imageURL)
             } catch {
                 debugPrint(error.localizedDescription)
             }
         }
-        for imageName in successfulImageNames {
-            self.remove(imageName)
+        for imageURL in successfulImageNames {
+            self.remove(imageURL)
         }
     }
     
-    private func search(_ imageName: String, imageData: Data) async throws -> Response {
-        let fileExtension = (imageName as NSString).pathExtension.lowercased()
+    private func search(_ imageURL: URL, imageData: Data) async throws -> Response {
+        guard let apiKey else {
+            throw APIError.noAPIKeySpecified
+        }
+        
+        let fileExtension = imageURL.pathExtension.lowercased()
         var mimetype: String?
         
         switch fileExtension {
@@ -71,12 +80,12 @@ class SauceNAO {
             URLQueryItem(name: "dbs[]", value: "25"), // gelbooru
             URLQueryItem(name: "dbs[]", value: "41"), // X
             URLQueryItem(name: "output_type", value: "2"),
-            URLQueryItem(name: "api_key", value: self.apiKey),
+            URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "numres", value: "3")
         ]
         
         guard let url = components.url else {
-            throw APIError.invalidUrl(message: components.path)
+            throw APIError.invalidURL(message: components.path)
         }
 
         var request = URLRequest(url: url)
@@ -91,7 +100,7 @@ class SauceNAO {
         
         request.httpBody = body
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, _) = try await URLSession.shared.data(for: request)
         let results = try JSONDecoder().decode(Response.self, from: data)
         
         return results
@@ -104,7 +113,8 @@ class SauceNAO {
     }
     
     enum APIError: Error {
-        case invalidUrl(message: String)
+        case noAPIKeySpecified
+        case invalidURL(message: String)
         case invalidFileType(message: String)
     }
 
@@ -183,7 +193,7 @@ class SauceNAO {
             }
             
             struct Data: Codable {
-                var externalUrls: [String]
+                var externalURLs: [String]
                 
                 // Danbooru/Gelbooru
                 var danbooruId: Int?
@@ -206,7 +216,7 @@ class SauceNAO {
                 var xUserHandle: String?
                 
                 enum CodingKeys: String, CodingKey {
-                    case externalUrls = "ext_urls"
+                    case externalURLs = "ext_urls"
                     case danbooruId = "danbooru_id"
                     case gelbooruId = "gelbooru_id"
                     case creator = "creator"
