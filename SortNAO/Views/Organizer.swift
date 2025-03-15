@@ -132,39 +132,41 @@ struct Organizer: View {
 
     func loadFolderContents(url: URL) {
         Task {
-            guard let enumerator = FileManager.default.enumerator(
-                at: url,
-                includingPropertiesForKeys: [.isRegularFileKey],
-                options: [.skipsHiddenFiles]
-            ) else {
-                return
-            }
-
-            let imageExtensions = ["jpg", "jpeg", "png"]
-            for case let fileURL as URL in enumerator {
-                do {
-                    let attributes = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
-                    if attributes.isRegularFile ?? false {
-                        let fileExtension = fileURL.pathExtension.lowercased()
-                        if imageExtensions.contains(fileExtension) {
-                            nao.queue(fileURL)
-                        }
-                    }
-                } catch {
-                    debugPrint(error.localizedDescription, fileURL.absoluteString)
-                }
-            }
-
-            for (imageURL, imageData) in nao.queue {
-                guard let uiImage = UIImage(data: imageData) else {
-                    continue
-                }
-                guard let uiImageDisplay = await uiImage.byPreparingThumbnail(
-                    ofSize: CGSize(width: 200.0, height: 200.0)
+            if url.startAccessingSecurityScopedResource() {
+                guard let enumerator = FileManager.default.enumerator(
+                    at: url,
+                    includingPropertiesForKeys: [.isRegularFileKey],
+                    options: [.skipsHiddenFiles]
                 ) else {
-                    continue
+                    return
                 }
-                self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
+                
+                let imageExtensions = ["jpg", "jpeg", "png"]
+                for case let fileURL as URL in enumerator {
+                    do {
+                        let attributes = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
+                        if attributes.isRegularFile ?? false {
+                            let fileExtension = fileURL.pathExtension.lowercased()
+                            if imageExtensions.contains(fileExtension) {
+                                nao.queue(fileURL)
+                            }
+                        }
+                    } catch {
+                        debugPrint(error.localizedDescription, fileURL.absoluteString)
+                    }
+                }
+                
+                for (imageURL, imageData) in nao.queue {
+                    guard let uiImage = UIImage(data: imageData) else {
+                        continue
+                    }
+                    guard let uiImageDisplay = await uiImage.byPreparingThumbnail(
+                        ofSize: CGSize(width: 200.0, height: 200.0)
+                    ) else {
+                        continue
+                    }
+                    self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
+                }
             }
         }
     }
