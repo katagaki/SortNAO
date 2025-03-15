@@ -16,7 +16,7 @@ struct ToroToolbarButton: View {
         } label: {
             ZStack(alignment: .center) {
                 Circle()
-                    .foregroundStyle(.tertiary)
+                    .foregroundStyle(.quaternary)
                     .frame(width: 26.0, height: 26.0)
                 Image(systemName: iconName)
                     .resizable()

@@ -15,9 +15,22 @@
 		E4EA43EE2D8519BD004358B1 /* SortNAO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortNAO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = E4EA43ED2D8519BD004358B1 /* SortNAO */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E4EA43F02D8519BD004358B1 /* SortNAO */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */,
+			);
 			path = SortNAO;
 			sourceTree = "<group>";
 		};
@@ -267,6 +280,7 @@
 				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -299,6 +313,7 @@
 				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAO/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
