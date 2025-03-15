@@ -11,7 +11,7 @@ struct ImageGrid: View {
     @Binding var images: [URL: Image]
     var previewImage: ((URL) -> Void)
     var namespace: Namespace.ID
-    
+
     var body: some View {
         LazyVGrid(
             columns: [GridItem(.adaptive(minimum: 80.0), spacing: 2.0)],

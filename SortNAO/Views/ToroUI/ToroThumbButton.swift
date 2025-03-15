@@ -11,7 +11,7 @@ struct ToroThumbButton: View {
     @State var imageName: String
     @State var accentColor: Color?
     @State var action: (() -> Void)
-    
+
     var body: some View {
         Button(action: action) {
             ZStack(alignment: .center) {

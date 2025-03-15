@@ -11,4 +11,5 @@ enum ViewPath: Hashable {
     case account
     case settings
     case preview(imageURL: URL)
+    case moreAttributions
 }

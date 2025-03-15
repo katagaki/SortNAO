@@ -11,7 +11,7 @@ struct ImagePreview: View {
     @State var imageURL: URL
     @State var image: UIImage?
     var namespace: Namespace.ID
-    
+
     var body: some View {
         ZStack(alignment: .center) {
             Color.clear

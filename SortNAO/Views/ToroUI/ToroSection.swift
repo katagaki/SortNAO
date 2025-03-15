@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ToroSection<Content: View>: View {
-    @State var header: LocalizedStringKey? = nil
-    @State var footer: LocalizedStringKey? = nil
-    @State var contentInsets: EdgeInsets = EdgeInsets(top: 8.0, leading: 16.0, bottom: 8.0, trailing: 16.0)
+    @State var header: LocalizedStringKey?
+    @State var footer: LocalizedStringKey?
+    @State var contentInsets: EdgeInsets = EdgeInsets(top: 10.0, leading: 16.0, bottom: 10.0, trailing: 16.0)
     @ViewBuilder var content: Content
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0.0) {
             if let header {

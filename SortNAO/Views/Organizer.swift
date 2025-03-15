@@ -1,5 +1,5 @@
 //
-//  OrganizerView.swift
+//  Organizer.swift
 //  SortNAO
 //
 //  Created by シン・ジャスティン on 2025/03/15.
@@ -8,17 +8,18 @@
 import Komponents
 import SwiftUI
 
-struct OrganizerView: View {
-    @State var nao: SauceNAO = SauceNAO()
+struct Organizer: View {
+    @Environment(SauceNAO.self) var nao
+
     @State var viewPath: [ViewPath] = []
     @State var isPickingFolder: Bool = false
-    @State var apiKey: String = ""
-    
+    @State var apiKeyInput: String = ""
+
     @State var uncategorized: [URL: Image] = [:]
-    @State var categorized: [URL: [UIImage]] = [:]
-    
+    @State var categorized: [String: [URL: Image]] = [:]
+
     @Namespace var namespace
-    
+
     var body: some View {
         NavigationStack(path: $viewPath) {
             ToroList {
@@ -28,15 +29,25 @@ struct OrganizerView: View {
                          """)
                 }
                 if !nao.isAPIKeySet {
-                    ToroSection(header: "Set Up API Key") {
-                        Text("Enter your SauceNAO API key below.")
-                        SecureField("SauceNAO API Key", text: $apiKey)
+                    ToroSection(header: "Set Up API Key", footer: "You can find your API key in your account page.") {
+                    Text("Enter your SauceNAO API key below.")
+                        SecureField("SauceNAO API Key", text: $apiKeyInput)
                             .textFieldStyle(.roundedBorder)
-                        ActionButton(text: "Save", icon: "key.fill", isPrimary: true, action: setAPIKey)
+                        Button(action: setAPIKey) {
+                            Label("Save", systemImage: "key.fill")
+                                .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .clipShape(.capsule)
+                        .disabled(apiKeyInput.trimmingCharacters(in: .whitespaces) == "")
                     }
                 }
                 if uncategorized.count > 0 {
-                    ToroSection(header: "Uncategorized", footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these files.", contentInsets: .init()) {
+                    ToroSection(
+                        header: "Uncategorized",
+                        footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these files.",
+                        contentInsets: .init()
+                    ) {
                         ImageGrid(
                             images: $uncategorized,
                             previewImage: openPreview,
@@ -54,7 +65,11 @@ struct OrganizerView: View {
             )
             .bottomAccessoryBar {
                 ToroThumbButton(imageName: "plus", action: openPicker)
-                ToroThumbButton(imageName: "sparkles.rectangle.stack.fill", accentColor: .send, action: startOrganizingIllustrations)
+                ToroThumbButton(
+                    imageName: "sparkles.rectangle.stack.fill",
+                    accentColor: .send,
+                    action: startOrganizingIllustrations
+                )
                     .grayscale(nao.isReady ? 0.0 : 1.0)
                     .disabled(!nao.isReady)
             }
@@ -62,15 +77,16 @@ struct OrganizerView: View {
             .navigationDestination(for: ViewPath.self) { viewPath in
                 switch viewPath {
                 case .account: Color.clear
-                case .settings: SettingsView()
+                case .settings: More()
                 case .preview(let imageURL): ImagePreview(imageURL: imageURL, namespace: namespace)
+                case .moreAttributions: Licenses()
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
                         ToroToolbarButton(iconName: "person.fill", action: openAccountView)
-                        ToroToolbarButton(iconName: "gearshape.fill", action: openSettingsView)
+                        ToroToolbarButton(iconName: "ellipsis", action: openSettingsView)
                     }
                 }
             }
@@ -79,10 +95,12 @@ struct OrganizerView: View {
             }
         }
     }
-    
+
     func setAPIKey() {
         withAnimation {
-            nao.setAPIKey(apiKey)
+            nao.setAPIKey(apiKeyInput)
+        } completion: {
+            apiKeyInput = ""
         }
     }
 
@@ -93,11 +111,11 @@ struct OrganizerView: View {
     func openSettingsView() {
         viewPath.append(.settings)
     }
-    
+
     func openPicker() {
         isPickingFolder = true
     }
-    
+
     func loadFolderContents(url: URL) {
         Task {
             guard let enumerator = FileManager.default.enumerator(
@@ -107,7 +125,7 @@ struct OrganizerView: View {
             ) else {
                 return
             }
-            
+
             let imageExtensions = ["jpg", "jpeg", "png"]
             for case let fileURL as URL in enumerator {
                 do {
@@ -115,29 +133,32 @@ struct OrganizerView: View {
                     if attributes.isRegularFile ?? false {
                         let fileExtension = fileURL.pathExtension.lowercased()
                         if imageExtensions.contains(fileExtension) {
-                            let data = try Data(contentsOf: fileURL)
-                            nao.queue(fileURL, data: data)
+                            nao.queue(fileURL)
                         }
                     }
                 } catch {
                     debugPrint(error.localizedDescription, fileURL.absoluteString)
                 }
             }
-            
+
             for (imageURL, imageData) in nao.queue {
                 guard let uiImage = UIImage(data: imageData) else {
                     continue
                 }
-                guard let uiImageDisplay = await uiImage.byPreparingThumbnail(ofSize: CGSize(width: 200.0, height: 200.0)) else {
+                guard let uiImageDisplay = await uiImage.byPreparingThumbnail(
+                    ofSize: CGSize(width: 200.0, height: 200.0)
+                ) else {
                     continue
                 }
                 self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
             }
         }
     }
-    
+
     func startOrganizingIllustrations() {
-        
+        Task {
+            await nao.searchQueue()
+        }
     }
 
     func openPreview(_ imageURL: URL) {

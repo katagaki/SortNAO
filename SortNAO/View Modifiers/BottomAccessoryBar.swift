@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BottomAccessoryBar<Buttons: View>: ViewModifier {
     @ViewBuilder var buttons: Buttons
-    
+
     func body(content: Content) -> some View {
         content
             .safeAreaInset(edge: .bottom, spacing: 0.0) {
