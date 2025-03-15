@@ -11,7 +11,7 @@ import SwiftUI
 struct SortNAOApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            OrganizerView()
         }
     }
 }

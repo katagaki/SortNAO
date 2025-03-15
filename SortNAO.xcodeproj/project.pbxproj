@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E4EA44012D851B4E004358B1 /* Komponents in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44002D851B4E004358B1 /* Komponents */; };
+		E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44032D85210B004358B1 /* VariableBlurView */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E4EA43EE2D8519BD004358B1 /* SortNAO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortNAO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */,
+				E4EA44012D851B4E004358B1 /* Komponents in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = SortNAO;
 			packageProductDependencies = (
+				E4EA44002D851B4E004358B1 /* Komponents */,
+				E4EA44032D85210B004358B1 /* VariableBlurView */,
 			);
 			productName = SortNAO;
 			productReference = E4EA43EE2D8519BD004358B1 /* SortNAO.app */;
@@ -94,6 +103,10 @@
 			);
 			mainGroup = E4EA43E52D8519BD004358B1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E4EA43FF2D851B4E004358B1 /* XCRemoteSwiftPackageReference "Komponents" */,
+				E4EA44022D85210B004358B1 /* XCRemoteSwiftPackageReference "VariableBlurView" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E4EA43EF2D8519BD004358B1 /* Products */;
 			projectDirPath = "";
@@ -251,15 +264,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SortNAO/Preview Content\"";
 				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -280,15 +292,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"SortNAO/Preview Content\"";
 				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,6 +335,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E4EA43FF2D851B4E004358B1 /* XCRemoteSwiftPackageReference "Komponents" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/katagaki/Komponents";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		E4EA44022D85210B004358B1 /* XCRemoteSwiftPackageReference "VariableBlurView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aheze/VariableBlurView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E4EA44002D851B4E004358B1 /* Komponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4EA43FF2D851B4E004358B1 /* XCRemoteSwiftPackageReference "Komponents" */;
+			productName = Komponents;
+		};
+		E4EA44032D85210B004358B1 /* VariableBlurView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4EA44022D85210B004358B1 /* XCRemoteSwiftPackageReference "VariableBlurView" */;
+			productName = VariableBlurView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E4EA43E62D8519BD004358B1 /* Project object */;
 }
