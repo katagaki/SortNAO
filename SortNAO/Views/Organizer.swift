@@ -38,7 +38,7 @@ struct Organizer: View {
                 if !nao.isAPIKeySet {
                     ToroSection(
                         header: "Set Up API Key",
-                        footer: "Select the \(Image(systemName: "person.fill")) icon on the menu bar to open your account page."
+                        footer: "Tap the \(Image(systemName: "person.fill")) icon on the menu bar to open your account page."
                     ) {
                     Text("Enter your SauceNAO API key below.")
                         SecureField("SauceNAO API Key", text: $apiKeyInput)
@@ -56,7 +56,7 @@ struct Organizer: View {
                 if uncategorized.count > 0 {
                     ToroSection(
                         header: "Uncategorized",
-                        footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these images.",
+                        footer: "Tap \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these images.",
                         contentInsets: .init()
                     ) {
                         ImageGrid(
@@ -107,14 +107,14 @@ struct Organizer: View {
                 } else {
                     ToroThumbButton(imageName: "plus", action: openPicker)
                         .accessibilityLabel(Text("Add Folder"))
-                    ToroThumbButton(
-                        imageName: "sparkles.rectangle.stack.fill",
-                        accentColor: .send,
-                        action: startOrganizingIllustrations
-                    )
-                    .accessibilityLabel(Text("Organize Images"))
-                    .grayscale(nao.isReady ? 0.0 : 1.0)
-                    .disabled(!nao.isReady)
+                    if nao.isReady {
+                        ToroThumbButton(
+                            imageName: "sparkles.rectangle.stack.fill",
+                            accentColor: .send,
+                            action: startOrganizingIllustrations
+                        )
+                        .accessibilityLabel(Text("Organize Images"))
+                    }
                     if !uncategorized.isEmpty || !categorized.isEmpty {
                         ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
                             .accessibilityLabel(Text("Remove All Images"))
