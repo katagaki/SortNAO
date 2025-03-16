@@ -19,6 +19,7 @@ struct Organizer: View {
     @State var apiKeyInput: String = ""
 
     @State var uncategorized: [URL: Image] = [:]
+    @State var noMatches: [URL: Image] = [:]
     @State var categorized: [String: [URL: Image]] = [:]
 
     @Namespace var namespace
@@ -55,7 +56,7 @@ struct Organizer: View {
                 if uncategorized.count > 0 {
                     ToroSection(
                         header: "Uncategorized",
-                        footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these files.",
+                        footer: "Select \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these images.",
                         contentInsets: .init()
                     ) {
                         ImageGrid(
@@ -79,6 +80,19 @@ struct Organizer: View {
                         }
                     }
                 }
+                if noMatches.count > 0 {
+                    ToroSection(
+                        header: "No Matches",
+                        footer: "No similar match was found for these images.",
+                        contentInsets: .init()
+                    ) {
+                        ImageGrid(
+                            images: $noMatches,
+                            previewImage: openPreview,
+                            namespace: namespace
+                        )
+                    }
+                }
             }
             .background(
                 .linearGradient(
@@ -88,24 +102,20 @@ struct Organizer: View {
                 )
             )
             .bottomAccessoryBar {
-                if isOrganizing {
+                if isOrganizing || isLoadingFiles {
                     ToroThumbActivityIndicator()
                 } else {
-                    if isLoadingFiles {
-                        ToroThumbActivityIndicator()
-                    } else {
-                        ToroThumbButton(imageName: "plus", action: openPicker)
-                            .accessibilityLabel(Text("Add Folder"))
-                    }
+                    ToroThumbButton(imageName: "plus", action: openPicker)
+                        .accessibilityLabel(Text("Add Folder"))
                     ToroThumbButton(
                         imageName: "sparkles.rectangle.stack.fill",
                         accentColor: .send,
                         action: startOrganizingIllustrations
                     )
+                    .accessibilityLabel(Text("Organize Images"))
                     .grayscale(nao.isReady ? 0.0 : 1.0)
                     .disabled(!nao.isReady)
-                    .accessibilityLabel(Text("Organize Images"))
-                    if !isLoadingFiles && (!uncategorized.isEmpty || !categorized.isEmpty) {
+                    if !uncategorized.isEmpty || !categorized.isEmpty {
                         ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
                             .accessibilityLabel(Text("Remove All Images"))
                     }
@@ -213,36 +223,56 @@ struct Organizer: View {
             withAnimation {
                 isOrganizing = true
             }
+
             for await (imageURL, searchResponse) in nao.searchQueue() {
+
                 // Choose the highest matching result
                 var results = searchResponse.results
                 if results.count > 1 {
                     results.sort { $0.header.similarityValue() > $1.header.similarityValue() }
                 }
-                guard let chosenResult = results.first else { continue }
-                if chosenResult.header.similarityValue() < 65.0 { continue }
+                guard let chosenResult = results.first else {
+                    sendToNoMatchBin(imageURL)
+                    continue
+                }
+                if chosenResult.header.similarityValue() < 65.0 {
+                    sendToNoMatchBin(imageURL)
+                    continue
+                }
+
                 // Sort into proper category
                 let material = chosenResult.data.material
+                let characters = chosenResult.data.characters
                 let pixivId = chosenResult.data.pixivId
                 let xUserHandle = chosenResult.data.xUserHandle
                 let category: String? = switch true {
-                case material != nil: "\(material!)"
+                case material != nil && characters != nil: "\(material!) - \(characters!)"
                 case pixivId != nil: "Pixiv: \(pixivId!)"
                 case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
                 default: nil
                 }
-                guard let category else { continue }
+                guard let category else {
+                    sendToNoMatchBin(imageURL)
+                    continue
+                }
+
                 withAnimation {
                     self.categorized[category, default: [:]][imageURL] = self.uncategorized[imageURL]
                     self.uncategorized.removeValue(forKey: imageURL)
                 }
             }
+
             withAnimation {
-                self.categorized = categorized
-                self.uncategorized = uncategorized
                 isOrganizing = false
             }
             UIApplication.shared.isIdleTimerDisabled = false
+        }
+    }
+
+    func sendToNoMatchBin(_ imageURL: URL) {
+        withAnimation {
+            self.noMatches[imageURL] = self.uncategorized[imageURL]
+            self.uncategorized.removeValue(forKey: imageURL)
         }
     }
 
