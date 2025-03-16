@@ -33,8 +33,12 @@ struct Organizer: View {
                              """)
                     }
                 }
+                // swiftlint:disable line_length
                 if !nao.isAPIKeySet {
-                    ToroSection(header: "Set Up API Key", footer: "You can find your API key in your account page.") {
+                    ToroSection(
+                        header: "Set Up API Key",
+                        footer: "Select the \(Image(systemName: "person.fill")) icon on the menu bar to open your account page."
+                    ) {
                     Text("Enter your SauceNAO API key below.")
                         SecureField("SauceNAO API Key", text: $apiKeyInput)
                             .textFieldStyle(.roundedBorder)
@@ -47,6 +51,7 @@ struct Organizer: View {
                         .disabled(apiKeyInput.trimmingCharacters(in: .whitespaces) == "")
                     }
                 }
+                // swiftlint:enable line_length
                 if uncategorized.count > 0 {
                     ToroSection(
                         header: "Uncategorized",
