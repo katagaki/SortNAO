@@ -153,6 +153,7 @@ struct Organizer: View {
 
     func loadFolderContents(url: URL) {
         Task {
+            UIApplication.shared.isIdleTimerDisabled = true
             withAnimation {
                 isLoadingFiles = true
             }
@@ -197,11 +198,13 @@ struct Organizer: View {
             withAnimation {
                 isLoadingFiles = false
             }
+            UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 
     func startOrganizingIllustrations() {
         Task {
+            UIApplication.shared.isIdleTimerDisabled = true
             withAnimation {
                 isOrganizing = true
             }
@@ -234,6 +237,7 @@ struct Organizer: View {
                 self.uncategorized = uncategorized
                 isOrganizing = false
             }
+            UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 
