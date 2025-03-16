@@ -280,6 +280,7 @@ struct Organizer: View {
         withAnimation {
             uncategorized.removeAll()
             categorized.removeAll()
+            noMatches.removeAll()
         }
         nao.clear()
     }
