@@ -25,6 +25,7 @@ struct ImageGrid: View {
                     previewImage(imageURL)
                 } label: {
                     ToroImage(image: images[imageURL]!)
+                        .matchedGeometryEffect(id: imageURL.absoluteString, in: namespace)
                         .matchedTransitionSource(id: imageURL.absoluteString, in: namespace)
                 }
             }

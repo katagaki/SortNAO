@@ -13,6 +13,9 @@ struct Organizer: View {
 
     @State var viewPath: [ViewPath] = []
     @State var isPickingFolder: Bool = false
+    @State var isLoadingFiles: Bool = false
+    @State var isOrganizing: Bool = false
+
     @State var apiKeyInput: String = ""
 
     @State var uncategorized: [URL: Image] = [:]
@@ -23,10 +26,12 @@ struct Organizer: View {
     var body: some View {
         NavigationStack(path: $viewPath) {
             ToroList {
-                ToroSection(header: "Welcome to SortNAO") {
-                    Text("""
-                         To get started, tap \(Image(systemName: "plus")) and select a folder to add your images.
-                         """)
+                if uncategorized.isEmpty && categorized.isEmpty {
+                    ToroSection(header: "Welcome to SortNAO") {
+                        Text("""
+                             To get started, tap \(Image(systemName: "plus")) and select a folder to add your images.
+                             """)
+                    }
                 }
                 if !nao.isAPIKeySet {
                     ToroSection(header: "Set Up API Key", footer: "You can find your API key in your account page.") {
@@ -78,14 +83,28 @@ struct Organizer: View {
                 )
             )
             .bottomAccessoryBar {
-                ToroThumbButton(imageName: "plus", action: openPicker)
-                ToroThumbButton(
-                    imageName: "sparkles.rectangle.stack.fill",
-                    accentColor: .send,
-                    action: startOrganizingIllustrations
-                )
+                if isOrganizing {
+                    ToroThumbActivityIndicator()
+                } else {
+                    if isLoadingFiles {
+                        ToroThumbActivityIndicator()
+                    } else {
+                        ToroThumbButton(imageName: "plus", action: openPicker)
+                            .accessibilityLabel(Text("Add Folder"))
+                    }
+                    ToroThumbButton(
+                        imageName: "sparkles.rectangle.stack.fill",
+                        accentColor: .send,
+                        action: startOrganizingIllustrations
+                    )
                     .grayscale(nao.isReady ? 0.0 : 1.0)
                     .disabled(!nao.isReady)
+                    .accessibilityLabel(Text("Organize Images"))
+                    if !isLoadingFiles && (!uncategorized.isEmpty || !categorized.isEmpty) {
+                        ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
+                            .accessibilityLabel(Text("Remove All Images"))
+                    }
+                }
             }
             .navigationTitle("SortNAO")
             .navigationDestination(for: ViewPath.self) { viewPath in
@@ -100,7 +119,9 @@ struct Organizer: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
                         ToroToolbarButton(iconName: "person.fill", action: openAccountView)
+                            .accessibilityLabel(Text("Account"))
                         ToroToolbarButton(iconName: "ellipsis", action: openSettingsView)
+                            .accessibilityLabel(Text("More"))
                     }
                 }
             }
@@ -132,6 +153,9 @@ struct Organizer: View {
 
     func loadFolderContents(url: URL) {
         Task {
+            withAnimation {
+                isLoadingFiles = true
+            }
             if url.startAccessingSecurityScopedResource() {
                 guard let enumerator = FileManager.default.enumerator(
                     at: url,
@@ -140,7 +164,7 @@ struct Organizer: View {
                 ) else {
                     return
                 }
-                
+
                 let imageExtensions = ["jpg", "jpeg", "png"]
                 for case let fileURL as URL in enumerator {
                     do {
@@ -155,7 +179,7 @@ struct Organizer: View {
                         debugPrint(error.localizedDescription, fileURL.absoluteString)
                     }
                 }
-                
+
                 for (imageURL, imageData) in nao.queue {
                     guard let uiImage = UIImage(data: imageData) else {
                         continue
@@ -165,33 +189,60 @@ struct Organizer: View {
                     ) else {
                         continue
                     }
-                    self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
+                    withAnimation {
+                        self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
+                    }
                 }
+            }
+            withAnimation {
+                isLoadingFiles = false
             }
         }
     }
 
     func startOrganizingIllustrations() {
         Task {
-            await nao.searchQueue()
-            let materialMap: [String: [URL]] = nao.booruMaterialMap()
-            var categorized: [String: [URL: Image]] = [:]
-            for material in materialMap.keys {
-                let urls: [URL] = materialMap[material] ?? []
-                categorized[material, default: [:]] = urls.reduce(into: [:]) { result, url in
-                    result[url] = self.uncategorized[url]
-                }
+            withAnimation {
+                isOrganizing = true
             }
-            var uncategorized: [URL: Image] = [:]
-            let uncategorizedURLs: [URL] = Array(nao.queue.keys)
-            for url in uncategorizedURLs {
-                uncategorized[url] = self.uncategorized[url]
+            for await (imageURL, searchResponse) in nao.searchQueue() {
+                // Choose the highest matching result
+                var results = searchResponse.results
+                if results.count > 1 {
+                    results.sort { $0.header.similarityValue() > $1.header.similarityValue() }
+                }
+                guard let chosenResult = results.first else { continue }
+                if chosenResult.header.similarityValue() < 65.0 { continue }
+                // Sort into proper category
+                let material = chosenResult.data.material
+                let pixivId = chosenResult.data.pixivId
+                let xUserHandle = chosenResult.data.xUserHandle
+                let category: String? = switch true {
+                case material != nil: "\(material!)"
+                case pixivId != nil: "Pixiv: \(pixivId!)"
+                case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
+                default: nil
+                }
+                guard let category else { continue }
+                withAnimation {
+                    self.categorized[category, default: [:]][imageURL] = self.uncategorized[imageURL]
+                    self.uncategorized.removeValue(forKey: imageURL)
+                }
             }
             withAnimation {
                 self.categorized = categorized
                 self.uncategorized = uncategorized
+                isOrganizing = false
             }
         }
+    }
+
+    func removeAllFiles() {
+        withAnimation {
+            uncategorized.removeAll()
+            categorized.removeAll()
+        }
+        nao.clear()
     }
 
     func openPreview(_ imageURL: URL) {

@@ -13,6 +13,7 @@ import WebKit
 let accountPageURL = URL(string: "https://saucenao.com/user.php")!
 let loginPageURL = URL(string: "https://saucenao.com/user.php?page=login")!
 let logoutPageURL = URL(string: "https://saucenao.com/user.php?page=logout")!
+let cloudflareChallengeURL = URL(string: "https://challenges.cloudflare.com")!
 
 struct Account: View {
     var body: some View {
@@ -174,7 +175,8 @@ document.getElementById("headerarea").remove()
                     case loginPageURL.absoluteString, logoutPageURL.absoluteString:
                         webView.load(URLRequest(url: accountPageURL))
                     default:
-                        if !urlString.starts(with: accountPageURL.absoluteString) {
+                        if !urlString.starts(with: accountPageURL.absoluteString) &&
+                            !urlString.starts(with: cloudflareChallengeURL.absoluteString) {
                             webView.load(URLRequest(url: accountPageURL))
                         } else {
                             webView.layer.opacity = 1.0

@@ -37,6 +37,11 @@ class SauceNAO {
 
     public func remove(_ imageURL: URL) { self.queue.removeValue(forKey: imageURL) }
 
+    public func clear() {
+        self.queue.removeAll()
+        self.results.removeAll()
+    }
+
     public func setAPIKey(_ apiKey: String) {
         try? keychain.set(apiKey, key: keychainAPIKeyKey)
         self.apiKey = apiKey
@@ -59,16 +64,22 @@ class SauceNAO {
         return materialMap
     }
 
-    public func searchQueue() async {
-        let imageURLs: [URL] = Array(queue.keys).sorted(by: { $0.absoluteString < $1.absoluteString })
-        for imageURL in imageURLs {
-            guard let imageData = self.queue[imageURL] else { continue }
-            do {
-                let results = try await self.search(imageURL, imageData: imageData)
-                self.results[imageURL] = results
-                self.queue.removeValue(forKey: imageURL)
-            } catch {
-                debugPrint(error.localizedDescription)
+    public func searchQueue() -> AsyncStream<(URL, Response)> {
+        AsyncStream { continuation in
+            Task {
+                let imageURLs: [URL] = Array(queue.keys).sorted(by: { $0.absoluteString < $1.absoluteString })
+                for imageURL in imageURLs {
+                    guard let imageData = self.queue[imageURL] else { continue }
+                    do {
+                        let results = try await self.search(imageURL, imageData: imageData)
+                        continuation.yield((imageURL, results))
+                        self.results[imageURL] = results
+                        self.queue.removeValue(forKey: imageURL)
+                    } catch {
+                        debugPrint(error.localizedDescription)
+                    }
+                }
+                continuation.finish()
             }
         }
     }
@@ -214,6 +225,10 @@ class SauceNAO {
                     case indexName = "index_name"
                     case dupes = "dupes"
                     case hidden = "hidden"
+                }
+
+                func similarityValue() -> Double {
+                    return Double(similarity) ?? .zero
                 }
             }
 
