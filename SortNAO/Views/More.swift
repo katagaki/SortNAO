@@ -11,14 +11,14 @@ import WebKit
 
 struct More: View {
     @Environment(SauceNAO.self) var nao
-    @AppStorage(wrappedValue: true, "Organizer.LoadsSubfolders") var organizerLoadsSubfolders: Bool
-    @AppStorage(wrappedValue: true, "API.Sources.Danbooru") var apiSourceDanbooruEnabled: Bool
-    @AppStorage(wrappedValue: true, "API.Sources.Gelbooru") var apiSourceGelbooruEnabled: Bool
-    @AppStorage(wrappedValue: true, "API.Sources.Pixiv") var apiSourcePixivEnabled: Bool
-    @AppStorage(wrappedValue: true, "API.Sources.X") var apiSourceXEnabled: Bool
-    @AppStorage(wrappedValue: true, "Organizer.RenameIncludesMaterial") var organizerRenameIncludesMaterial: Bool
-    @AppStorage(wrappedValue: true, "Organizer.RenameIncludesCharacters") var organizerRenameIncludesCharacters: Bool
-    @AppStorage(wrappedValue: 0, "API.Delay") var apiDelay: Int
+    @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
+    @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourceGelbooru) var apiSourceGelbooruEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourcePixiv) var apiSourcePixivEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourceX) var apiSourceXEnabled: Bool
+    @AppStorage(wrappedValue: true, kSRenameIncludesMaterial) var organizerRenameIncludesMaterial: Bool
+    @AppStorage(wrappedValue: true, kSRenameIncludesCharacter) var organizerRenameIncludesCharacters: Bool
+    @AppStorage(wrappedValue: 0, kSDelay) var apiDelay: Int
 
     var body: some View {
         MoreList(repoName: "katagaki/SortNAO", viewPath: ViewPath.moreAttributions) {

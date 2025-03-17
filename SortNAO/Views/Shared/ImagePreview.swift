@@ -19,7 +19,6 @@ struct ImagePreview: View {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .edgesIgnoringSafeArea(.all)
             } else {
                 ProgressView()
                     .progressViewStyle(.circular)

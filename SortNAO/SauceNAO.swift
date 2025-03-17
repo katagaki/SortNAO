@@ -64,19 +64,22 @@ class SauceNAO {
         return materialMap
     }
 
-    public func searchQueue() -> AsyncStream<(URL, Response)> {
+    public func searchAll(in sources: [Source], delay: Int = 0) -> AsyncStream<(URL, Response)> {
         AsyncStream { continuation in
             Task {
                 let imageURLs: [URL] = Array(queue.keys).sorted(by: { $0.absoluteString < $1.absoluteString })
                 for imageURL in imageURLs {
                     guard let imageData = self.queue[imageURL] else { continue }
                     do {
-                        let results = try await self.search(imageURL, imageData: imageData)
+                        let results = try await self.search(in: sources, imageURL, imageData: imageData)
                         continuation.yield((imageURL, results))
                         self.results[imageURL] = results
                         self.queue.removeValue(forKey: imageURL)
                     } catch {
                         debugPrint(error.localizedDescription)
+                    }
+                    if delay > 0 {
+                        try? await Task.sleep(for: .seconds(delay))
                     }
                 }
                 continuation.finish()
@@ -84,7 +87,7 @@ class SauceNAO {
         }
     }
 
-    private func search(_ imageURL: URL, imageData: Data) async throws -> Response {
+    private func search(in sources: [Source], _ imageURL: URL, imageData: Data) async throws -> Response {
         guard let apiKey else {
             throw APIError.noAPIKeySpecified
         }
@@ -151,6 +154,13 @@ class SauceNAO {
         case noAPIKeySpecified
         case invalidURL(message: String)
         case invalidFileType(message: String)
+    }
+
+    enum Source: String {
+        case danbooru
+        case gelbooru
+        case pixiv
+        case x
     }
 
     // swiftlint:disable nesting
@@ -277,3 +287,4 @@ class SauceNAO {
     }
     // swiftlint:enable nesting
 }
+

@@ -8,8 +8,14 @@
 import Komponents
 import SwiftUI
 
+// swiftlint:disable type_body_length
 struct Organizer: View {
     @Environment(SauceNAO.self) var nao
+    @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourceGelbooru) var apiSourceGelbooruEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourcePixiv) var apiSourcePixivEnabled: Bool
+    @AppStorage(wrappedValue: true, kSAPISourceX) var apiSourceXEnabled: Bool
+    @AppStorage(wrappedValue: 0, kSDelay) var apiDelay: Int
 
     @State var viewPath: [ViewPath] = []
     @State var isPickingFolder: Bool = false
@@ -223,8 +229,14 @@ struct Organizer: View {
             withAnimation {
                 isOrganizing = true
             }
+            
+            var sources: [SauceNAO.Source] = []
+            if apiSourceDanbooruEnabled { sources.append(.danbooru) }
+            if apiSourceGelbooruEnabled { sources.append(.gelbooru) }
+            if apiSourcePixivEnabled { sources.append(.pixiv) }
+            if apiSourceXEnabled { sources.append(.x) }
 
-            for await (imageURL, searchResponse) in nao.searchQueue() {
+            for await (imageURL, searchResponse) in nao.searchAll(in: sources, delay: apiDelay) {
 
                 // Choose the highest matching result
                 var results = searchResponse.results
@@ -289,3 +301,4 @@ struct Organizer: View {
         viewPath.append(.preview(imageURL: imageURL))
     }
 }
+// swiftlint:enable type_body_length

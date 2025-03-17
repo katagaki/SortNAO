@@ -12,8 +12,10 @@ struct FolderPicker: UIViewControllerRepresentable {
     let onFolderPicked: (URL) -> Void
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder, .directory])
+        // Using .directory here causes Open button to disappear mysteriously on Mac
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
         picker.delegate = context.coordinator
+        picker.allowsMultipleSelection = false
         return picker
     }
 
