@@ -24,16 +24,17 @@ struct Organizer: View {
 
     @State var apiKeyInput: String = ""
 
-    @State var uncategorized: [URL: Image] = [:]
-    @State var noMatches: [URL: Image] = [:]
-    @State var categorized: [String: [URL: Image]] = [:]
+    @State var uncategorizedImages: [URL: Image] = [:]
+    @State var categorizedImages: [String: [URL: Image]] = [:]
+    @State var nonMatchingImages: [URL: Image] = [:]
+    @State var failedImages: [URL: Image] = [:]
 
     @Namespace var namespace
 
     var body: some View {
         NavigationStack(path: $viewPath) {
             ToroList {
-                if uncategorized.isEmpty && categorized.isEmpty {
+                if uncategorizedImages.isEmpty && categorizedImages.isEmpty {
                     ToroSection(header: "Welcome to SortNAO") {
                         Text("""
                              To get started, tap \(Image(systemName: "plus")) and select a folder to add your images.
@@ -59,41 +60,54 @@ struct Organizer: View {
                     }
                 }
                 // swiftlint:enable line_length
-                if uncategorized.count > 0 {
+                if uncategorizedImages.count > 0 {
                     ToroSection(
                         header: "Uncategorized",
                         footer: "Tap \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these images.",
                         contentInsets: .init()
                     ) {
                         ImageGrid(
-                            images: $uncategorized,
+                            images: $uncategorizedImages,
                             previewImage: openPreview,
                             namespace: namespace
                         )
                     }
                 }
-                if categorized.count > 0 {
-                    ForEach(Array(categorized.keys).sorted(), id: \.self) { category in
+                if categorizedImages.count > 0 {
+                    ForEach(Array(categorizedImages.keys).sorted(), id: \.self) { category in
                         ToroSection(
                             header: "\(category)",
                             contentInsets: .init()
                         ) {
                             ImageGrid(
-                                images: .constant(categorized[category] ?? [:]),
+                                images: .constant(categorizedImages[category] ?? [:]),
                                 previewImage: openPreview,
                                 namespace: namespace
                             )
                         }
                     }
                 }
-                if noMatches.count > 0 {
+                if nonMatchingImages.count > 0 {
                     ToroSection(
                         header: "No Matches",
                         footer: "No similar match was found for these images.",
                         contentInsets: .init()
                     ) {
                         ImageGrid(
-                            images: $noMatches,
+                            images: $nonMatchingImages,
+                            previewImage: openPreview,
+                            namespace: namespace
+                        )
+                    }
+                }
+                if failedImages.count > 0 {
+                    ToroSection(
+                        header: "Failed",
+                        footer: "These images could not be looked up.",
+                        contentInsets: .init()
+                    ) {
+                        ImageGrid(
+                            images: $nonMatchingImages,
                             previewImage: openPreview,
                             namespace: namespace
                         )
@@ -121,7 +135,7 @@ struct Organizer: View {
                         )
                         .accessibilityLabel(Text("Organize Images"))
                     }
-                    if !uncategorized.isEmpty || !categorized.isEmpty {
+                    if !uncategorizedImages.isEmpty || !categorizedImages.isEmpty {
                         ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
                             .accessibilityLabel(Text("Remove All Images"))
                     }
@@ -212,7 +226,7 @@ struct Organizer: View {
                         continue
                     }
                     withAnimation {
-                        self.uncategorized[imageURL] = Image(uiImage: uiImageDisplay)
+                        self.uncategorizedImages[imageURL] = Image(uiImage: uiImageDisplay)
                     }
                 }
             }
@@ -229,48 +243,47 @@ struct Organizer: View {
             withAnimation {
                 isOrganizing = true
             }
-            
-            var sources: [SauceNAO.Source] = []
-            if apiSourceDanbooruEnabled { sources.append(.danbooru) }
-            if apiSourceGelbooruEnabled { sources.append(.gelbooru) }
-            if apiSourcePixivEnabled { sources.append(.pixiv) }
-            if apiSourceXEnabled { sources.append(.x) }
 
-            for await (imageURL, searchResponse) in nao.searchAll(in: sources, delay: apiDelay) {
+            let sources: [SauceNAO.Source] = [
+                (apiSourceDanbooruEnabled ? .danbooru : nil),
+                (apiSourceGelbooruEnabled ? .gelbooru : nil),
+                (apiSourcePixivEnabled ? .pixiv : nil),
+                (apiSourceXEnabled ? .elonX : nil)
+            ].compactMap({ $0 })
 
-                // Choose the highest matching result
-                var results = searchResponse.results
-                if results.count > 1 {
-                    results.sort { $0.header.similarityValue() > $1.header.similarityValue() }
-                }
-                guard let chosenResult = results.first else {
-                    sendToNoMatchBin(imageURL)
-                    continue
-                }
-                if chosenResult.header.similarityValue() < 65.0 {
-                    sendToNoMatchBin(imageURL)
-                    continue
-                }
+            for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
 
-                // Sort into proper category
-                let material = chosenResult.data.material
-                let characters = chosenResult.data.characters
-                let pixivId = chosenResult.data.pixivId
-                let xUserHandle = chosenResult.data.xUserHandle
-                let category: String? = switch true {
-                case material != nil && characters != nil: "\(material!) - \(characters!)"
-                case pixivId != nil: "Pixiv: \(pixivId!)"
-                case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
-                default: nil
-                }
-                guard let category else {
-                    sendToNoMatchBin(imageURL)
-                    continue
-                }
+                switch resultType {
+                case .succeeded:
+                    guard let result else { continue }
 
-                withAnimation {
-                    self.categorized[category, default: [:]][imageURL] = self.uncategorized[imageURL]
-                    self.uncategorized.removeValue(forKey: imageURL)
+                    let material = result.data.material
+                    let characters = result.data.characters
+                    let pixivId = result.data.pixivId
+                    let xUserHandle = result.data.xUserHandle
+                    let category: String? = switch true {
+                    case material != nil && characters != nil: "\(material!) - \(characters!)"
+                    case pixivId != nil: "Pixiv: \(pixivId!)"
+                    case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
+                    default: nil
+                    }
+                    guard let category else { continue }
+                    withAnimation {
+                        self.categorizedImages[category, default: [:]][imageURL] = self.uncategorizedImages[imageURL]
+                        self.uncategorizedImages.removeValue(forKey: imageURL)
+                    }
+
+                case .noMatches:
+                    withAnimation {
+                        self.nonMatchingImages[imageURL] = self.uncategorizedImages[imageURL]
+                        self.uncategorizedImages.removeValue(forKey: imageURL)
+                    }
+
+                case .failed:
+                    withAnimation {
+                        self.failedImages[imageURL] = self.uncategorizedImages[imageURL]
+                        self.uncategorizedImages.removeValue(forKey: imageURL)
+                    }
                 }
             }
 
@@ -281,18 +294,11 @@ struct Organizer: View {
         }
     }
 
-    func sendToNoMatchBin(_ imageURL: URL) {
-        withAnimation {
-            self.noMatches[imageURL] = self.uncategorized[imageURL]
-            self.uncategorized.removeValue(forKey: imageURL)
-        }
-    }
-
     func removeAllFiles() {
         withAnimation {
-            uncategorized.removeAll()
-            categorized.removeAll()
-            noMatches.removeAll()
+            uncategorizedImages.removeAll()
+            categorizedImages.removeAll()
+            nonMatchingImages.removeAll()
         }
         nao.clear()
     }
