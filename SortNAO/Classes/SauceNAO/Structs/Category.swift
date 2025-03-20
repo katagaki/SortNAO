@@ -9,43 +9,51 @@ import SwiftUICore
 
 extension SauceNAO {
     struct Category: Hashable {
+        var source: Source
         var material: String?
         var characters: [String]
-        var pixivId: String?
+        var pixivId: Int?
         var memberName: String?
         var xUserHandle: String?
 
-        init(
-            material: String? = nil,
-            characters: String? = nil,
-            pixivId: String? = nil,
-            memberName: String? = nil,
-            xUserHandle: String? = nil
-        ) {
-            self.material = material
-            self.characters = (
-                (characters?.components(separatedBy: [","]) ?? [])
-                    .map({ $0.trimmingCharacters(in: .whitespaces) })
-            )
-            self.pixivId = pixivId
-            self.memberName = memberName
-            self.xUserHandle = xUserHandle
+        init(result: Response.Result) throws {
+            if let source = Source(rawValue: result.header.indexId) {
+                self.source = source
+                self.material = result.data.material
+                self.characters = (
+                    (result.data.characters?.components(separatedBy: [","]) ?? [])
+                        .map({ $0.trimmingCharacters(in: .whitespaces) })
+                )
+                self.pixivId = result.data.pixivId
+                self.memberName = result.data.memberName
+                self.xUserHandle = result.data.xUserHandle
+            } else {
+                throw APIError.unsupportedSource(message: String(result.header.indexId))
+            }
         }
 
         func displayName() -> AttributedString? {
             var displayName: String?
-            if let material {
-                displayName = material +
-                (material != "" && characters.count != 0 ? "  - " : "") +
-                characters.joined(separator: ", ")
-            } else if let pixivId, let memberName {
-                displayName = """
+            switch source {
+            case .danbooru, .gelbooru:
+                if let material {
+                    displayName = material +
+                    (material != "" && characters.count != 0 ? "  - " : "") +
+                    characters.joined(separator: ", ")
+                }
+            case .pixiv:
+                if let pixivId, let memberName {
+                    displayName = """
                        \(memberName) - [\(pixivId)](https://www.pixiv.net/artworks/\(pixivId))
                        """
-            } else if let xUserHandle {
-                displayName = """
-                       [@\(xUserHandle)](https://x.com/\(xUserHandle))
-                       """
+                }
+            case .elonX:
+                if let xUserHandle {
+                    displayName = """
+                           [@\(xUserHandle)](https://x.com/\(xUserHandle))
+                           """
+                }
+            default: break
             }
             if let displayName {
                 return try? AttributedString(markdown: displayName)

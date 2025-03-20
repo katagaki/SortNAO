@@ -11,7 +11,7 @@ struct ToroThumbActivityIndicator: View {
     var body: some View {
         ZStack(alignment: .center) {
             Circle()
-                .fill(.gray)
+                .fill(.activityIndicatorBackground)
                 .frame(width: 72.0, height: 72.0)
             ProgressView()
                 .frame(width: 32.0, height: 32.0)

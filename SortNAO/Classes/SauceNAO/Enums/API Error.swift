@@ -10,5 +10,6 @@ extension SauceNAO {
         case noAPIKeySpecified
         case invalidURL(message: String)
         case invalidFileType(message: String)
+        case unsupportedSource(message: String)
     }
 }

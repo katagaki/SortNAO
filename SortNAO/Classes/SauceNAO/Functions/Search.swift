@@ -79,14 +79,11 @@ extension SauceNAO {
         }
 
         let requestBoundary = self.boundary()
-        let sources: [URLQueryItem] = [
-            (sources.contains(.pixiv) ?  URLQueryItem(name: "dbs[]", value: "5") : nil), // pixiv
-            (sources.contains(.danbooru) ? URLQueryItem(name: "dbs[]", value: "9") : nil), // danbooru
-            (sources.contains(.gelbooru) ? URLQueryItem(name: "dbs[]", value: "25") : nil), // gelbooru
-            (sources.contains(.elonX) ? URLQueryItem(name: "dbs[]", value: "41") : nil) // X
-        ].compactMap({ $0 })
+        let sourceURLQueryItems = sources.compactMap({
+            URLQueryItem(name: "dbs[]", value: String($0.rawValue))
+        })
         var components = URLComponents(string: endpoint.absoluteString)!
-        components.queryItems = sources + [
+        components.queryItems = sourceURLQueryItems + [
             URLQueryItem(name: "output_type", value: "2"),
             URLQueryItem(name: "api_key", value: apiKey),
             URLQueryItem(name: "numres", value: "3")

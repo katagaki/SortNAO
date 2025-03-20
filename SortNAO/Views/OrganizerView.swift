@@ -64,6 +64,22 @@ struct OrganizerView: View {
                             ToroGrid(.constant(nao.urls(in: category)),
                                      previewAction: openPreview,
                                      namespace: namespace)
+                        } header: {
+                            Group {
+                                switch category.source {
+                                case .danbooru: Image(.sourceDanbooru).resizable()
+                                case .gelbooru: Image(.sourceGelbooru).resizable()
+                                case .pixiv: Image(.sourcePixiv).resizable()
+                                case .elonX: Image(.sourceElonX).resizable()
+                                default: Color.clear
+                                }
+                            }
+                            .clipShape(.rect(cornerRadius: 6.0))
+                            .frame(width: 24.0, height: 24.0)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 6.0)
+                                    .stroke(.primary.tertiary, lineWidth: 1 / 3)
+                            }
                         }
                     }
                 }

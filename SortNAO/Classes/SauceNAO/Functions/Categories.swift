@@ -13,14 +13,8 @@ extension SauceNAO {
     }
 
     func categorize(_ imageURL: URL, result: Response.Result) {
-        let pixivId = result.data.pixivId
-        let category = Category(
-            material: result.data.material,
-            characters: result.data.characters,
-            pixivId: pixivId != nil ? String(pixivId!) : nil,
-            memberName: result.data.memberName,
-            xUserHandle: result.data.xUserHandle
-        )
-        self.categorized[category, default: []].append(imageURL)
+        if let category = try? Category(result: result) {
+            self.categorized[category, default: []].append(imageURL)
+        }
     }
 }
