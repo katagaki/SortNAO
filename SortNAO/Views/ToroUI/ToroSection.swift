@@ -64,7 +64,7 @@ struct ToroSection<Content: View, HeaderContent: View>: View {
                 }
                 .font(.subheadline)
                 .bold()
-                Spacer(minLength: .zero)
+                Spacer(minLength: 8.0)
                 header
                     .font(.subheadline)
                     .buttonStyle(.plain)

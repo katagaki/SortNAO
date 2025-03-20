@@ -20,12 +20,17 @@ extension SauceNAO {
         }
     }
 
-    public func add(folder folderURL: URL) async {
+    public func add(folder folderURL: URL, includesSubdirectories: Bool = true) async {
         if folderURL.startAccessingSecurityScopedResource() {
+            let options: FileManager.DirectoryEnumerationOptions = (
+                includesSubdirectories ?
+                [.skipsHiddenFiles] :
+                    [.skipsHiddenFiles, .skipsSubdirectoryDescendants]
+            )
             guard let enumerator = FileManager.default.enumerator(
                 at: folderURL,
                 includingPropertiesForKeys: [.isRegularFileKey],
-                options: [.skipsHiddenFiles]
+                options: options
             ) else {
                 return
             }

@@ -10,17 +10,27 @@ import SwiftUI
 
 struct OrganizerView: View {
     @Environment(SauceNAO.self) var nao
+    @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
     @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourceGelbooru) var apiSourceGelbooruEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourcePixiv) var apiSourcePixivEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourceX) var apiSourceXEnabled: Bool
+    @AppStorage(wrappedValue: true, kSRenameIncludesMaterial) var organizerRenameIncludesMaterial: Bool
+    @AppStorage(wrappedValue: true, kSRenameIncludesCharacter) var organizerRenameIncludesCharacters: Bool
     @AppStorage(wrappedValue: 1, kSDelay) var apiDelay: Int
 
     @State var viewPath: [ViewPath] = []
     @State var isFirstBatchOfFilesOpened: Bool = false
     @State var isPickingFolder: Bool = false
     @State var isLoadingFiles: Bool = false
+    @State var isSearching: Bool = false
     @State var isOrganizing: Bool = false
+    @State var isConfirmingRename: Bool = false
+    @State var isRenaming: Bool = false
+    @State var isRenameComplete: Bool = false
+
+    @State var renameExamples: String = ""
+    @State var renameCount: Int = 0
 
     @State var apiKeyInput: String = ""
 
@@ -52,7 +62,7 @@ struct OrganizerView: View {
                 }
                 if nao.queue.count > 0 {
                     ToroSection(title: "Card.Queued.Title",
-                                footer: "Card.Queued.Footer.\(Image(systemName: "sparkles.rectangle.stack.fill"))",
+                                footer: "Card.Queued.Footer.\(Image(systemName: "sparkle.magnifyingglass"))",
                                 contentInsets: .init()) {
                         ToroGrid($nao.queue, previewAction: openPreview, namespace: namespace)
                     }
@@ -112,7 +122,7 @@ struct OrganizerView: View {
             )
             #endif
             .bottomAccessoryBar {
-                if isOrganizing || isLoadingFiles {
+                if isSearching || isLoadingFiles || isRenaming {
                     ToroThumbActivityIndicator()
                 } else {
                     if nao.queue.isEmpty {
@@ -120,9 +130,15 @@ struct OrganizerView: View {
                             .accessibilityLabel(Text("Shared.AddFolder"))
                     }
                     if nao.isReady {
-                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill",
+                        ToroThumbButton(imageName: "sparkle.magnifyingglass",
                                         accentColor: .send,
-                                        action: startOrganizingIllustrations)
+                                        action: startImageSearch)
+                        .accessibilityLabel(Text("Shared.Images.Search"))
+                    }
+                    if !nao.categories.isEmpty {
+                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill",
+                                        accentColor: .confirm,
+                                        action: confirmRename)
                         .accessibilityLabel(Text("Shared.Images.Organize"))
                     }
                     if !nao.queue.isEmpty || !nao.categorized.isEmpty {
@@ -145,6 +161,27 @@ struct OrganizerView: View {
             }
             .sheet(isPresented: $isPickingFolder) {
                 FolderPicker(onFolderPicked: loadFolderContents)
+            }
+            .alert(
+                "Alert.ConfirmOrganize",
+                isPresented: $isOrganizing
+            ) {
+                Button("Shared.RenameFiles", action: {})
+                Button("Shared.SortIntoFolders", action: {})
+                Button("Shared.Cancel", role: .cancel, action: {})
+            }
+            .alert(
+                "Alert.ConfirmRename.\(self.renameExamples)",
+                isPresented: $isConfirmingRename
+            ) {
+                Button("Shared.Start", action: startFileRename)
+                Button("Shared.Cancel", role: .cancel, action: {})
+            }
+            .alert(
+                "Alert.RenameComplete.\(self.renameCount)",
+                isPresented: $isRenameComplete
+            ) {
+                Button("Shared.OK", role: .cancel, action: {})
             }
         }
     }
@@ -174,13 +211,13 @@ struct OrganizerView: View {
             isFirstBatchOfFilesOpened = true
             UIApplication.shared.isIdleTimerDisabled = true
             withAnimation { isLoadingFiles = true }
-            await nao.add(folder: url)
+            await nao.add(folder: url, includesSubdirectories: organizerLoadsSubfolders)
             withAnimation { isLoadingFiles = false }
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 
-    func startOrganizingIllustrations() {
+    func startImageSearch() {
         Task {
             UIApplication.shared.isIdleTimerDisabled = true
             let sources: [SauceNAO.Source] = [
@@ -189,18 +226,52 @@ struct OrganizerView: View {
                 (apiSourcePixivEnabled ? .pixiv : nil),
                 (apiSourceXEnabled ? .elonX : nil)
             ].compactMap({ $0 })
-            withAnimation { isOrganizing = true }
+            withAnimation { isSearching = true }
             for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
                 debugPrint(imageURL, resultType, result.debugDescription)
             }
-            withAnimation { isOrganizing = false }
+            withAnimation { isSearching = false }
             UIApplication.shared.isIdleTimerDisabled = false
+        }
+    }
+
+    func startFileRename() {
+        Task {
+            UIApplication.shared.isIdleTimerDisabled = true
+            self.renameExamples = ""
+            self.renameCount = 0
+            withAnimation { isRenaming = true }
+            for await (url, newURL) in nao.renameAll(
+                includeMaterialName: organizerRenameIncludesMaterial,
+                includeCharacterNames: organizerRenameIncludesCharacters
+            ) {
+                debugPrint(url.lastPathComponent, newURL.lastPathComponent)
+                self.renameCount += 1
+            }
+            withAnimation { isRenaming = false }
+            UIApplication.shared.isIdleTimerDisabled = false
+            self.isRenameComplete = true
+        }
+    }
+
+    func confirmRename() {
+        Task {
+            var renameExamples: [String] = []
+            for await (url, newURL) in nao.renameAll(
+                includeMaterialName: organizerRenameIncludesMaterial,
+                includeCharacterNames: organizerRenameIncludesCharacters,
+                rehearse: true
+            ) {
+                renameExamples.append("\(url.lastPathComponent) → \(newURL.lastPathComponent)")
+            }
+            self.renameExamples = renameExamples.joined(separator: "\n")
+            self.isConfirmingRename = true
         }
     }
 
     func retryFailed() {
         withAnimation { nao.requeueFailed() }
-        startOrganizingIllustrations()
+        startImageSearch()
     }
 
     func removeAllFiles() {

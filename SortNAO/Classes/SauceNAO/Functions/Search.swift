@@ -29,7 +29,7 @@ extension SauceNAO {
                         if let result = results.first, result.header.similarityValue() >= 65.0 {
                             withAnimation {
                                 self.queue.removeAll(where: { $0 == imageURL })
-                                self.succeeded[imageURL] = response
+                                self.succeeded[imageURL] = result
                                 self.categorize(imageURL, result: result)
                             }
                             continuation.yield((imageURL, .succeeded, result))

@@ -11,6 +11,7 @@ import UIKit
 
 @Observable
 class SauceNAO {
+    @ObservationIgnored let fileManager = FileManager.default
     @ObservationIgnored let keychain = Keychain(service: "com.tsubuzaki.SortNAO")
     @ObservationIgnored let keychainAPIKeyKey: String = "SauceNAOAPIKey"
 
@@ -23,7 +24,7 @@ class SauceNAO {
 
     public var queue: [URL] = []
     public var failed: [URL] = []
-    public var succeeded: [URL: Response] = [:]
+    public var succeeded: [URL: Response.Result] = [:]
     public var categorized: [Category: [URL]] = [:]
     public var noMatches: [URL: Response] = [:]
 

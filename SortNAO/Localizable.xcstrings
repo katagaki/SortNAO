@@ -1,6 +1,84 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Alert.ConfirmOrganize" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How do you want to organize your files?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイルをどのように整理しますか？"
+          }
+        }
+      }
+    },
+    "Alert.ConfirmRename.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renaming your files is permanent and cannot be undone.\nBelow are 3 examples of how your files will be renamed.\n\n%@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイル名を変更すると、元に戻すことはできません。\n\n以下3つの例のように、ファイル名が変更されます。\n\n%@"
+          }
+        }
+      }
+    },
+    "Alert.RenameComplete.%lld" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld file renamed."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld files renamed."
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No files were renamed."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld件のファイルの名前が変更されました。"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "変更されたファイルはありませんでした。"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "API.Delay.%lld" : {
       "localizations" : {
         "en" : {
@@ -435,6 +513,22 @@
         }
       }
     },
+    "Shared.Cancel" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャンセル"
+          }
+        }
+      }
+    },
     "Shared.ClearWebData" : {
       "localizations" : {
         "en" : {
@@ -483,6 +577,22 @@
         }
       }
     },
+    "Shared.Images.Search" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Images"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "類似検索"
+          }
+        }
+      }
+    },
     "Shared.More" : {
       "localizations" : {
         "en" : {
@@ -515,6 +625,38 @@
         }
       }
     },
+    "Shared.OK" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Shared.RenameFiles" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename Files"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ファイル名を変更"
+          }
+        }
+      }
+    },
     "Shared.Retry" : {
       "localizations" : {
         "en" : {
@@ -543,6 +685,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保存"
+          }
+        }
+      }
+    },
+    "Shared.SortIntoFolders" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort Into Folders"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フォルダーに分ける"
+          }
+        }
+      }
+    },
+    "Shared.Start" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始"
           }
         }
       }
