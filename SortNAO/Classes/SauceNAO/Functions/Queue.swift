@@ -71,6 +71,7 @@ extension SauceNAO {
             self.succeeded.removeAll()
             self.categorized.removeAll()
             self.noMatches.removeAll()
+            self.thumbnails.removeAll()
         }
     }
 }
