@@ -85,6 +85,7 @@ struct OrganizerView: View {
                     }
                 }
             }
+            #if !targetEnvironment(macCatalyst)
             .background(
                 .linearGradient(
                     colors: [.backgroundGradientTop, .backgroundGradientBottom],
@@ -92,6 +93,7 @@ struct OrganizerView: View {
                     endPoint: .bottom
                 )
             )
+            #endif
             .bottomAccessoryBar {
                 if isOrganizing || isLoadingFiles {
                     ToroThumbActivityIndicator()

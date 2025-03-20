@@ -12,6 +12,7 @@ struct BottomAccessoryBar<Buttons: View>: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+        #if !targetEnvironment(macCatalyst)
             .safeAreaInset(edge: .bottom, spacing: 0.0) {
                 BlurGradient()
                     .background(
@@ -28,6 +29,7 @@ struct BottomAccessoryBar<Buttons: View>: ViewModifier {
                     .allowsHitTesting(false)
             }
             .ignoresSafeArea(.all, edges: .bottom)
+        #endif
             .safeAreaInset(edge: .bottom, spacing: 0.0) {
                 HStack(alignment: .center, spacing: 20.0) {
                     Group {
