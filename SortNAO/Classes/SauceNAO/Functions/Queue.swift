@@ -30,10 +30,8 @@ extension SauceNAO {
 
     public func requeueFailed() {
         withAnimation {
-            for failedImageURL in self.failed {
-                if !self.queue.contains(failedImageURL) {
-                    self.queue.append(failedImageURL)
-                }
+            for failedImageURL in self.failed where !self.queue.contains(failedImageURL) {
+                self.queue.append(failedImageURL)
             }
             self.failed.removeAll()
         }

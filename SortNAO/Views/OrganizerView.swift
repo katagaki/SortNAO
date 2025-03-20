@@ -35,10 +35,8 @@ struct OrganizerView: View {
                     }
                 }
                 if !nao.isAPIKeySet {
-                    ToroSection(
-                        title: "Card.APIKey.Title",
-                        footer: "Card.APIKey.Description.\(Image(systemName: "person.fill"))"
-                    ) {
+                    ToroSection(title: "Card.APIKey.Title",
+                                footer: "Card.APIKey.Description.\(Image(systemName: "person.fill"))") {
                     Text("Card.APIKey.Input.Title")
                         SecureField("Card.APIKey.Input.Placeholder", text: $apiKeyInput)
                             .textFieldStyle(.roundedBorder)
@@ -52,56 +50,36 @@ struct OrganizerView: View {
                     }
                 }
                 if nao.queue.count > 0 {
-                    ToroSection(
-                        title: "Card.Queued.Title",
-                        footer: "Card.Queued.Footer.\(Image(systemName: "sparkles.rectangle.stack.fill"))",
-                        contentInsets: .init()
-                    ) {
-                        ToroGrid(
-                            imageURLs: $nao.queue,
-                            previewImage: openPreview,
-                            namespace: namespace
-                        )
+                    ToroSection(title: "Card.Queued.Title",
+                                footer: "Card.Queued.Footer.\(Image(systemName: "sparkles.rectangle.stack.fill"))",
+                                contentInsets: .init()) {
+                        ToroGrid($nao.queue, previewAction: openPreview, namespace: namespace)
                     }
                 }
                 if nao.categorized.count > 0 {
-                    ForEach(Array(nao.categorized.keys).sorted(), id: \.self) { category in
-                        ToroSection(
-                            title: "\(category)",
-                            contentInsets: .init()
-                        ) {
-                            ToroGrid(
-                                imageURLs: .constant(nao.categorized[category] ?? []),
-                                previewImage: openPreview,
-                                namespace: namespace
-                            )
+                    ForEach(nao.categories, id: \.self) { category in
+                        ToroSection(title: "\(category)",
+                                    contentInsets: .init()) {
+                            ToroGrid(.constant(nao.urls(in: category)),
+                                     previewAction: openPreview,
+                                     namespace: namespace)
                         }
                     }
                 }
                 if nao.noMatches.count > 0 {
-                    ToroSection(
-                        title: "Card.NoMatches.Title",
-                        footer: "Card.NoMatches.Description",
-                        contentInsets: .init()
-                    ) {
-                        ToroGrid(
-                            imageURLs: .constant(Array(nao.noMatches.keys)),
-                            previewImage: openPreview,
-                            namespace: namespace
-                        )
+                    ToroSection(title: "Card.NoMatches.Title",
+                                footer: "Card.NoMatches.Description",
+                                contentInsets: .init()) {
+                        ToroGrid(.constant(nao.noMatchesURLs),
+                                 previewAction: openPreview,
+                                 namespace: namespace)
                     }
                 }
                 if nao.failed.count > 0 {
-                    ToroSection(
-                        title: "Card.Failed.Title",
-                        footer: "Card.Failed.Description",
-                        contentInsets: .init()
-                    ) {
-                        ToroGrid(
-                            imageURLs: $nao.failed,
-                            previewImage: openPreview,
-                            namespace: namespace
-                        )
+                    ToroSection(title: "Card.Failed.Title",
+                                footer: "Card.Failed.Description",
+                                contentInsets: .init()) {
+                        ToroGrid($nao.failed, previewAction: openPreview, namespace: namespace)
                     } header: {
                         Button("Shared.Retry", systemImage: "arrow.clockwise", action: retryFailed)
                     }
@@ -123,11 +101,9 @@ struct OrganizerView: View {
                             .accessibilityLabel(Text("Shared.AddFolder"))
                     }
                     if nao.isReady {
-                        ToroThumbButton(
-                            imageName: "sparkles.rectangle.stack.fill",
-                            accentColor: .send,
-                            action: startOrganizingIllustrations
-                        )
+                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill",
+                                        accentColor: .send,
+                                        action: startOrganizingIllustrations)
                         .accessibilityLabel(Text("Shared.Images.Organize"))
                     }
                     if !nao.queue.isEmpty || !nao.categorized.isEmpty {
@@ -226,7 +202,7 @@ struct OrganizerView: View {
             }
 
             for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
-                debugPrint(imageURL, resultType, result)
+                debugPrint(imageURL, resultType, result.debugDescription)
             }
 
             withAnimation {

@@ -8,6 +8,11 @@
 import Foundation
 
 extension SauceNAO {
+
+    func urls(in category: String) -> [URL] {
+        self.categorized[category] ?? []
+    }
+
     func categorize(_ imageURL: URL, result: Response.Result) {
         let material = result.data.material
         let characters = result.data.characters

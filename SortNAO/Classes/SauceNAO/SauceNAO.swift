@@ -26,6 +26,9 @@ class SauceNAO {
     public var categorized: [String: [URL]] = [:]
     public var noMatches: [URL: Response] = [:]
 
+    public var categories: [String] { Array(self.categorized.keys).sorted() }
+    public var noMatchesURLs: [URL] { Array(self.noMatches.keys) }
+
     public var isReady: Bool { !queue.isEmpty && apiKey != nil }
     public var isAPIKeySet: Bool { apiKey != nil }
 

@@ -9,8 +9,14 @@ import SwiftUI
 
 struct ToroGrid: View {
     @Binding var imageURLs: [URL]
-    var previewImage: ((URL) -> Void)
+    var previewAction: ((URL) -> Void)
     var namespace: Namespace.ID
+
+    init(_ imageURLs: Binding<[URL]>, previewAction: @escaping (URL) -> Void, namespace: Namespace.ID) {
+        self._imageURLs = imageURLs
+        self.previewAction = previewAction
+        self.namespace = namespace
+    }
 
     var body: some View {
         LazyVGrid(
@@ -19,7 +25,7 @@ struct ToroGrid: View {
         ) {
             ForEach(imageURLs, id: \.self) { imageURL in
                 Button {
-                    previewImage(imageURL)
+                    previewAction(imageURL)
                 } label: {
                     ToroImage(imageURL: imageURL)
                         .matchedGeometryEffect(id: imageURL.absoluteString, in: namespace)
