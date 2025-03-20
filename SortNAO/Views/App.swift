@@ -13,7 +13,7 @@ struct SortNAOApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Organizer()
+            OrganizerView()
                 .environment(nao)
         }
     }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ToroImage: View {
+    @Environment(SauceNAO.self) var nao
+
+    @State var imageURL: URL
     @State var image: Image?
 
     var body: some View {
@@ -21,15 +24,17 @@ struct ToroImage: View {
                     .aspectRatio(1.0, contentMode: .fill)
                     .clipped()
             } else {
-                Image(systemName: "xmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 24.0, height: 24.0)
-                    .foregroundStyle(.primary)
-                    .symbolRenderingMode(.multicolor)
+                ProgressView()
             }
         }
-        .background(.accent)
+        .background(.accent.quinary)
+        .aspectRatio(1.0, contentMode: .fill)
         .contentShape(.rect)
+        .task {
+            if image == nil {
+                guard let uiImageDisplay = await nao.thumbnail(imageURL) else { return }
+                image = Image(uiImage: uiImageDisplay)
+            }
+        }
     }
 }

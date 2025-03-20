@@ -1,5 +1,5 @@
 //
-//  Error.swift
+//  API Error.swift
 //  SortNAO
 //
 //  Created by シン・ジャスティン on 2025/03/17.

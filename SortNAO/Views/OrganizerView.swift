@@ -1,5 +1,5 @@
 //
-//  Organizer.swift
+//  OrganizerView.swift
 //  SortNAO
 //
 //  Created by シン・ジャスティン on 2025/03/15.
@@ -8,14 +8,13 @@
 import Komponents
 import SwiftUI
 
-// swiftlint:disable type_body_length
-struct Organizer: View {
+struct OrganizerView: View {
     @Environment(SauceNAO.self) var nao
     @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourceGelbooru) var apiSourceGelbooruEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourcePixiv) var apiSourcePixivEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourceX) var apiSourceXEnabled: Bool
-    @AppStorage(wrappedValue: 0, kSDelay) var apiDelay: Int
+    @AppStorage(wrappedValue: 1, kSDelay) var apiDelay: Int
 
     @State var viewPath: [ViewPath] = []
     @State var isPickingFolder: Bool = false
@@ -24,34 +23,27 @@ struct Organizer: View {
 
     @State var apiKeyInput: String = ""
 
-    @State var uncategorizedImages: [URL: Image] = [:]
-    @State var categorizedImages: [String: [URL: Image]] = [:]
-    @State var nonMatchingImages: [URL: Image] = [:]
-    @State var failedImages: [URL: Image] = [:]
-
     @Namespace var namespace
 
     var body: some View {
+        @Bindable var nao = nao
         NavigationStack(path: $viewPath) {
             ToroList {
-                if uncategorizedImages.isEmpty && categorizedImages.isEmpty {
-                    ToroSection(header: "Welcome to SortNAO") {
-                        Text("""
-                             To get started, tap \(Image(systemName: "plus")) and select a folder to add your images.
-                             """)
+                if nao.queue.isEmpty && nao.queue.isEmpty {
+                    ToroSection(title: "Card.Welcome.Title") {
+                        Text("Card.Welcome.Description.\(Image(systemName: "plus"))")
                     }
                 }
-                // swiftlint:disable line_length
                 if !nao.isAPIKeySet {
                     ToroSection(
-                        header: "Set Up API Key",
-                        footer: "Tap the \(Image(systemName: "person.fill")) icon on the menu bar to open your account page."
+                        title: "Card.APIKey.Title",
+                        footer: "Card.APIKey.Description.\(Image(systemName: "person.fill"))"
                     ) {
-                    Text("Enter your SauceNAO API key below.")
-                        SecureField("SauceNAO API Key", text: $apiKeyInput)
+                    Text("Card.APIKey.Input.Title")
+                        SecureField("Card.APIKey.Input.Placeholder", text: $apiKeyInput)
                             .textFieldStyle(.roundedBorder)
                         Button(action: setAPIKey) {
-                            Label("Save", systemImage: "key.fill")
+                            Label("Shared.Save", systemImage: "key.fill")
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.borderedProminent)
@@ -59,58 +51,59 @@ struct Organizer: View {
                         .disabled(apiKeyInput.trimmingCharacters(in: .whitespaces) == "")
                     }
                 }
-                // swiftlint:enable line_length
-                if uncategorizedImages.count > 0 {
+                if nao.queue.count > 0 {
                     ToroSection(
-                        header: "Uncategorized",
-                        footer: "Tap \(Image(systemName: "sparkles.rectangle.stack.fill")) to organize these images.",
+                        title: "Card.Queued.Title",
+                        footer: "Card.Queued.Footer.\(Image(systemName: "sparkles.rectangle.stack.fill"))",
                         contentInsets: .init()
                     ) {
-                        ImageGrid(
-                            images: $uncategorizedImages,
+                        ToroGrid(
+                            imageURLs: $nao.queue,
                             previewImage: openPreview,
                             namespace: namespace
                         )
                     }
                 }
-                if categorizedImages.count > 0 {
-                    ForEach(Array(categorizedImages.keys).sorted(), id: \.self) { category in
+                if nao.categorized.count > 0 {
+                    ForEach(Array(nao.categorized.keys).sorted(), id: \.self) { category in
                         ToroSection(
-                            header: "\(category)",
+                            title: "\(category)",
                             contentInsets: .init()
                         ) {
-                            ImageGrid(
-                                images: .constant(categorizedImages[category] ?? [:]),
+                            ToroGrid(
+                                imageURLs: .constant(nao.categorized[category] ?? []),
                                 previewImage: openPreview,
                                 namespace: namespace
                             )
                         }
                     }
                 }
-                if nonMatchingImages.count > 0 {
+                if nao.noMatches.count > 0 {
                     ToroSection(
-                        header: "No Matches",
-                        footer: "No similar match was found for these images.",
+                        title: "Card.NoMatches.Title",
+                        footer: "Card.NoMatches.Description",
                         contentInsets: .init()
                     ) {
-                        ImageGrid(
-                            images: $nonMatchingImages,
+                        ToroGrid(
+                            imageURLs: .constant(Array(nao.noMatches.keys)),
                             previewImage: openPreview,
                             namespace: namespace
                         )
                     }
                 }
-                if failedImages.count > 0 {
+                if nao.failed.count > 0 {
                     ToroSection(
-                        header: "Failed",
-                        footer: "These images could not be looked up.",
+                        title: "Card.Failed.Title",
+                        footer: "Card.Failed.Description",
                         contentInsets: .init()
                     ) {
-                        ImageGrid(
-                            images: $nonMatchingImages,
+                        ToroGrid(
+                            imageURLs: $nao.failed,
                             previewImage: openPreview,
                             namespace: namespace
                         )
+                    } header: {
+                        Button("Shared.Retry", systemImage: "arrow.clockwise", action: retryFailed)
                     }
                 }
             }
@@ -125,38 +118,33 @@ struct Organizer: View {
                 if isOrganizing || isLoadingFiles {
                     ToroThumbActivityIndicator()
                 } else {
-                    ToroThumbButton(imageName: "plus", action: openPicker)
-                        .accessibilityLabel(Text("Add Folder"))
+                    if nao.queue.isEmpty {
+                        ToroThumbButton(imageName: "plus", action: openPicker)
+                            .accessibilityLabel(Text("Shared.AddFolder"))
+                    }
                     if nao.isReady {
                         ToroThumbButton(
                             imageName: "sparkles.rectangle.stack.fill",
                             accentColor: .send,
                             action: startOrganizingIllustrations
                         )
-                        .accessibilityLabel(Text("Organize Images"))
+                        .accessibilityLabel(Text("Shared.Images.Organize"))
                     }
-                    if !uncategorizedImages.isEmpty || !categorizedImages.isEmpty {
+                    if !nao.queue.isEmpty || !nao.categorized.isEmpty {
                         ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
-                            .accessibilityLabel(Text("Remove All Images"))
+                            .accessibilityLabel(Text("Shared.Images.RemoveAll"))
                     }
                 }
             }
             .navigationTitle("SortNAO")
-            .navigationDestination(for: ViewPath.self) { viewPath in
-                switch viewPath {
-                case .account: Account()
-                case .settings: More()
-                case .preview(let imageURL): ImagePreview(imageURL: imageURL, namespace: namespace)
-                case .moreAttributions: Licenses()
-                }
-            }
+            .navigationEnabled(namespace: namespace)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
                         ToroToolbarButton(iconName: "person.fill", action: openAccountView)
-                            .accessibilityLabel(Text("Account"))
+                            .accessibilityLabel(Text("Shared.Account"))
                         ToroToolbarButton(iconName: "ellipsis", action: openSettingsView)
-                            .accessibilityLabel(Text("More"))
+                            .accessibilityLabel(Text("Shared.More"))
                     }
                 }
             }
@@ -179,7 +167,7 @@ struct Organizer: View {
     }
 
     func openSettingsView() {
-        viewPath.append(.settings)
+        viewPath.append(.more)
     }
 
     func openPicker() {
@@ -208,25 +196,11 @@ struct Organizer: View {
                         if attributes.isRegularFile ?? false {
                             let fileExtension = fileURL.pathExtension.lowercased()
                             if imageExtensions.contains(fileExtension) {
-                                nao.queue(fileURL)
+                                await nao.add(fileURL)
                             }
                         }
                     } catch {
                         debugPrint(error.localizedDescription, fileURL.absoluteString)
-                    }
-                }
-
-                for (imageURL, imageData) in nao.queue {
-                    guard let uiImage = UIImage(data: imageData) else {
-                        continue
-                    }
-                    guard let uiImageDisplay = await uiImage.byPreparingThumbnail(
-                        ofSize: CGSize(width: 200.0, height: 200.0)
-                    ) else {
-                        continue
-                    }
-                    withAnimation {
-                        self.uncategorizedImages[imageURL] = Image(uiImage: uiImageDisplay)
                     }
                 }
             }
@@ -240,10 +214,6 @@ struct Organizer: View {
     func startOrganizingIllustrations() {
         Task {
             UIApplication.shared.isIdleTimerDisabled = true
-            withAnimation {
-                isOrganizing = true
-            }
-
             let sources: [SauceNAO.Source] = [
                 (apiSourceDanbooruEnabled ? .danbooru : nil),
                 (apiSourceGelbooruEnabled ? .gelbooru : nil),
@@ -251,40 +221,12 @@ struct Organizer: View {
                 (apiSourceXEnabled ? .elonX : nil)
             ].compactMap({ $0 })
 
+            withAnimation {
+                isOrganizing = true
+            }
+
             for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
-
-                switch resultType {
-                case .succeeded:
-                    guard let result else { continue }
-
-                    let material = result.data.material
-                    let characters = result.data.characters
-                    let pixivId = result.data.pixivId
-                    let xUserHandle = result.data.xUserHandle
-                    let category: String? = switch true {
-                    case material != nil && characters != nil: "\(material!) - \(characters!)"
-                    case pixivId != nil: "Pixiv: \(pixivId!)"
-                    case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
-                    default: nil
-                    }
-                    guard let category else { continue }
-                    withAnimation {
-                        self.categorizedImages[category, default: [:]][imageURL] = self.uncategorizedImages[imageURL]
-                        self.uncategorizedImages.removeValue(forKey: imageURL)
-                    }
-
-                case .noMatches:
-                    withAnimation {
-                        self.nonMatchingImages[imageURL] = self.uncategorizedImages[imageURL]
-                        self.uncategorizedImages.removeValue(forKey: imageURL)
-                    }
-
-                case .failed:
-                    withAnimation {
-                        self.failedImages[imageURL] = self.uncategorizedImages[imageURL]
-                        self.uncategorizedImages.removeValue(forKey: imageURL)
-                    }
-                }
+                debugPrint(imageURL, resultType, result)
             }
 
             withAnimation {
@@ -294,17 +236,20 @@ struct Organizer: View {
         }
     }
 
+    func retryFailed() {
+        withAnimation {
+            nao.requeueFailed()
+        }
+        startOrganizingIllustrations()
+    }
+
     func removeAllFiles() {
         withAnimation {
-            uncategorizedImages.removeAll()
-            categorizedImages.removeAll()
-            nonMatchingImages.removeAll()
+            nao.clear()
         }
-        nao.clear()
     }
 
     func openPreview(_ imageURL: URL) {
         viewPath.append(.preview(imageURL: imageURL))
     }
 }
-// swiftlint:enable type_body_length

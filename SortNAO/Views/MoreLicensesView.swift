@@ -8,7 +8,7 @@
 import Komponents
 import SwiftUI
 
-struct Licenses: View {
+struct MoreLicensesView: View {
     var body: some View {
         LicensesView(licenses: [
             License(libraryName: "KeychainAccess", text: """

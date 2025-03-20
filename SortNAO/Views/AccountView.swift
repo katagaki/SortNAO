@@ -1,5 +1,5 @@
 //
-//  Account.swift
+//  AccountView.swift
 //  SortNAO
 //
 //  Created by シン・ジャスティン on 2025/03/16.
@@ -8,10 +8,10 @@
 import SwiftUI
 import WebKit
 
-struct Account: View {
+struct AccountView: View {
     var body: some View {
         WebView()
-            .navigationTitle("Account")
+            .navigationTitle("Shared.Account")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .background {

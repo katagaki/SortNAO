@@ -9,7 +9,7 @@ import Foundation
 
 enum ViewPath: Hashable {
     case account
-    case settings
     case preview(imageURL: URL)
+    case more
     case moreAttributions
 }

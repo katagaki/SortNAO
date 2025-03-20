@@ -9,7 +9,7 @@ import Komponents
 import SwiftUI
 import WebKit
 
-struct More: View {
+struct MoreView: View {
     @Environment(SauceNAO.self) var nao
     @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
     @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
@@ -18,48 +18,53 @@ struct More: View {
     @AppStorage(wrappedValue: true, kSAPISourceX) var apiSourceXEnabled: Bool
     @AppStorage(wrappedValue: true, kSRenameIncludesMaterial) var organizerRenameIncludesMaterial: Bool
     @AppStorage(wrappedValue: true, kSRenameIncludesCharacter) var organizerRenameIncludesCharacters: Bool
-    @AppStorage(wrappedValue: 0, kSDelay) var apiDelay: Int
+    @AppStorage(wrappedValue: 1, kSDelay) var apiDelay: Int
 
     var body: some View {
         MoreList(repoName: "katagaki/SortNAO", viewPath: ViewPath.moreAttributions) {
             Section {
-                Toggle("Load From Subfolders", isOn: $organizerLoadsSubfolders)
+                Toggle("Images.LoadSubfolders", isOn: $organizerLoadsSubfolders)
             } header: {
-                ListSectionHeader(text: "Images")
+                ListSectionHeader(text: "More.Sections.Images")
             }
             Section {
-                Toggle("Danbooru", isOn: $apiSourceDanbooruEnabled)
-                Toggle("Gelbooru", isOn: $apiSourceGelbooruEnabled)
-                Toggle("Pixiv", isOn: $apiSourcePixivEnabled)
-                Toggle("X (Twitter)", isOn: $apiSourceXEnabled)
+                Toggle("Source.Danbooru", isOn: $apiSourceDanbooruEnabled)
+                Toggle("Source.Gelbooru", isOn: $apiSourceGelbooruEnabled)
+                Toggle("Source.Pixiv", isOn: $apiSourcePixivEnabled)
+                Toggle("Source.ElonX", isOn: $apiSourceXEnabled)
             } header: {
-                ListSectionHeader(text: "Sources")
+                ListSectionHeader(text: "More.Sections.Sources")
             }
             Section {
-                Toggle("Include Material Title", isOn: $organizerRenameIncludesMaterial)
-                Toggle("Include Character Names", isOn: $organizerRenameIncludesCharacters)
+                Toggle("Filenames.IncludeMaterial", isOn: $organizerRenameIncludesMaterial)
+                Toggle("Filenames.IncludeCharacter", isOn: $organizerRenameIncludesCharacters)
             } header: {
-                ListSectionHeader(text: "Filenames")
+                ListSectionHeader(text: "More.Sections.Filenames")
             }
             Section {
                 Picker(selection: $apiDelay) {
-                    Text("None")
+                    Text("API.Delay.\(0)")
                         .tag(0)
-                    Text("1 Second")
+                    Text("API.Delay.\(1)")
                         .tag(1)
-                    Text("3 Seconds")
+                    Text("API.Delay.\(3)")
                         .tag(3)
-                    Text("10 Seconds")
+                    Text("API.Delay.\(10)")
                         .tag(10)
                 } label: {
-                    Text("Delay Between Lookups")
+                    Text("API.Delay.Title")
                 }
-                Button("Reset API Key", role: .destructive, action: resetAPIKey)
+                Button("API.Key.Reset", role: .destructive, action: resetAPIKey)
+                Button("Shared.ClearWebData", role: .destructive, action: clearWebData)
             } header: {
-                ListSectionHeader(text: "Advanced")
-            }
-            Section {
-                Button("Clear Web Data", role: .destructive, action: clearWebData)
+                ListSectionHeader(text: "More.Sections.Advanced")
+            } footer: {
+                if apiDelay < 1 {
+                    Text("API.Delay.Footer")
+                        .font(.caption)
+                        .bold()
+                        .foregroundStyle(.red)
+                }
             }
         }
         .listSectionSpacing(.compact)
