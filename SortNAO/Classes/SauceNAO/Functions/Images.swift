@@ -18,7 +18,7 @@ extension SauceNAO {
             guard let thumbnailImage = await uiImage.byPreparingThumbnail(
                 ofSize: CGSize(width: 200.0, height: 200.0)
             ) else { return nil }
-            thumbnails[imageURL] = thumbnailImage
+            self.thumbnails[imageURL] = thumbnailImage
             return thumbnailImage
         }
     }

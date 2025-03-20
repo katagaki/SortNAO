@@ -11,9 +11,13 @@ import UIKit
 
 extension SauceNAO {
     public func add(_ imageURL: URL) async {
-        self.thumbnails[imageURL] = await self.thumbnail(imageURL)
-        withAnimation {
-            self.queue.append(imageURL)
+        if !self.thumbnails.keys.contains(imageURL) {
+            self.thumbnails[imageURL] = await self.thumbnail(imageURL)
+        }
+        if !self.queue.contains(imageURL) {
+            withAnimation {
+                self.queue.append(imageURL)
+            }
         }
     }
 
@@ -26,7 +30,11 @@ extension SauceNAO {
 
     public func requeueFailed() {
         withAnimation {
-            self.queue.append(contentsOf: self.failed)
+            for failedImageURL in self.failed {
+                if !self.queue.contains(failedImageURL) {
+                    self.queue.append(failedImageURL)
+                }
+            }
             self.failed.removeAll()
         }
     }
