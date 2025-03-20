@@ -11,6 +11,7 @@ import WebKit
 
 struct MoreView: View {
     @Environment(SauceNAO.self) var nao
+    @AppStorage(wrappedValue: .medium, kSImageGridSize) var organizerImageGridSize: GridSize
     @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
     @AppStorage(wrappedValue: true, kSAPISourceDanbooru) var apiSourceDanbooruEnabled: Bool
     @AppStorage(wrappedValue: true, kSAPISourceGelbooru) var apiSourceGelbooruEnabled: Bool
@@ -23,6 +24,17 @@ struct MoreView: View {
     var body: some View {
         MoreList(repoName: "katagaki/SortNAO", viewPath: ViewPath.moreAttributions) {
             Section {
+                Picker(selection: $organizerImageGridSize) {
+                    Text("GridSize.Small")
+                        .tag(GridSize.small)
+                    Text("GridSize.Medium")
+                        .tag(GridSize.medium)
+                    Text("GridSize.Large")
+                        .tag(GridSize.large)
+                } label: {
+                    Text("GridSize.Title")
+                }
+
                 Toggle("Images.LoadSubfolders", isOn: $organizerLoadsSubfolders)
             } header: {
                 ListSectionHeader(text: "More.Sections.Images")

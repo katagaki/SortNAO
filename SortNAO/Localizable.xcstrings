@@ -397,6 +397,70 @@
         }
       }
     },
+    "GridSize.Large" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comfortable"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大"
+          }
+        }
+      }
+    },
+    "GridSize.Medium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中"
+          }
+        }
+      }
+    },
+    "GridSize.Small" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小"
+          }
+        }
+      }
+    },
+    "GridSize.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grid Display Size"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "グリッド表示サイズ"
+          }
+        }
+      }
+    },
     "Images.LoadSubfolders" : {
       "localizations" : {
         "en" : {

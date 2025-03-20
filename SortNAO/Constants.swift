@@ -11,6 +11,7 @@ import Foundation
 let kSLoadsSubfolders = "Organizer.LoadsSubfolders"
 let kSRenameIncludesMaterial = "Organizer.RenameIncludesMaterial"
 let kSRenameIncludesCharacter = "Organizer.RenameIncludesCharacters"
+let kSImageGridSize = "Organizer.ImageGridSize"
 
 // API Settings
 let kSAPISourceDanbooru = "API.Sources.Danbooru"

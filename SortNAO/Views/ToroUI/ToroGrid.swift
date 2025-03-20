@@ -12,6 +12,8 @@ struct ToroGrid: View {
     var previewAction: ((URL) -> Void)
     var namespace: Namespace.ID
 
+    @AppStorage(wrappedValue: .medium, kSImageGridSize) var organizerImageGridSize: GridSize
+
     init(_ imageURLs: Binding<[URL]>, previewAction: @escaping (URL) -> Void, namespace: Namespace.ID) {
         self._imageURLs = imageURLs
         self.previewAction = previewAction
@@ -20,7 +22,7 @@ struct ToroGrid: View {
 
     var body: some View {
         LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: 80.0), spacing: 2.0)],
+            columns: gridColumns(),
             spacing: 2.0
         ) {
             ForEach(imageURLs, id: \.self) { imageURL in
@@ -32,6 +34,17 @@ struct ToroGrid: View {
                         .matchedTransitionSource(id: imageURL.absoluteString, in: namespace)
                 }
             }
+        }
+    }
+
+    func gridColumns() -> [GridItem] {
+        switch organizerImageGridSize {
+        case .small:
+            [GridItem(.adaptive(minimum: 40.0), spacing: 1.0)]
+        case .medium:
+            [GridItem(.adaptive(minimum: 80.0), spacing: 2.0)]
+        case .large:
+            [GridItem(.adaptive(minimum: 110.0), spacing: 2.0)]
         }
     }
 }
