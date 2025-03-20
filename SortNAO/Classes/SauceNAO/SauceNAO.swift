@@ -14,6 +14,7 @@ class SauceNAO {
     @ObservationIgnored let keychain = Keychain(service: "com.tsubuzaki.SortNAO")
     @ObservationIgnored let keychainAPIKeyKey: String = "SauceNAOAPIKey"
 
+    @ObservationIgnored internal let supportedExtensions = ["jpg", "jpeg", "png"]
     @ObservationIgnored internal let endpoint = URL(string: "https://saucenao.com/search.php")!
     internal var apiKey: String?
     internal var threshold: Float
@@ -23,10 +24,10 @@ class SauceNAO {
     public var queue: [URL] = []
     public var failed: [URL] = []
     public var succeeded: [URL: Response] = [:]
-    public var categorized: [String: [URL]] = [:]
+    public var categorized: [Category: [URL]] = [:]
     public var noMatches: [URL: Response] = [:]
 
-    public var categories: [String] { Array(self.categorized.keys).sorted() }
+    public var categories: [Category] { Array(self.categorized.keys).sorted(by: <) }
     public var noMatchesURLs: [URL] { Array(self.noMatches.keys) }
 
     public var isReady: Bool { !queue.isEmpty && apiKey != nil }

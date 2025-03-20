@@ -19,9 +19,11 @@ struct ToroList<Content: View>: View {
                 .padding(.horizontal, 20.0)
             }
             .padding(.vertical, 20.0)
+            .frame(maxWidth: .infinity)
         }
         .scrollBounceBehavior(.always)
         .scrollIndicators(.never)
         .scrollDismissesKeyboard(.immediately)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

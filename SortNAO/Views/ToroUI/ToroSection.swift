@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ToroSection<Content: View, HeaderContent: View>: View {
     @State var title: LocalizedStringKey?
+    @State var titleAttributed: AttributedString?
     @State var footer: LocalizedStringKey?
     @State var contentInsets: EdgeInsets = EdgeInsets(top: 10.0, leading: 16.0, bottom: 10.0, trailing: 16.0)
     @ViewBuilder var content: Content
@@ -16,12 +17,14 @@ struct ToroSection<Content: View, HeaderContent: View>: View {
 
     init(
         title: LocalizedStringKey? = nil,
+        titleAttributed: AttributedString? = nil,
         footer: LocalizedStringKey? = nil,
         contentInsets: EdgeInsets? = nil,
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder header: @escaping () -> HeaderContent
     ) {
         self.title = title
+        self.titleAttributed = titleAttributed
         self.footer = footer
         if let contentInsets {
             self.contentInsets = contentInsets
@@ -32,11 +35,13 @@ struct ToroSection<Content: View, HeaderContent: View>: View {
 
     init(
         title: LocalizedStringKey? = nil,
+        titleAttributed: AttributedString? = nil,
         footer: LocalizedStringKey? = nil,
         contentInsets: EdgeInsets? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) where HeaderContent == EmptyView {
         self.title = title
+        self.titleAttributed = titleAttributed
         self.footer = footer
         if let contentInsets {
             self.contentInsets = contentInsets
@@ -47,21 +52,27 @@ struct ToroSection<Content: View, HeaderContent: View>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0.0) {
-            if let title {
-                HStack {
-                    Text(title)
-                        .font(.subheadline)
-                        .bold()
-                    Spacer(minLength: .zero)
-                    header
-                        .font(.subheadline)
-                        .buttonStyle(.plain)
+            HStack {
+                Group {
+                    if let title {
+                        Text(title)
+                    } else if let titleAttributed {
+                        Text(titleAttributed)
+                    } else {
+                        Text("Shared.NoTitle")
+                    }
                 }
-                .padding(.horizontal, 16.0)
-                .padding(.vertical, 8.0)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.regularMaterial)
+                .font(.subheadline)
+                .bold()
+                Spacer(minLength: .zero)
+                header
+                    .font(.subheadline)
+                    .buttonStyle(.plain)
             }
+            .padding(.horizontal, 16.0)
+            .padding(.vertical, 8.0)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.regularMaterial)
             VStack(alignment: .leading, spacing: 10.0) {
                 content
                     .frame(maxWidth: .infinity, alignment: .leading)

@@ -10,13 +10,40 @@ import SwiftUICore
 import UIKit
 
 extension SauceNAO {
-    public func add(_ imageURL: URL) async {
-        if !self.thumbnails.keys.contains(imageURL) {
-            self.thumbnails[imageURL] = await self.thumbnail(imageURL)
+    private func supports(_ fileURL: URL) -> Bool {
+        let attributes = try? fileURL.resourceValues(forKeys: [.isRegularFileKey])
+        if attributes?.isRegularFile ?? false {
+            let fileExtension = fileURL.pathExtension.lowercased()
+            return self.supportedExtensions.contains(fileExtension)
+        } else {
+            return false
         }
-        if !self.queue.contains(imageURL) {
-            withAnimation {
-                self.queue.append(imageURL)
+    }
+
+    public func add(folder folderURL: URL) async {
+        if folderURL.startAccessingSecurityScopedResource() {
+            guard let enumerator = FileManager.default.enumerator(
+                at: folderURL,
+                includingPropertiesForKeys: [.isRegularFileKey],
+                options: [.skipsHiddenFiles]
+            ) else {
+                return
+            }
+            for case let fileURL as URL in enumerator {
+                await self.add(file: fileURL)
+            }
+        }
+    }
+
+    public func add(file imageURL: URL) async {
+        if self.supports(imageURL) {
+            if !self.thumbnails.keys.contains(imageURL) {
+                self.thumbnails[imageURL] = await self.thumbnail(imageURL)
+            }
+            if !self.queue.contains(imageURL) {
+                withAnimation {
+                    self.queue.append(imageURL)
+                }
             }
         }
     }

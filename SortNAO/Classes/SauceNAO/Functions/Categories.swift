@@ -8,24 +8,19 @@
 import Foundation
 
 extension SauceNAO {
-
-    func urls(in category: String) -> [URL] {
+    func urls(in category: Category) -> [URL] {
         self.categorized[category] ?? []
     }
 
     func categorize(_ imageURL: URL, result: Response.Result) {
-        let material = result.data.material
-        let characters = result.data.characters
         let pixivId = result.data.pixivId
-        let xUserHandle = result.data.xUserHandle
-        let category: String? = switch true {
-        case material == "" && characters != nil: characters!
-        case material != nil && characters != nil: "\(material!) - \(characters!)"
-        case pixivId != nil: "Pixiv: \(pixivId!)"
-        case xUserHandle != nil: "X (Twitter): \(xUserHandle!)"
-        default: nil
-        }
-        guard let category else { return }
+        let category = Category(
+            material: result.data.material,
+            characters: result.data.characters,
+            pixivId: pixivId != nil ? String(pixivId!) : nil,
+            memberName: result.data.memberName,
+            xUserHandle: result.data.xUserHandle
+        )
         self.categorized[category, default: []].append(imageURL)
     }
 }

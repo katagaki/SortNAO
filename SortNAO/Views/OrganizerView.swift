@@ -17,6 +17,7 @@ struct OrganizerView: View {
     @AppStorage(wrappedValue: 1, kSDelay) var apiDelay: Int
 
     @State var viewPath: [ViewPath] = []
+    @State var isFirstBatchOfFilesOpened: Bool = false
     @State var isPickingFolder: Bool = false
     @State var isLoadingFiles: Bool = false
     @State var isOrganizing: Bool = false
@@ -29,7 +30,7 @@ struct OrganizerView: View {
         @Bindable var nao = nao
         NavigationStack(path: $viewPath) {
             ToroList {
-                if nao.queue.isEmpty && nao.queue.isEmpty {
+                if !isFirstBatchOfFilesOpened {
                     ToroSection(title: "Card.Welcome.Title") {
                         Text("Card.Welcome.Description.\(Image(systemName: "plus"))")
                     }
@@ -56,9 +57,9 @@ struct OrganizerView: View {
                         ToroGrid($nao.queue, previewAction: openPreview, namespace: namespace)
                     }
                 }
-                if nao.categorized.count > 0 {
+                if nao.categories.count > 0 {
                     ForEach(nao.categories, id: \.self) { category in
-                        ToroSection(title: "\(category)",
+                        ToroSection(titleAttributed: category.displayName(),
                                     contentInsets: .init()) {
                             ToroGrid(.constant(nao.urls(in: category)),
                                      previewAction: openPreview,
@@ -154,37 +155,11 @@ struct OrganizerView: View {
 
     func loadFolderContents(url: URL) {
         Task {
+            isFirstBatchOfFilesOpened = true
             UIApplication.shared.isIdleTimerDisabled = true
-            withAnimation {
-                isLoadingFiles = true
-            }
-            if url.startAccessingSecurityScopedResource() {
-                guard let enumerator = FileManager.default.enumerator(
-                    at: url,
-                    includingPropertiesForKeys: [.isRegularFileKey],
-                    options: [.skipsHiddenFiles]
-                ) else {
-                    return
-                }
-
-                let imageExtensions = ["jpg", "jpeg", "png"]
-                for case let fileURL as URL in enumerator {
-                    do {
-                        let attributes = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
-                        if attributes.isRegularFile ?? false {
-                            let fileExtension = fileURL.pathExtension.lowercased()
-                            if imageExtensions.contains(fileExtension) {
-                                await nao.add(fileURL)
-                            }
-                        }
-                    } catch {
-                        debugPrint(error.localizedDescription, fileURL.absoluteString)
-                    }
-                }
-            }
-            withAnimation {
-                isLoadingFiles = false
-            }
+            withAnimation { isLoadingFiles = true }
+            await nao.add(folder: url)
+            withAnimation { isLoadingFiles = false }
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }
@@ -198,33 +173,22 @@ struct OrganizerView: View {
                 (apiSourcePixivEnabled ? .pixiv : nil),
                 (apiSourceXEnabled ? .elonX : nil)
             ].compactMap({ $0 })
-
-            withAnimation {
-                isOrganizing = true
-            }
-
+            withAnimation { isOrganizing = true }
             for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
                 debugPrint(imageURL, resultType, result.debugDescription)
             }
-
-            withAnimation {
-                isOrganizing = false
-            }
+            withAnimation { isOrganizing = false }
             UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 
     func retryFailed() {
-        withAnimation {
-            nao.requeueFailed()
-        }
+        withAnimation { nao.requeueFailed() }
         startOrganizingIllustrations()
     }
 
     func removeAllFiles() {
-        withAnimation {
-            nao.clear()
-        }
+        withAnimation { nao.clear() }
     }
 
     func openPreview(_ imageURL: URL) {
