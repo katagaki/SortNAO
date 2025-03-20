@@ -207,50 +207,68 @@ struct OrganizerView: View {
     }
 
     func loadFolderContents(url: URL) {
-        Task {
-            isFirstBatchOfFilesOpened = true
-            UIApplication.shared.isIdleTimerDisabled = true
-            withAnimation { isLoadingFiles = true }
-            await nao.add(folder: url, includesSubdirectories: organizerLoadsSubfolders)
-            withAnimation { isLoadingFiles = false }
-            UIApplication.shared.isIdleTimerDisabled = false
+        isFirstBatchOfFilesOpened = true
+        UIApplication.shared.isIdleTimerDisabled = true
+        withAnimation {
+            isLoadingFiles = true
+        } completion: {
+            Task {
+                await nao.add(folder: url, includesSubdirectories: organizerLoadsSubfolders)
+                withAnimation {
+                    isLoadingFiles = false
+                } completion: {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }
+            }
         }
     }
 
     func startImageSearch() {
-        Task {
-            UIApplication.shared.isIdleTimerDisabled = true
-            let sources: [SauceNAO.Source] = [
-                (apiSourceDanbooruEnabled ? .danbooru : nil),
-                (apiSourceGelbooruEnabled ? .gelbooru : nil),
-                (apiSourcePixivEnabled ? .pixiv : nil),
-                (apiSourceXEnabled ? .elonX : nil)
-            ].compactMap({ $0 })
-            withAnimation { isSearching = true }
-            for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
-                debugPrint(imageURL, resultType, result.debugDescription)
+        UIApplication.shared.isIdleTimerDisabled = true
+        let sources: [SauceNAO.Source] = [
+            (apiSourceDanbooruEnabled ? .danbooru : nil),
+            (apiSourceGelbooruEnabled ? .gelbooru : nil),
+            (apiSourcePixivEnabled ? .pixiv : nil),
+            (apiSourceXEnabled ? .elonX : nil)
+        ].compactMap({ $0 })
+        withAnimation {
+            isSearching = true
+        } completion: {
+            Task {
+                for await (imageURL, resultType, result) in nao.searchAll(in: sources, delay: apiDelay) {
+                    debugPrint(imageURL, resultType, result.debugDescription)
+                }
+                withAnimation {
+                    isSearching = false
+                } completion: {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }
             }
-            withAnimation { isSearching = false }
-            UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 
     func startFileRename() {
-        Task {
-            UIApplication.shared.isIdleTimerDisabled = true
-            self.renameExamples = ""
-            self.renameCount = 0
-            withAnimation { isRenaming = true }
-            for await (url, newURL) in nao.renameAll(
-                includeMaterialName: organizerRenameIncludesMaterial,
-                includeCharacterNames: organizerRenameIncludesCharacters
-            ) {
-                debugPrint(url.lastPathComponent, newURL.lastPathComponent)
-                self.renameCount += 1
+        UIApplication.shared.isIdleTimerDisabled = true
+        self.renameExamples = ""
+        self.renameCount = 0
+        withAnimation {
+            isRenaming = true
+        } completion: {
+            Task {
+                for await (url, newURL) in nao.renameAll(
+                    includeMaterialName: organizerRenameIncludesMaterial,
+                    includeCharacterNames: organizerRenameIncludesCharacters
+                ) {
+                    debugPrint(url.lastPathComponent, newURL.lastPathComponent)
+                    self.renameCount += 1
+                }
+                withAnimation {
+                    isRenaming = false
+                } completion: {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                    self.isRenameComplete = true
+                }
             }
-            withAnimation { isRenaming = false }
-            UIApplication.shared.isIdleTimerDisabled = false
-            self.isRenameComplete = true
         }
     }
 
