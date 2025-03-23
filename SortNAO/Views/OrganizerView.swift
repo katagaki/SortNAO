@@ -8,6 +8,7 @@
 import Komponents
 import SwiftUI
 
+// swiftlint:disable type_body_length
 struct OrganizerView: View {
     @Environment(SauceNAO.self) var nao
     @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
@@ -300,3 +301,4 @@ struct OrganizerView: View {
         viewPath.append(.preview(imageURL: imageURL))
     }
 }
+// swiftlint:enable type_body_length

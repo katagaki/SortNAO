@@ -20,6 +20,7 @@ extension SauceNAO {
         }
     }
 
+    @MainActor
     public func add(folder folderURL: URL, includesSubdirectories: Bool = true) async {
         if folderURL.startAccessingSecurityScopedResource() {
             let options: FileManager.DirectoryEnumerationOptions = (
@@ -40,6 +41,7 @@ extension SauceNAO {
         }
     }
 
+    @MainActor
     public func add(file imageURL: URL) async {
         if self.supports(imageURL) {
             if !self.thumbnails.keys.contains(imageURL) {

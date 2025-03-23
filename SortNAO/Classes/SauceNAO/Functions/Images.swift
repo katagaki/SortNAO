@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 extension SauceNAO {
+    @MainActor
     internal func thumbnail(_ imageURL: URL) async -> UIImage? {
         if let uiImage = thumbnails[imageURL] {
             return uiImage

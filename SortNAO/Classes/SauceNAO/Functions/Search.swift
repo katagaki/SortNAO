@@ -10,6 +10,7 @@ import SwiftUICore
 
 extension SauceNAO {
     // swiftlint:disable large_tuple
+    @MainActor
     public func searchAll(
         in sources: [Source] = [.danbooru, .gelbooru],
         delay: Int = 0
