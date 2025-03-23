@@ -1,5 +1,5 @@
 //
-//  SortNAOApp.swift
+//  App.swift
 //  SortNAO
 //
 //  Created by シン・ジャスティン on 2025/03/15.
