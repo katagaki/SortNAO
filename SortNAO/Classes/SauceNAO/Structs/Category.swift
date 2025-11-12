@@ -5,7 +5,7 @@
 //  Created by シン・ジャスティン on 2025/03/20.
 //
 
-import SwiftUICore
+import SwiftUI
 
 extension SauceNAO {
     struct Category: Hashable {

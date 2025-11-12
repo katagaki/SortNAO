@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 extension SauceNAO {
     // swiftlint:disable large_tuple

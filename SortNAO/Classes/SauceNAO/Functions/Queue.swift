@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import SwiftUICore
+import SwiftUI
 import UIKit
 
 extension SauceNAO {
@@ -35,7 +35,7 @@ extension SauceNAO {
             ) else {
                 return
             }
-            for case let fileURL as URL in enumerator {
+            for case let fileURL as URL in AnySequence(enumerator) {
                 await self.add(file: fileURL)
             }
         }

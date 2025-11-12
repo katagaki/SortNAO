@@ -151,12 +151,24 @@ struct OrganizerView: View {
             .navigationTitle("SortNAO")
             .navigationEnabled(namespace: namespace)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    HStack {
-                        ToroToolbarButton(iconName: "person.fill", action: openAccountView)
+                if #available(iOS 26.0, *) {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Shared.Account", systemImage: "person.fill", action: openAccountView)
                             .accessibilityLabel(Text("Shared.Account"))
-                        ToroToolbarButton(iconName: "ellipsis", action: openSettingsView)
+                    }
+                    ToolbarSpacer(.fixed, placement: .topBarTrailing)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Shared.More", systemImage: "ellipsis", action: openSettingsView)
                             .accessibilityLabel(Text("Shared.More"))
+                    }
+                } else {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        HStack {
+                            ToroToolbarButton(iconName: "person.fill", action: openAccountView)
+                                .accessibilityLabel(Text("Shared.Account"))
+                            ToroToolbarButton(iconName: "ellipsis", action: openSettingsView)
+                                .accessibilityLabel(Text("Shared.More"))
+                        }
                     }
                 }
             }
