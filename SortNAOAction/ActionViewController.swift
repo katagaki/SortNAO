@@ -114,9 +114,24 @@ class ActionViewController: UIViewController {
             guard let attachments = extensionItem.attachments else { continue }
             for attachment in attachments {
                 if attachment.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
-                    attachment.loadItem(forTypeIdentifier: UTType.image.identifier, options: nil) { [weak self] data, _ in
+                    attachment.loadItem(
+                        forTypeIdentifier: UTType.image.identifier,
+                        options: nil
+                    ) { [weak self] data, _ in
+                        let sendableData = data as? Data
+                        let sendableURL = data as? URL
+                        let sendableImage = data as? UIImage
                         DispatchQueue.main.async {
-                            self?.handleLoadedImage(data)
+                            if let url = sendableURL,
+                               let imageData = try? Data(contentsOf: url) {
+                                self?.handleLoadedImageData(imageData)
+                            } else if let imageData = sendableData {
+                                self?.handleLoadedImageData(imageData)
+                            } else if let image = sendableImage {
+                                self?.handleLoadedUIImage(image)
+                            } else {
+                                self?.showError("Could not load image.")
+                            }
                         }
                     }
                     return
@@ -127,24 +142,16 @@ class ActionViewController: UIViewController {
         showError("No image found in the shared content.")
     }
 
-    private func handleLoadedImage(_ data: Any?) {
-        var image: UIImage?
-
-        if let url = data as? URL {
-            if let imageData = try? Data(contentsOf: url) {
-                image = UIImage(data: imageData)
-            }
-        } else if let imageData = data as? Data {
-            image = UIImage(data: imageData)
-        } else if let uiImage = data as? UIImage {
-            image = uiImage
-        }
-
-        guard let image else {
+    private func handleLoadedImageData(_ data: Data) {
+        guard let image = UIImage(data: data) else {
             showError("Could not load image.")
             return
         }
+        imageView.image = image
+        searchSauce(for: image)
+    }
 
+    private func handleLoadedUIImage(_ image: UIImage) {
         imageView.image = image
         searchSauce(for: image)
     }
