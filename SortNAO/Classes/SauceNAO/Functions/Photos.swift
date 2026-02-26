@@ -11,7 +11,6 @@ import PhotosUI
 import SwiftUI
 import UIKit
 
-// swiftlint:disable file_length
 extension SauceNAO {
     @MainActor
     public func add(pickerResults: [PHPickerResult]) async {
@@ -63,7 +62,7 @@ extension SauceNAO {
         let status = await PHPhotoLibrary.requestAuthorization(for: .readWrite)
         guard status == .authorized || status == .limited else { return 0 }
 
-        let rootFolder = await findOrCreateFolder(named: "SortNAO")
+        let rootFolder = await Self.findOrCreateFolder(named: "SortNAO")
         guard let rootFolder else { return 0 }
 
         var organizedCount = 0
@@ -71,41 +70,59 @@ extension SauceNAO {
         for (category, urls) in self.categorized {
             let albumName = category.albumName()
             guard !albumName.isEmpty else { continue }
-            guard let album = await findOrCreateAlbum(named: albumName, in: rootFolder) else { continue }
+            guard let album = await Self.findOrCreateAlbum(named: albumName, in: rootFolder) else { continue }
 
             let assetIdentifiers = urls.compactMap { url -> String? in
                 self.urlToAssetIdentifier[url]
             }
 
             if !assetIdentifiers.isEmpty {
-                let assets = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-                do {
-                    try await PHPhotoLibrary.shared().performChanges {
-                        let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
-                        albumChangeRequest?.addAssets(assets)
+                let albumId = album.localIdentifier
+                let count = await Task.detached {
+                    let assets = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+                    let collections = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumId], options: nil)
+                    if let fetchedAlbum = collections.firstObject {
+                        do {
+                            try await PHPhotoLibrary.shared().performChanges {
+                                let albumChangeRequest = PHAssetCollectionChangeRequest(for: fetchedAlbum)
+                                albumChangeRequest?.addAssets(assets)
+                            }
+                            return assets.count
+                        } catch {
+                            debugPrint("Failed to add assets to album: \(error.localizedDescription)")
+                        }
                     }
-                    organizedCount += assets.count
-                } catch {
-                    debugPrint("Failed to add assets to album: \(error.localizedDescription)")
-                }
+                    return 0
+                }.value
+                organizedCount += count
             }
 
             let nonAssetURLs = urls.filter {
                 self.urlToAssetIdentifier[$0] == nil && self.photosImportedURLs.contains($0)
             }
-            for url in nonAssetURLs {
-                do {
-                    try await PHPhotoLibrary.shared().performChanges {
-                        let creationRequest = PHAssetCreationRequest.forAsset()
-                        creationRequest.addResource(with: .photo, fileURL: url, options: nil)
-                        let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
-                        if let placeholder = creationRequest.placeholderForCreatedAsset {
-                            albumChangeRequest?.addAssets([placeholder] as NSArray)
+            if !nonAssetURLs.isEmpty {
+                let albumId = album.localIdentifier
+                for url in nonAssetURLs {
+                    let success = await Task.detached {
+                        let collections = PHAssetCollection.fetchAssetCollections(withLocalIdentifiers: [albumId], options: nil)
+                        if let fetchedAlbum = collections.firstObject {
+                            do {
+                                try await PHPhotoLibrary.shared().performChanges {
+                                    let creationRequest = PHAssetCreationRequest.forAsset()
+                                    creationRequest.addResource(with: .photo, fileURL: url, options: nil)
+                                    let albumChangeRequest = PHAssetCollectionChangeRequest(for: fetchedAlbum)
+                                    if let placeholder = creationRequest.placeholderForCreatedAsset {
+                                        albumChangeRequest?.addAssets([placeholder] as NSArray)
+                                    }
+                                }
+                                return true
+                            } catch {
+                                debugPrint("Failed to create asset in album: \(error.localizedDescription)")
+                            }
                         }
-                    }
-                    organizedCount += 1
-                } catch {
-                    debugPrint("Failed to create asset in album: \(error.localizedDescription)")
+                        return false
+                    }.value
+                    if success { organizedCount += 1 }
                 }
             }
         }
@@ -113,8 +130,7 @@ extension SauceNAO {
         return organizedCount
     }
 
-    @MainActor
-    private func findOrCreateFolder(named name: String) async -> PHCollectionList? {
+    nonisolated private static func findOrCreateFolder(named name: String) async -> PHCollectionList? {
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "title = %@", name)
         let folders = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
@@ -145,8 +161,7 @@ extension SauceNAO {
         return nil
     }
 
-    @MainActor
-    private func findOrCreateAlbum(
+    nonisolated private static func findOrCreateAlbum(
         named name: String,
         in folder: PHCollectionList
     ) async -> PHAssetCollection? {
@@ -187,4 +202,3 @@ extension SauceNAO {
 private final class PlaceholderBox: @unchecked Sendable {
     var identifier: String?
 }
-// swiftlint:enable file_length

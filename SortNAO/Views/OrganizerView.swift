@@ -9,7 +9,7 @@ import Komponents
 import PhotosUI
 import SwiftUI
 
-// swiftlint:disable type_body_length file_length
+// swiftlint:disable type_body_length
 struct OrganizerView: View {
     @Environment(SauceNAO.self) var nao
     @AppStorage(wrappedValue: true, kSLoadsSubfolders) var organizerLoadsSubfolders: Bool
@@ -133,11 +133,9 @@ struct OrganizerView: View {
                 } else {
                     if nao.queue.isEmpty {
                         ToroThumbButton(imageName: "folder",
-                                        label: "Shared.AddFolder",
                                         action: openPicker)
                             .accessibilityLabel(Text("Shared.AddFolder"))
                         ToroThumbButton(imageName: "photo",
-                                        label: "Shared.AddPhotos",
                                         action: openPhotosPicker)
                             .accessibilityLabel(Text("Shared.AddPhotos"))
                     }
@@ -383,4 +381,4 @@ struct OrganizerView: View {
         viewPath.append(.preview(imageURL: imageURL))
     }
 }
-// swiftlint:enable type_body_length file_length
+// swiftlint:enable type_body_length
