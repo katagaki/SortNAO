@@ -22,7 +22,7 @@ struct SauceEntity: AppEntity {
         )
     }
 
-    static var defaultQuery = SauceEntityQuery()
+    static let defaultQuery = SauceEntityQuery()
 
     var id: String
     var similarity: String
@@ -70,14 +70,14 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             return []
         }
 
-        // Convert pixel buffer to JPEG data
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        let context = CIContext()
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
-            return []
-        }
-        let uiImage = UIImage(cgImage: cgImage)
-        guard let jpegData = uiImage.jpegData(compressionQuality: 0.9) else {
+        // Convert pixel buffer to JPEG inside withUnsafeBuffer for memory safety
+        guard let jpegData = pixelBuffer.withUnsafeBuffer({ cvBuffer -> Data? in
+            let ciImage = CIImage(cvPixelBuffer: cvBuffer)
+            let context = CIContext()
+            guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
+            let uiImage = UIImage(cgImage: cgImage)
+            return uiImage.jpegData(compressionQuality: 0.9)
+        }) else {
             return []
         }
 
@@ -156,16 +156,25 @@ struct SauceVisualSearchQuery: IntentValueQuery {
     // swiftlint:enable function_body_length
 }
 
+// MARK: - Open Sauce Intent
+
+@available(iOS 26.0, *)
+struct OpenSauceIntent: OpenIntent {
+    static let title: LocalizedStringResource = "Intent.OpenSauce.Title"
+
+    @Parameter(title: "Shared.SourceResult")
+    var target: SauceEntity
+}
+
 // MARK: - View More Sauces Intent
 
 @available(iOS 26.0, *)
-struct ViewMoreSaucesIntent: AppIntent, VisualIntelligenceSearchIntent {
-    static var title: LocalizedStringResource = "Intent.ViewMoreSauces.Title"
+@AppIntent(schema: .visualIntelligence.semanticContentSearch)
+struct ViewMoreSaucesIntent: AppIntent {
+    static let title: LocalizedStringResource = "Intent.ViewMoreSauces.Title"
 
     @Parameter(title: "Shared.SemanticContent")
     var semanticContent: SemanticContentDescriptor
-
-    static var openAppWhenRun: Bool { true }
 
     func perform() async throws -> some IntentResult {
         return .result()

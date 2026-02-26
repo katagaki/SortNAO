@@ -1125,6 +1125,38 @@
         }
       }
     },
+    "Intent.OpenSauce.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Source"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを開く"
+          }
+        }
+      }
+    },
+    "Shared.SourceResult" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソース結果"
+          }
+        }
+      }
+    },
     "Intent.ViewMoreSauces.Title" : {
       "localizations" : {
         "en" : {
