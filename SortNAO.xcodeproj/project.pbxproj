@@ -10,10 +10,37 @@
 		E4EA44012D851B4E004358B1 /* Komponents in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44002D851B4E004358B1 /* Komponents */; };
 		E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44032D85210B004358B1 /* VariableBlurView */; };
 		E4EA44412D85D000004358B1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44402D85D000004358B1 /* KeychainAccess */; };
+		AA00000000000000000000D1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000000D2 /* KeychainAccess */; };
+		AA00000000000000000000D3 /* SortNAOAction.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* SortNAOAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA00000000000000000000C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4EA43E62D8519BD004358B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000B1;
+			remoteInfo = SortNAOAction;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA00000000000000000000E1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA00000000000000000000D3 /* SortNAOAction.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E4EA43EE2D8519BD004358B1 /* SortNAO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortNAO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000000A1 /* SortNAOAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SortNAOAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -24,6 +51,13 @@
 			);
 			target = E4EA43ED2D8519BD004358B1 /* SortNAO */;
 		};
+		AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "SortNAOAction" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AA00000000000000000000B1 /* SortNAOAction */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +67,14 @@
 				E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */,
 			);
 			path = SortNAO;
+			sourceTree = "<group>";
+		};
+		AA00000000000000000000F2 /* SortNAOAction */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "SortNAOAction" target */,
+			);
+			path = SortNAOAction;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +90,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA00000000000000000000F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA00000000000000000000D1 /* KeychainAccess in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				E4EA43F02D8519BD004358B1 /* SortNAO */,
+				AA00000000000000000000F2 /* SortNAOAction */,
 				E4EA43EF2D8519BD004358B1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				E4EA43EE2D8519BD004358B1 /* SortNAO.app */,
+				AA00000000000000000000A1 /* SortNAOAction.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,10 +130,12 @@
 				E4EA43EB2D8519BD004358B1 /* Frameworks */,
 				E4EA43EC2D8519BD004358B1 /* Resources */,
 				E4EA44492D85D6C2004358B1 /* ShellScript */,
+				AA00000000000000000000E1 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA00000000000000000000C2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				E4EA43F02D8519BD004358B1 /* SortNAO */,
@@ -96,6 +150,29 @@
 			productReference = E4EA43EE2D8519BD004358B1 /* SortNAO.app */;
 			productType = "com.apple.product-type.application";
 		};
+		AA00000000000000000000B1 /* SortNAOAction */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "SortNAOAction" */;
+			buildPhases = (
+				AA00000000000000000000F4 /* Sources */,
+				AA00000000000000000000F3 /* Frameworks */,
+				AA00000000000000000000F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000F2 /* SortNAOAction */,
+			);
+			name = SortNAOAction;
+			packageProductDependencies = (
+				AA00000000000000000000D2 /* KeychainAccess */,
+			);
+			productName = SortNAOAction;
+			productReference = AA00000000000000000000A1 /* SortNAOAction.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -107,6 +184,9 @@
 				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					E4EA43ED2D8519BD004358B1 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					AA00000000000000000000B1 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -132,12 +212,20 @@
 			projectRoot = "";
 			targets = (
 				E4EA43ED2D8519BD004358B1 /* SortNAO */,
+				AA00000000000000000000B1 /* SortNAOAction */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		E4EA43EC2D8519BD004358B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA00000000000000000000F5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -175,7 +263,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA00000000000000000000F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA00000000000000000000C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000B1 /* SortNAOAction */;
+			targetProxy = AA00000000000000000000C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E4EA43FA2D8519BE004358B1 /* Debug */ = {
@@ -383,6 +486,62 @@
 			};
 			name = Release;
 		};
+		AA00000000000000000000F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SortNAOAction/SortNAOAction.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAOAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SortNAOAction;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.Action;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA00000000000000000000F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SortNAOAction/SortNAOAction.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAOAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SortNAOAction;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.Action;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -400,6 +559,15 @@
 			buildConfigurations = (
 				E4EA43FD2D8519BE004358B1 /* Debug */,
 				E4EA43FE2D8519BE004358B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "SortNAOAction" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000000000000000000F6 /* Debug */,
+				AA00000000000000000000F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -445,6 +613,11 @@
 			productName = VariableBlurView;
 		};
 		E4EA44402D85D000004358B1 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4EA443F2D85D000004358B1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
+		AA00000000000000000000D2 /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E4EA443F2D85D000004358B1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;

@@ -4,5 +4,9 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>SortNAO needs access to your Photos library to import images for reverse image search and organize results into albums.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>SortNAO needs permission to create albums and organize your searched images in the Photos library.</string>
 </dict>
 </plist>
