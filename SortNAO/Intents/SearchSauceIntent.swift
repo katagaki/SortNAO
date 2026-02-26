@@ -55,7 +55,7 @@ struct SearchSauceIntent: AppIntent {
             forHTTPHeaderField: "Content-Type"
         )
 
-        // swiftlint:disable non_optional_string_data_conversion line_length
+        // swiftlint:disable non_optional_string_data_conversion
         var body = Data()
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"file\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
@@ -64,7 +64,7 @@ struct SearchSauceIntent: AppIntent {
         body.append(jpegData)
         body.append("\r\n".data(using: .utf8)!)
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        // swiftlint:enable non_optional_string_data_conversion line_length
+        // swiftlint:enable non_optional_string_data_conversion
 
         request.httpBody = body
 

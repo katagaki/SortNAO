@@ -10,7 +10,7 @@ import SwiftUI
 struct ToroThumbButton: View {
     @State var imageName: String
     @State var accentColor: Color?
-    var label: LocalizedStringKey? = nil
+    var label: LocalizedStringKey?
     @State var action: (() -> Void)
 
     var body: some View {
@@ -25,7 +25,7 @@ struct ToroThumbButton: View {
                         .scaledToFit()
                         .frame(width: 32.0, height: 32.0)
                         .foregroundStyle(.white)
-                }                
+                }
                 if let label {
                     Text(label)
                         .font(.caption)

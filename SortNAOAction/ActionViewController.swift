@@ -14,10 +14,10 @@ import UniformTypeIdentifiers
 class ActionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let contentVC = ActionContentViewController()
         contentVC.extensionContextWrapper = self.extensionContext
-        
+
         let nav = UINavigationController(rootViewController: contentVC)
         addChild(nav)
         view.addSubview(nav.view)
