@@ -27,8 +27,8 @@ struct SearchSauceIntent: AppIntent {
             )
         }
 
-        guard let imageData = image.data,
-              let uiImage = UIImage(data: imageData),
+        let imageData = image.data
+        guard let uiImage = UIImage(data: imageData),
               let jpegData = uiImage.jpegData(compressionQuality: 0.9) else {
             return .result(
                 value: "Invalid image",
