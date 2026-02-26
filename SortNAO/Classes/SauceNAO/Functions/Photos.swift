@@ -45,7 +45,8 @@ extension SauceNAO {
         }
     }
 
-    nonisolated private func loadImage(from itemProvider: NSItemProvider) async -> UIImage? {
+    @MainActor
+    private func loadImage(from itemProvider: NSItemProvider) async -> UIImage? {
         await withCheckedContinuation { continuation in
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 itemProvider.loadObject(ofClass: UIImage.self) { image, _ in
@@ -112,7 +113,8 @@ extension SauceNAO {
         return organizedCount
     }
 
-    nonisolated private func findOrCreateFolder(named name: String) async -> PHCollectionList? {
+    @MainActor
+    private func findOrCreateFolder(named name: String) async -> PHCollectionList? {
         let fetchOptions = PHFetchOptions()
         fetchOptions.predicate = NSPredicate(format: "title = %@", name)
         let folders = PHCollectionList.fetchTopLevelUserCollections(with: fetchOptions)
@@ -143,7 +145,8 @@ extension SauceNAO {
         return nil
     }
 
-    nonisolated private func findOrCreateAlbum(
+    @MainActor
+    private func findOrCreateAlbum(
         named name: String,
         in folder: PHCollectionList
     ) async -> PHAssetCollection? {
