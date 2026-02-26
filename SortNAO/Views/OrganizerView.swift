@@ -132,9 +132,12 @@ struct OrganizerView: View {
                     ToroThumbActivityIndicator()
                 } else {
                     if nao.queue.isEmpty {
-                        ToroThumbButton(imageName: "plus", action: openPicker)
+                        ToroThumbButton(imageName: "folder",
+                                        label: "Shared.AddFolder",
+                                        action: openPicker)
                             .accessibilityLabel(Text("Shared.AddFolder"))
-                        ToroThumbButton(imageName: "photo.on.rectangle.angled",
+                        ToroThumbButton(imageName: "photo",
+                                        label: "Shared.AddPhotos",
                                         action: openPhotosPicker)
                             .accessibilityLabel(Text("Shared.AddPhotos"))
                     }

@@ -12,6 +12,29 @@ import UniformTypeIdentifiers
 
 // swiftlint:disable type_body_length file_length
 class ActionViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let contentVC = ActionContentViewController()
+        contentVC.extensionContextWrapper = self.extensionContext
+        
+        let nav = UINavigationController(rootViewController: contentVC)
+        addChild(nav)
+        view.addSubview(nav.view)
+        nav.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            nav.view.topAnchor.constraint(equalTo: view.topAnchor),
+            nav.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            nav.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nav.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        nav.didMove(toParent: self)
+    }
+}
+
+class ActionContentViewController: UIViewController {
+    var extensionContextWrapper: NSExtensionContext?
+
     private let keychain = Keychain(service: "com.tsubuzaki.SortNAO")
     private let keychainAPIKeyKey = "SauceNAOAPIKey"
     private let endpoint = URL(string: "https://saucenao.com/search.php")!
@@ -33,7 +56,7 @@ class ActionViewController: UIViewController {
         title = "SortNAO"
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .done,
+            barButtonSystemItem: .close,
             target: self,
             action: #selector(done)
         )
@@ -74,7 +97,7 @@ class ActionViewController: UIViewController {
         contentView.addSubview(resultsStack)
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -105,7 +128,7 @@ class ActionViewController: UIViewController {
     }
 
     private func loadImageFromExtensionContext() {
-        guard let extensionItems = extensionContext?.inputItems as? [NSExtensionItem] else {
+        guard let extensionItems = extensionContextWrapper?.inputItems as? [NSExtensionItem] else {
             showError("No input items found.")
             return
         }
@@ -333,7 +356,7 @@ class ActionViewController: UIViewController {
     @objc private func openURL(_ sender: UIButton) {
         guard let urlString = sender.accessibilityValue,
               let url = URL(string: urlString) else { return }
-        extensionContext?.open(url)
+        extensionContextWrapper?.open(url)
     }
 
     private func showError(_ message: String) {
@@ -342,13 +365,13 @@ class ActionViewController: UIViewController {
     }
 
     @objc func done() {
-        extensionContext?.completeRequest(returningItems: nil)
+        extensionContextWrapper?.completeRequest(returningItems: nil)
     }
 }
 
 // MARK: - Search Models
 
-extension ActionViewController {
+extension ActionContentViewController {
     enum SearchError: Error {
         case invalidImage
         case invalidURL

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA00000000000000000000D1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000000D2 /* KeychainAccess */; };
-		AA00000000000000000000D3 /* SortNAOAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* SortNAOAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA00000000000000000000D3 /* Search with SortNAO.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* Search with SortNAO.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E4EA44012D851B4E004358B1 /* Komponents in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44002D851B4E004358B1 /* Komponents */; };
 		E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44032D85210B004358B1 /* VariableBlurView */; };
 		E4EA44412D85D000004358B1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44402D85D000004358B1 /* KeychainAccess */; };
@@ -31,7 +31,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				AA00000000000000000000D3 /* SortNAOAction.appex in Embed Foundation Extensions */,
+				AA00000000000000000000D3 /* Search with SortNAO.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,17 +39,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AA00000000000000000000A1 /* SortNAOAction.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SortNAOAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000000A1 /* Search with SortNAO.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Search with SortNAO.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4EA43EE2D8519BD004358B1 /* SortNAO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortNAO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "SortNAOAction" target */ = {
+		AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "Search with SortNAO" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = AA00000000000000000000B1 /* SortNAOAction */;
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
 		};
 		E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -58,13 +58,20 @@
 			);
 			target = E4EA43ED2D8519BD004358B1 /* SortNAO */;
 		};
+		E4FDCC272F507A8600A69579 /* Exceptions for "SortNAO" folder in "Search with SortNAO" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA00000000000000000000F2 /* SortNAOAction */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "SortNAOAction" target */,
+				AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "Search with SortNAO" target */,
 			);
 			path = SortNAOAction;
 			sourceTree = "<group>";
@@ -73,6 +80,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */,
+				E4FDCC272F507A8600A69579 /* Exceptions for "SortNAO" folder in "Search with SortNAO" target */,
 			);
 			path = SortNAO;
 			sourceTree = "<group>";
@@ -114,7 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				E4EA43EE2D8519BD004358B1 /* SortNAO.app */,
-				AA00000000000000000000A1 /* SortNAOAction.appex */,
+				AA00000000000000000000A1 /* Search with SortNAO.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,9 +130,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AA00000000000000000000B1 /* SortNAOAction */ = {
+		AA00000000000000000000B1 /* Search with SortNAO */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "SortNAOAction" */;
+			buildConfigurationList = AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "Search with SortNAO" */;
 			buildPhases = (
 				AA00000000000000000000F4 /* Sources */,
 				AA00000000000000000000F3 /* Frameworks */,
@@ -137,12 +145,12 @@
 			fileSystemSynchronizedGroups = (
 				AA00000000000000000000F2 /* SortNAOAction */,
 			);
-			name = SortNAOAction;
+			name = "Search with SortNAO";
 			packageProductDependencies = (
 				AA00000000000000000000D2 /* KeychainAccess */,
 			);
 			productName = SortNAOAction;
-			productReference = AA00000000000000000000A1 /* SortNAOAction.appex */;
+			productReference = AA00000000000000000000A1 /* Search with SortNAO.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		E4EA43ED2D8519BD004358B1 /* SortNAO */ = {
@@ -212,7 +220,7 @@
 			projectRoot = "";
 			targets = (
 				E4EA43ED2D8519BD004358B1 /* SortNAO */,
-				AA00000000000000000000B1 /* SortNAOAction */,
+				AA00000000000000000000B1 /* Search with SortNAO */,
 			);
 		};
 /* End PBXProject section */
@@ -275,7 +283,7 @@
 /* Begin PBXTargetDependency section */
 		AA00000000000000000000C2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA00000000000000000000B1 /* SortNAOAction */;
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
 			targetProxy = AA00000000000000000000C1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -284,21 +292,22 @@
 		AA00000000000000000000F6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
 				CODE_SIGN_ENTITLEMENTS = SortNAOAction/SortNAOAction.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SortNAOAction/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SortNAOAction;
+				INFOPLIST_KEY_CFBundleDisplayName = "Search with SortNAO";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.Action;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.SearchAction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -314,21 +323,22 @@
 		AA00000000000000000000F7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
 				CODE_SIGN_ENTITLEMENTS = SortNAOAction/SortNAOAction.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SortNAOAction/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = SortNAOAction;
+				INFOPLIST_KEY_CFBundleDisplayName = "Search with SortNAO";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.Action;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.SearchAction;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -493,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -532,7 +542,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -549,7 +559,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "SortNAOAction" */ = {
+		AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "Search with SortNAO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA00000000000000000000F6 /* Debug */,
