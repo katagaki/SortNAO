@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Action.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources found."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "Action.ResultsFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果"
+          }
+        }
+      }
+    },
+    "Action.Searching" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searching for sauce..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを検索中…"
+          }
+        }
+      }
+    },
     "Alert.ConfirmOrganize" : {
       "localizations" : {
         "en" : {
@@ -29,6 +80,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ファイル名を変更すると、元に戻すことはできません。\n\n以下3つの例のように、ファイル名が変更されます。\n\n%@"
+          }
+        }
+      }
+    },
+    "Alert.OrganizeComplete.%lld" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photo organized into albums."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photos organized into albums."
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No photos were organized."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld枚の写真がアルバムに整理されました。"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "整理された写真はありませんでした。"
+                }
+              }
+            }
           }
         }
       }
@@ -365,6 +462,12 @@
         }
       }
     },
+    "Could not construct search URL." : {
+
+    },
+    "Could not process the provided image." : {
+
+    },
     "Filenames.IncludeCharacter" : {
       "localizations" : {
         "en" : {
@@ -396,6 +499,9 @@
           }
         }
       }
+    },
+    "Found a %@%% match via SauceNAO." : {
+
     },
     "GridSize.Large" : {
       "localizations" : {
@@ -460,6 +566,9 @@
           }
         }
       }
+    },
+    "Image" : {
+
     },
     "Images.LoadSubfolders" : {
       "localizations" : {
@@ -545,6 +654,18 @@
         }
       }
     },
+    "No matching sources were found for this image." : {
+
+    },
+    "Please set your SauceNAO API key in the SortNAO app first." : {
+
+    },
+    "Search for the source of an image using SauceNAO." : {
+
+    },
+    "Search Sauce" : {
+
+    },
     "Shared.Account" : {
       "localizations" : {
         "en" : {
@@ -573,6 +694,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "フォルダーを読み込む"
+          }
+        }
+      }
+    },
+    "Shared.AddPhotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add from Photos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真から読み込む"
           }
         }
       }
@@ -621,6 +758,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "画像を整理"
+          }
+        }
+      }
+    },
+    "Shared.Images.OrganizePhotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize in Photos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真アプリで整理"
           }
         }
       }
@@ -848,132 +1001,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pixiv"
-          }
-        }
-      }
-    },
-    "Shared.AddPhotos" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add from Photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真から読み込む"
-          }
-        }
-      }
-    },
-    "Shared.Images.OrganizePhotos" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Organize in Photos"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写真アプリで整理"
-          }
-        }
-      }
-    },
-    "Alert.OrganizeComplete.%lld" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld photo organized into albums."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld photos organized into albums."
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "No photos were organized."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld枚の写真がアルバムに整理されました。"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "整理された写真はありませんでした。"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Action.Searching" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Searching for sauce..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソースを検索中…"
-          }
-        }
-      }
-    },
-    "Action.NoResults" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No matching sources found."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一致するソースが見つかりませんでした。"
-          }
-        }
-      }
-    },
-    "Action.ResultsFound" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Results"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "結果"
           }
         }
       }
