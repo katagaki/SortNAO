@@ -462,11 +462,21 @@
         }
       }
     },
-    "Could not construct search URL." : {
-
-    },
-    "Could not process the provided image." : {
-
+    "Error.ImageProcessing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not process the provided image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指定された画像を処理できませんでした。"
+          }
+        }
+      }
     },
     "Filenames.IncludeCharacter" : {
       "localizations" : {
@@ -500,8 +510,21 @@
         }
       }
     },
-    "Found a %@%% match via SauceNAO." : {
-
+    "Search.MatchFound.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found a %@%% match via SauceNAO."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOで%@%%の一致が見つかりました。"
+          }
+        }
+      }
     },
     "GridSize.Large" : {
       "localizations" : {
@@ -567,8 +590,21 @@
         }
       }
     },
-    "Image" : {
-
+    "Shared.Image" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像"
+          }
+        }
+      }
     },
     "Images.LoadSubfolders" : {
       "localizations" : {
@@ -654,17 +690,85 @@
         }
       }
     },
-    "No matching sources were found for this image." : {
-
+    "Search.NoSourcesFound" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources were found for this image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この画像に一致するソースが見つかりませんでした。"
+          }
+        }
+      }
     },
-    "Please set your SauceNAO API key in the SortNAO app first." : {
-
+    "Error.NoAPIKey" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please set your SauceNAO API key in the SortNAO app first."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初にSortNAOアプリでSauceNAOのAPIキーを設定してください。"
+          }
+        }
+      }
     },
-    "Search for the source of an image using SauceNAO." : {
-
+    "Intent.SearchSauce.Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for the source of an image using SauceNAO."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOを使用して画像のソースを検索します。"
+          }
+        }
+      }
     },
-    "Search Sauce" : {
-
+    "Intent.SearchSauce.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Sauce"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを検索"
+          }
+        }
+      }
+    },
+    "Intent.SearchSauce.Error.URLConstruction" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not construct search URL."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索URLを構築できませんでした。"
+          }
+        }
+      }
     },
     "Shared.Account" : {
       "localizations" : {

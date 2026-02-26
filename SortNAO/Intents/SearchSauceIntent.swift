@@ -11,11 +11,11 @@ import UIKit
 
 @available(iOS 18.0, *)
 struct SearchSauceIntent: AppIntent {
-    static let title: LocalizedStringResource = "Search Sauce"
-    static let description: IntentDescription = "Search for the source of an image using SauceNAO."
+    static let title: LocalizedStringResource = "Intent.SearchSauce.Title"
+    static let description: IntentDescription = "Intent.SearchSauce.Description"
     static let openAppWhenRun: Bool = false
 
-    @Parameter(title: "Image")
+    @Parameter(title: "Shared.Image")
     var image: IntentFile
 
     func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
@@ -23,7 +23,7 @@ struct SearchSauceIntent: AppIntent {
         guard let apiKey = try? keychain.get("SauceNAOAPIKey") else {
             return .result(
                 value: "No API key set",
-                dialog: "Please set your SauceNAO API key in the SortNAO app first."
+                dialog: "Error.NoAPIKey"
             )
         }
 
@@ -32,7 +32,7 @@ struct SearchSauceIntent: AppIntent {
               let jpegData = uiImage.jpegData(compressionQuality: 0.9) else {
             return .result(
                 value: "Invalid image",
-                dialog: "Could not process the provided image."
+                dialog: "Error.ImageProcessing"
             )
         }
 
@@ -45,7 +45,7 @@ struct SearchSauceIntent: AppIntent {
         ]
 
         guard let url = components.url else {
-            return .result(value: "Error", dialog: "Could not construct search URL.")
+            return .result(value: "Error", dialog: "Intent.SearchSauce.Error.URLConstruction")
         }
 
         var request = URLRequest(url: url)
@@ -76,7 +76,7 @@ struct SearchSauceIntent: AppIntent {
         }
 
         guard let topResult = sortedResults.first else {
-            return .result(value: "No matches", dialog: "No matching sources were found for this image.")
+            return .result(value: "No matches", dialog: "Search.NoSourcesFound")
         }
 
         let similarity = topResult.header.similarity
@@ -103,7 +103,7 @@ struct SearchSauceIntent: AppIntent {
 
         return .result(
             value: resultText,
-            dialog: "Found a \(similarity)% match via SauceNAO."
+            dialog: "Search.MatchFound.\(similarity)"
         )
     }
 }

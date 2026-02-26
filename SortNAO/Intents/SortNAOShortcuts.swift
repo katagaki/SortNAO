@@ -17,7 +17,7 @@ struct SortNAOShortcuts: AppShortcutsProvider {
                 "Find image source with \(.applicationName)",
                 "Look up image in \(.applicationName)"
             ],
-            shortTitle: "Search Sauce",
+            shortTitle: "Intent.SearchSauce.Title",
             systemImageName: "sparkle.magnifyingglass"
         )
     }
