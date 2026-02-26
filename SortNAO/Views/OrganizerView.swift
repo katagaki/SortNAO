@@ -48,7 +48,7 @@ struct OrganizerView: View {
             ToroList {
                 if !isFirstBatchOfFilesOpened {
                     ToroSection(title: "Card.Welcome.Title") {
-                        Text("Card.Welcome.Description.\(Image(systemName: "plus"))")
+                        Text("Card.Welcome.Description")
                     }
                 }
                 if !nao.isAPIKeySet {
