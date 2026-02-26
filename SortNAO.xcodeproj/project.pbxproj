@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA00000000000000000000D1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000000D2 /* KeychainAccess */; };
-		AA00000000000000000000D3 /* SortNAOAction.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* SortNAOAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA00000000000000000000D3 /* SortNAOAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* SortNAOAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E4EA44012D851B4E004358B1 /* Komponents in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44002D851B4E004358B1 /* Komponents */; };
 		E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44032D85210B004358B1 /* VariableBlurView */; };
 		E4EA44412D85D000004358B1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44402D85D000004358B1 /* KeychainAccess */; };
@@ -25,15 +25,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AA00000000000000000000E1 /* Embed App Extensions */ = {
+		AA00000000000000000000E1 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				AA00000000000000000000D3 /* SortNAOAction.appex in Embed App Extensions */,
+				AA00000000000000000000D3 /* SortNAOAction.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -153,7 +153,7 @@
 				E4EA43EB2D8519BD004358B1 /* Frameworks */,
 				E4EA43EC2D8519BD004358B1 /* Resources */,
 				E4EA44492D85D6C2004358B1 /* ShellScript */,
-				AA00000000000000000000E1 /* Embed App Extensions */,
+				AA00000000000000000000E1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -181,7 +181,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					AA00000000000000000000B1 = {
 						CreatedOnToolsVersion = 16.2;

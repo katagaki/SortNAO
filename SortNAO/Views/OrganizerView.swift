@@ -338,7 +338,10 @@ struct OrganizerView: View {
                 includeCharacterNames: organizerRenameIncludesCharacters,
                 rehearse: true
             ) {
-                renameExamples.append("\(url.lastPathComponent) → \(newURL.lastPathComponent)")
+                let example = "\(url.lastPathComponent) → \(newURL.lastPathComponent)"
+                if !renameExamples.contains(example) {
+                    renameExamples.append(example)
+                }
             }
             self.renameExamples = renameExamples.joined(separator: "\n")
             self.isConfirmingRename = true
