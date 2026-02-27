@@ -60,7 +60,14 @@ struct SauceEntity: AppEntity {
         )
     }
 
-    var appLinkURL: URL? { sourceURL }
+    var appLinkURL: URL? {
+        guard let sourceURL else { return nil }
+        var components = URLComponents()
+        components.scheme = "nao"
+        components.host = "openSauce"
+        components.queryItems = [URLQueryItem(name: "url", value: sourceURL.absoluteString)]
+        return components.url
+    }
 
     init(
         id: String,
