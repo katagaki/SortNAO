@@ -35,6 +35,23 @@
         }
       }
     },
+    "Action.SearchResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果"
+          }
+        }
+      }
+    },
     "Action.Searching" : {
       "extractionState" : "manual",
       "localizations" : {

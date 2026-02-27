@@ -49,11 +49,14 @@ struct ActionContentView: View {
                 resultsSections
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("SortNAO")
+            .navigationTitle(NSLocalizedString("Action.SearchResults", comment: ""))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(NSLocalizedString("Shared.Done", comment: "")) {
+                    Button {
                         viewModel.done()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .fontWeight(.bold)
                     }
                 }
             }
@@ -75,6 +78,7 @@ struct ActionContentView: View {
                     .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
+                    .listRowBackground(Color.clear)
             }
         }
     }
@@ -131,10 +135,10 @@ struct ActionContentView: View {
                 if let urls = result.data.externalURLs, !urls.isEmpty {
                     ForEach(urls, id: \.self) { urlString in
                         if let url = URL(string: urlString) {
-                            Link(urlString, destination: url)
-                                .font(.footnote)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
+                            let info = sourceInfo(for: url)
+                            Link(destination: url) {
+                                Label(info.name, systemImage: info.systemImage)
+                            }
                         }
                     }
                 }
@@ -147,6 +151,34 @@ struct ActionContentView: View {
             return 20.0
         } else {
             return 8.0
+        }
+    }
+
+    private func sourceInfo(for url: URL) -> (name: String, systemImage: String) {
+        let host = url.host?.lowercased() ?? ""
+        switch true {
+        case host.contains("danbooru"):
+            return ("Danbooru", "photo.fill")
+        case host.contains("gelbooru"):
+            return ("Gelbooru", "photo.fill")
+        case host.contains("pixiv"):
+            return ("Pixiv", "paintbrush.pointed.fill")
+        case host == "x.com", host.hasSuffix(".x.com"), host.contains("twitter"):
+            return ("X", "at")
+        case host.contains("nicovideo"):
+            return ("NicoNico", "play.rectangle.fill")
+        case host.contains("yande"):
+            return ("Yande.re", "photo.fill")
+        case host.contains("konachan"):
+            return ("Konachan", "photo.fill")
+        case host.contains("sankaku"):
+            return ("Sankaku", "photo.fill")
+        case host.contains("nijie"):
+            return ("Nijie", "paintbrush.pointed.fill")
+        case host.contains("skeb"):
+            return ("Skeb", "paintbrush.pointed.fill")
+        default:
+            return (url.host ?? "Link", "safari")
         }
     }
 }
@@ -254,7 +286,7 @@ class ActionViewModel {
             return
         }
 
-        statusMessage = NSLocalizedString("Action.ResultsFound", comment: "")
+        statusMessage = ""
         results = sorted
     }
 
