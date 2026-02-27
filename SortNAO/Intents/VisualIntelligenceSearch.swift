@@ -28,7 +28,15 @@ struct SauceEntity: AppEntity {
     var similarity: String
     var sourceName: String
     var detailText: String
-    var externalURL: String?
+
+    @Property(title: "Character")
+    var character: String?
+
+    @Property(title: "Artist")
+    var artist: String?
+
+    @Property(title: "Source Link")
+    var sourceURL: URL?
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
@@ -38,12 +46,7 @@ struct SauceEntity: AppEntity {
         )
     }
 
-    var appLinkURL: URL? {
-        if let externalURL {
-            return URL(string: externalURL)
-        }
-        return nil
-    }
+    var appLinkURL: URL? { sourceURL }
 }
 
 // MARK: - Entity Query
@@ -144,12 +147,17 @@ struct SauceVisualSearchQuery: IntentValueQuery {
                 ? result.header.indexName
                 : details.joined(separator: " · ")
 
+            let artist = result.data.memberName ?? result.data.creator
+            let sourceURL = result.data.externalURLs?.first.flatMap { URL(string: $0) }
+
             return SauceEntity(
                 id: "\(index)-\(similarity)",
                 similarity: similarity,
                 sourceName: result.header.indexName,
                 detailText: detailText,
-                externalURL: result.data.externalURLs?.first
+                character: result.data.characters,
+                artist: artist,
+                sourceURL: sourceURL
             )
         }
     }
