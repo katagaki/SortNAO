@@ -2,13 +2,34 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%@" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
     },
     "%@%% match" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ %%マッチ"
+          }
+        }
+      }
     },
     "%lld results" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "￼%lld件"
+          }
+        }
+      }
     },
     "Action.Artist" : {
       "extractionState" : "manual",
@@ -107,7 +128,24 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "素材"
+            "value" : "原作"
+          }
+        }
+      }
+    },
+    "Action.NoAPIKey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No SauceNAO API key set. Please set your API key in the SortNAO app first."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOのAPIキーが設定されていません。最初にSortNAOアプリでAPIキーを設定してください。"
           }
         }
       }
@@ -399,7 +437,14 @@
       }
     },
     "Artist" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アーティスト"
+          }
+        }
+      }
     },
     "Card.APIKey.Description.%@" : {
       "localizations" : {
@@ -594,7 +639,14 @@
       }
     },
     "Character" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャラクター"
+          }
+        }
+      }
     },
     "Entity.Sauce.Name" : {
       "localizations" : {
@@ -889,7 +941,14 @@
       }
     },
     "Search Result" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果"
+          }
+        }
+      }
     },
     "Search.MatchFound.%@" : {
       "localizations" : {
@@ -1196,23 +1255,6 @@
         }
       }
     },
-    "Shared.SemanticContent" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semantic Content"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "セマンティックコンテンツ"
-          }
-        }
-      }
-    },
     "Shared.SortIntoFolders" : {
       "localizations" : {
         "en" : {
@@ -1265,7 +1307,14 @@
       "shouldTranslate" : false
     },
     "Source Link" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースリンク"
+          }
+        }
+      }
     },
     "Source.Danbooru" : {
       "localizations" : {
@@ -1332,7 +1381,14 @@
       }
     },
     "X" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

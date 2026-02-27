@@ -256,7 +256,7 @@ class ActionViewModel {
 
     private func searchSauce(for image: UIImage) async {
         guard let apiKey = try? keychain.get(keychainAPIKeyKey) else {
-            statusMessage = "No SauceNAO API key set. Please set your API key in the SortNAO app first."
+            statusMessage = NSLocalizedString("Action.NoAPIKey", comment: "")
             return
         }
 

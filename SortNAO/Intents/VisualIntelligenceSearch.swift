@@ -111,7 +111,7 @@ actor SauceEntityCache {
 @available(iOS 26.0, *)
 struct SauceEntityQuery: EntityQuery {
     func entities(for identifiers: [SauceEntity.ID]) async throws -> [SauceEntity] {
-        await SauceEntityCache.shared.fetch(ids: identifiers)
+        return await SauceEntityCache.shared.fetch(ids: identifiers)
     }
 }
 
