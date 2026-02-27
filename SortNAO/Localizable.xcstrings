@@ -11,27 +11,6 @@
         }
       }
     },
-    "%@%% match" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@ %%マッチ"
-          }
-        }
-      }
-    },
-    "%lld results" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "￼%lld件"
-          }
-        }
-      }
-    },
     "Action.Artist" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -649,6 +628,23 @@
         }
       }
     },
+    "Entity.Sauce.Count.%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件"
+          }
+        }
+      }
+    },
     "Entity.Sauce.Name" : {
       "localizations" : {
         "en" : {
@@ -958,12 +954,36 @@
         }
       }
     },
-    "Search Result" : {
+    "Intents.SearchResult" : {
+      "extractionState" : "manual",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Result"
+          }
+        },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "検索結果"
+          }
+        }
+      }
+    },
+    "Intents.SearchResult.Count.%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件"
           }
         }
       }
@@ -980,23 +1000,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SauceNAOで%@%%の一致が見つかりました。"
-          }
-        }
-      }
-    },
-    "Search.NoSourcesFound" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No matching sources were found for this image."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "この画像に一致するソースが見つかりませんでした。"
           }
         }
       }

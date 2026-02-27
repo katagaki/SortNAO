@@ -112,7 +112,10 @@ struct SearchSauceIntent: AppIntent {
 
 @available(iOS 18.0, *)
 struct SauceSearchResult: AppEntity {
-    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Search Result"
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = TypeDisplayRepresentation(
+        name: LocalizedStringResource("Intents.SearchResult"),
+        numericFormat: LocalizedStringResource("Intents.SearchResult.Count.\(placeholder: .int)")
+    )
 
     static let defaultQuery = SauceSearchResultQuery()
 

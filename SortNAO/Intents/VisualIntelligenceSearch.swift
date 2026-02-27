@@ -18,7 +18,7 @@ struct SauceEntity: AppEntity {
     static var typeDisplayRepresentation: TypeDisplayRepresentation {
         TypeDisplayRepresentation(
             name: LocalizedStringResource("Entity.Sauce.Name"),
-            numericFormat: "\(placeholder: .int) results"
+            numericFormat: LocalizedStringResource("Entity.Sauce.Count.\(placeholder: .int)")
         )
     }
 
