@@ -195,9 +195,20 @@ struct SauceVisualSearchQuery: IntentValueQuery {
 @available(iOS 26.0, *)
 struct OpenSauceIntent: OpenIntent {
     static let title: LocalizedStringResource = "Intent.OpenSauce.Title"
+    static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Shared.SourceResult")
     var target: SauceEntity
+
+    func perform() async throws -> some IntentResult {
+        guard let sourceURL = target.sourceURL else {
+            return .result()
+        }
+        await MainActor.run {
+            UIApplication.shared.open(sourceURL)
+        }
+        return .result()
+    }
 }
 
 
