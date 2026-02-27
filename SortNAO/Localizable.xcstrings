@@ -1,107 +1,14 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Action.NoResults" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No matching sources found."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一致するソースが見つかりませんでした。"
-          }
-        }
-      }
+    "%@" : {
+
     },
-    "Action.CopyLink.%@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Copy %@ Link"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@のリンクをコピー"
-          }
-        }
-      }
+    "%@%% match" : {
+
     },
-    "Action.Match.%@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@%% match"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@%%マッチ"
-          }
-        }
-      }
-    },
-    "Action.ResultsFound" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Results"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "結果"
-          }
-        }
-      }
-    },
-    "Action.SearchResults" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search Results"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "検索結果"
-          }
-        }
-      }
-    },
-    "Action.Searching" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Searching for sauce..."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソースを検索中…"
-          }
-        }
-      }
+    "%lld results" : {
+
     },
     "Action.Artist" : {
       "extractionState" : "manual",
@@ -137,6 +44,23 @@
         }
       }
     },
+    "Action.CopyLink.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy %@ Link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のリンクをコピー"
+          }
+        }
+      }
+    },
     "Action.Creator" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -154,6 +78,23 @@
         }
       }
     },
+    "Action.Match.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% match"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%マッチ"
+          }
+        }
+      }
+    },
     "Action.Material" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -167,6 +108,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "素材"
+          }
+        }
+      }
+    },
+    "Action.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources found."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "Action.ResultsFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果"
+          }
+        }
+      }
+    },
+    "Action.Searching" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searching for sauce..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを検索中…"
+          }
+        }
+      }
+    },
+    "Action.SearchResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果"
           }
         }
       }
@@ -389,6 +398,9 @@
         }
       }
     },
+    "Artist" : {
+
+    },
     "Card.APIKey.Description.%@" : {
       "localizations" : {
         "en" : {
@@ -581,6 +593,25 @@
         }
       }
     },
+    "Character" : {
+
+    },
+    "Entity.Sauce.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソース結果"
+          }
+        }
+      }
+    },
     "Error.ImageProcessing" : {
       "localizations" : {
         "en" : {
@@ -725,6 +756,22 @@
         }
       }
     },
+    "Intent.OpenSauce.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Source"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを開く"
+          }
+        }
+      }
+    },
     "Intent.SearchSauce.Description" : {
       "localizations" : {
         "en" : {
@@ -841,6 +888,9 @@
         }
       }
     },
+    "Search Result" : {
+
+    },
     "Search.MatchFound.%@" : {
       "localizations" : {
         "en" : {
@@ -937,6 +987,22 @@
         }
       }
     },
+    "Shared.ClearWebData" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear Website Data"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webサイトデータを除去"
+          }
+        }
+      }
+    },
     "Shared.Done" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -950,22 +1016,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "完了"
-          }
-        }
-      }
-    },
-    "Shared.ClearWebData" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clear Website Data"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Webサイトデータを除去"
           }
         }
       }
@@ -1146,6 +1196,23 @@
         }
       }
     },
+    "Shared.SemanticContent" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semantic Content"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セマンティックコンテンツ"
+          }
+        }
+      }
+    },
     "Shared.SortIntoFolders" : {
       "localizations" : {
         "en" : {
@@ -1158,6 +1225,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "フォルダーに分ける"
+          }
+        }
+      }
+    },
+    "Shared.SourceResult" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソース結果"
           }
         }
       }
@@ -1180,6 +1263,9 @@
     },
     "SortNAO" : {
       "shouldTranslate" : false
+    },
+    "Source Link" : {
+
     },
     "Source.Danbooru" : {
       "localizations" : {
@@ -1245,69 +1331,8 @@
         }
       }
     },
-    "Entity.Sauce.Name" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Source Result"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソース結果"
-          }
-        }
-      }
-    },
-    "Intent.OpenSauce.Title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Source"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソースを開く"
-          }
-        }
-      }
-    },
-    "Shared.SourceResult" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Source Result"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ソース結果"
-          }
-        }
-      }
-    },
-    "Shared.SemanticContent" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Semantic Content"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "セマンティックコンテンツ"
-          }
-        }
-      }
+    "X" : {
+
     }
   },
   "version" : "1.0"

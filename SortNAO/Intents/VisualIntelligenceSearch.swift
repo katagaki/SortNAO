@@ -88,12 +88,30 @@ struct SauceEntity: AppEntity {
     }
 }
 
+// MARK: - Entity Cache
+
+@available(iOS 26.0, *)
+actor SauceEntityCache {
+    static let shared = SauceEntityCache()
+    private var cache: [String: SauceEntity] = [:]
+
+    func store(_ entities: [SauceEntity]) {
+        for entity in entities {
+            cache[entity.id] = entity
+        }
+    }
+
+    func fetch(ids: [String]) -> [SauceEntity] {
+        ids.compactMap { cache[$0] }
+    }
+}
+
 // MARK: - Entity Query
 
 @available(iOS 26.0, *)
 struct SauceEntityQuery: EntityQuery {
     func entities(for identifiers: [SauceEntity.ID]) async throws -> [SauceEntity] {
-        []
+        await SauceEntityCache.shared.fetch(ids: identifiers)
     }
 }
 
@@ -154,8 +172,8 @@ struct SauceVisualSearchQuery: IntentValueQuery {
 
         request.httpBody = body
 
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let response = try JSONDecoder().decode(SauceResponse.self, from: data)
+        guard let (data, _) = try? await URLSession.shared.data(for: request) else { return [] }
+        guard let response = try? JSONDecoder().decode(SauceResponse.self, from: data) else { return [] }
 
         let sortedResults = response.results.sorted {
             (Double($0.header.similarity) ?? 0) > (Double($1.header.similarity) ?? 0)
@@ -185,6 +203,7 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             ))
         }
 
+        await SauceEntityCache.shared.store(entities)
         return entities
     }
     // swiftlint:enable function_body_length
@@ -195,7 +214,6 @@ struct SauceVisualSearchQuery: IntentValueQuery {
 @available(iOS 26.0, *)
 struct OpenSauceIntent: OpenIntent {
     static let title: LocalizedStringResource = "Intent.OpenSauce.Title"
-    static let openAppWhenRun: Bool = true
 
     @Parameter(title: "Shared.SourceResult")
     var target: SauceEntity
@@ -210,5 +228,3 @@ struct OpenSauceIntent: OpenIntent {
         return .result()
     }
 }
-
-
