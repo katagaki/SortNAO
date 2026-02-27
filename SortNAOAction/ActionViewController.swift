@@ -15,13 +15,8 @@ class ActionViewController: UIViewController {
         super.viewDidLoad()
 
         let viewModel = ActionViewModel(extensionContext: extensionContext)
-        let openURLAction = OpenURLAction { [weak self] url in
-            self?.extensionContext?.open(url, completionHandler: nil)
-            return .handled
-        }
         let hostingController = UIHostingController(
             rootView: ActionContentView(viewModel: viewModel)
-                .environment(\.openURL, openURLAction)
         )
         addChild(hostingController)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -136,8 +131,10 @@ struct ActionContentView: View {
                     ForEach(urls, id: \.self) { urlString in
                         if let url = URL(string: urlString) {
                             let info = sourceInfo(for: url)
-                            Link(destination: url) {
-                                Label(info.name, systemImage: info.systemImage)
+                            Button {
+                                UIPasteboard.general.url = url
+                            } label: {
+                                Label("Copy \(info.name) Link", systemImage: "doc.on.doc")
                             }
                         }
                     }
