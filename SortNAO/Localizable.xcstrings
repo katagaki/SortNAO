@@ -1293,22 +1293,6 @@
         }
       }
     },
-    "Intent.ViewMoreSauces.Title" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "View More Results"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "結果をすべて見る"
-          }
-        }
-      }
-    },
     "Shared.SemanticContent" : {
       "localizations" : {
         "en" : {

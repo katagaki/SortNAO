@@ -158,11 +158,13 @@ struct SauceResultHeader: Codable {
     var similarity: String
     var indexId: Int
     var indexName: String
+    var thumbnail: String
 
     enum CodingKeys: String, CodingKey {
         case similarity
         case indexId = "index_id"
         case indexName = "index_name"
+        case thumbnail
     }
 }
 

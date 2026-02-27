@@ -27,7 +27,7 @@ struct SauceEntity: AppEntity {
     var id: String
     var similarity: String
     var sourceName: String
-    var detailText: String
+    var thumbnailData: Data?
 
     @Property(title: "Character")
     var character: String?
@@ -39,10 +39,22 @@ struct SauceEntity: AppEntity {
     var sourceURL: URL?
 
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(
-            title: "\(similarity)% match",
-            subtitle: "\(detailText)",
-            image: .init(systemName: "sparkle.magnifyingglass")
+        var subtitleParts: [String] = []
+        if let artist, !artist.isEmpty {
+            subtitleParts.append(artist)
+        }
+        subtitleParts.append("\(similarity)% match")
+
+        let image: DisplayRepresentation.Image = if let thumbnailData {
+            .init(data: thumbnailData, uniformTypeIdentifier: "public.jpeg")
+        } else {
+            .init(systemName: "sparkle.magnifyingglass")
+        }
+
+        return DisplayRepresentation(
+            title: "\(sourceName)",
+            subtitle: "\(subtitleParts.joined(separator: " · "))",
+            image: image
         )
     }
 
@@ -52,7 +64,7 @@ struct SauceEntity: AppEntity {
         id: String,
         similarity: String,
         sourceName: String,
-        detailText: String,
+        thumbnailData: Data? = nil,
         character: String? = nil,
         artist: String? = nil,
         sourceURL: URL? = nil
@@ -60,7 +72,7 @@ struct SauceEntity: AppEntity {
         self.id = id
         self.similarity = similarity
         self.sourceName = sourceName
-        self.detailText = detailText
+        self.thumbnailData = thumbnailData
         self.character = character
         self.artist = artist
         self.sourceURL = sourceURL
@@ -140,44 +152,31 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             (Double($0.header.similarity) ?? 0) > (Double($1.header.similarity) ?? 0)
         }
 
-        return sortedResults.prefix(10).enumerated().compactMap { index, result -> SauceEntity? in
+        var entities: [SauceEntity] = []
+        for (index, result) in sortedResults.prefix(10).enumerated() {
             let similarity = result.header.similarity
-            guard (Double(similarity) ?? 0) >= 50.0 else { return nil }
-
-            var details: [String] = []
-            if let material = result.data.material, !material.isEmpty {
-                details.append(material)
-            }
-            if let characters = result.data.characters, !characters.isEmpty {
-                details.append(characters)
-            }
-            if let memberName = result.data.memberName {
-                details.append(memberName)
-            }
-            if let creator = result.data.creator, !creator.isEmpty, result.data.memberName == nil {
-                details.append(creator)
-            }
-            if let xHandle = result.data.xUserHandle {
-                details.append("@\(xHandle)")
-            }
-
-            let detailText = details.isEmpty
-                ? result.header.indexName
-                : details.joined(separator: " · ")
+            guard (Double(similarity) ?? 0) >= 50.0 else { continue }
 
             let artist = result.data.memberName ?? result.data.creator
             let sourceURL = result.data.externalURLs?.first.flatMap { URL(string: $0) }
 
-            return SauceEntity(
+            var thumbnailData: Data?
+            if let thumbnailURL = URL(string: result.header.thumbnail) {
+                thumbnailData = try? await URLSession.shared.data(from: thumbnailURL).0
+            }
+
+            entities.append(SauceEntity(
                 id: "\(index)-\(similarity)",
                 similarity: similarity,
                 sourceName: result.header.indexName,
-                detailText: detailText,
+                thumbnailData: thumbnailData,
                 character: result.data.characters,
                 artist: artist,
                 sourceURL: sourceURL
-            )
+            ))
         }
+
+        return entities
     }
     // swiftlint:enable function_body_length
 }
@@ -192,17 +191,4 @@ struct OpenSauceIntent: OpenIntent {
     var target: SauceEntity
 }
 
-// MARK: - View More Sauces Intent
 
-@available(iOS 26.0, *)
-@AppIntent(schema: .visualIntelligence.semanticContentSearch)
-struct ViewMoreSaucesIntent: AppIntent {
-    static let title: LocalizedStringResource = "Intent.ViewMoreSauces.Title"
-
-    @Parameter(title: "Shared.SemanticContent")
-    var semanticContent: SemanticContentDescriptor
-
-    func perform() async throws -> some IntentResult {
-        return .result()
-    }
-}
