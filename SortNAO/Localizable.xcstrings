@@ -18,6 +18,40 @@
         }
       }
     },
+    "Action.CopyLink.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy %@ Link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のリンクをコピー"
+          }
+        }
+      }
+    },
+    "Action.Match.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% match"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%マッチ"
+          }
+        }
+      }
+    },
     "Action.ResultsFound" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -101,7 +101,7 @@ struct ActionContentView: View {
     private var resultsSections: some View {
         ForEach(Array(viewModel.results.enumerated()), id: \.offset) { _, result in
             Section {
-                Text("\(result.header.similarity)% match")
+                Text(String(format: NSLocalizedString("Action.Match.%@", comment: ""), result.header.similarity))
                     .font(.headline)
                     .foregroundStyle(
                         (Double(result.header.similarity) ?? 0) >= 65.0 ? Color.green : Color.orange
@@ -134,7 +134,7 @@ struct ActionContentView: View {
                             Button {
                                 UIPasteboard.general.url = url
                             } label: {
-                                Label("Copy \(info.name) Link", systemImage: "doc.on.doc")
+                                Label(String(format: NSLocalizedString("Action.CopyLink.%@", comment: ""), info.name), systemImage: "doc.on.doc")
                             }
                         }
                     }
