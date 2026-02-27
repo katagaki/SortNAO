@@ -47,6 +47,24 @@ struct SauceEntity: AppEntity {
     }
 
     var appLinkURL: URL? { sourceURL }
+
+    init(
+        id: String,
+        similarity: String,
+        sourceName: String,
+        detailText: String,
+        character: String? = nil,
+        artist: String? = nil,
+        sourceURL: URL? = nil
+    ) {
+        self.id = id
+        self.similarity = similarity
+        self.sourceName = sourceName
+        self.detailText = detailText
+        self.character = character
+        self.artist = artist
+        self.sourceURL = sourceURL
+    }
 }
 
 // MARK: - Entity Query
