@@ -22,6 +22,11 @@ class SauceNAO {
 
     @ObservationIgnored internal var thumbnails: [URL: UIImage] = [:]
 
+    // Photos library tracking
+    @ObservationIgnored internal var photosImportedURLs: Set<URL> = []
+    @ObservationIgnored internal var photoAssetIdentifiers: Set<String> = []
+    @ObservationIgnored internal var urlToAssetIdentifier: [URL: String] = [:]
+
     public var queue: [URL] = []
     public var failed: [URL] = []
     public var succeeded: [URL: Response.Result] = [:]
@@ -33,6 +38,7 @@ class SauceNAO {
 
     public var isReady: Bool { !queue.isEmpty && apiKey != nil }
     public var isAPIKeySet: Bool { apiKey != nil }
+    public var hasPhotosImports: Bool { !photosImportedURLs.isEmpty }
 
     public init(threshold: Float = 65.0) {
         self.apiKey = try? keychain.get(keychainAPIKeyKey)

@@ -6,6 +6,7 @@
 //
 
 import Komponents
+import PhotosUI
 import SwiftUI
 
 // swiftlint:disable type_body_length
@@ -23,15 +24,19 @@ struct OrganizerView: View {
     @State var viewPath: [ViewPath] = []
     @State var isFirstBatchOfFilesOpened: Bool = false
     @State var isPickingFolder: Bool = false
+    @State var isPickingPhotos: Bool = false
     @State var isLoadingFiles: Bool = false
     @State var isSearching: Bool = false
     @State var isOrganizing: Bool = false
+    @State var isOrganizingPhotos: Bool = false
     @State var isConfirmingRename: Bool = false
     @State var isRenaming: Bool = false
     @State var isRenameComplete: Bool = false
+    @State var isOrganizeComplete: Bool = false
 
     @State var renameExamples: String = ""
     @State var renameCount: Int = 0
+    @State var organizeCount: Int = 0
 
     @State var apiKeyInput: String = ""
 
@@ -43,7 +48,7 @@ struct OrganizerView: View {
             ToroList {
                 if !isFirstBatchOfFilesOpened {
                     ToroSection(title: "Card.Welcome.Title") {
-                        Text("Card.Welcome.Description.\(Image(systemName: "plus"))")
+                        Text("Card.Welcome.Description")
                     }
                 }
                 if !nao.isAPIKeySet {
@@ -123,12 +128,16 @@ struct OrganizerView: View {
             )
             #endif
             .bottomAccessoryBar {
-                if isSearching || isLoadingFiles || isRenaming {
+                if isSearching || isLoadingFiles || isRenaming || isOrganizingPhotos {
                     ToroThumbActivityIndicator()
                 } else {
                     if nao.queue.isEmpty {
-                        ToroThumbButton(imageName: "plus", action: openPicker)
+                        ToroThumbButton(imageName: "folder",
+                                        action: openPicker)
                             .accessibilityLabel(Text("Shared.AddFolder"))
+                        ToroThumbButton(imageName: "photo",
+                                        action: openPhotosPicker)
+                            .accessibilityLabel(Text("Shared.AddPhotos"))
                     }
                     if nao.isReady {
                         ToroThumbButton(imageName: "sparkle.magnifyingglass",
@@ -137,10 +146,17 @@ struct OrganizerView: View {
                         .accessibilityLabel(Text("Shared.Images.Search"))
                     }
                     if !nao.categories.isEmpty {
-                        ToroThumbButton(imageName: "sparkles.rectangle.stack.fill",
-                                        accentColor: .confirm,
-                                        action: confirmRename)
-                        .accessibilityLabel(Text("Shared.Images.Organize"))
+                        if nao.hasPhotosImports {
+                            ToroThumbButton(imageName: "photo.stack.fill",
+                                            accentColor: .confirm,
+                                            action: startPhotosOrganize)
+                            .accessibilityLabel(Text("Shared.Images.OrganizePhotos"))
+                        } else {
+                            ToroThumbButton(imageName: "sparkles.rectangle.stack.fill",
+                                            accentColor: .confirm,
+                                            action: confirmRename)
+                            .accessibilityLabel(Text("Shared.Images.Organize"))
+                        }
                     }
                     if !nao.queue.isEmpty || !nao.categorized.isEmpty {
                         ToroThumbButton(imageName: "trash.fill", accentColor: .red, action: removeAllFiles)
@@ -175,6 +191,9 @@ struct OrganizerView: View {
             .sheet(isPresented: $isPickingFolder) {
                 FolderPicker(onFolderPicked: loadFolderContents)
             }
+            .sheet(isPresented: $isPickingPhotos) {
+                PhotosImporter(onPhotosPicked: loadPhotosContents)
+            }
             .alert(
                 "Alert.ConfirmOrganize",
                 isPresented: $isOrganizing
@@ -193,6 +212,12 @@ struct OrganizerView: View {
             .alert(
                 "Alert.RenameComplete.\(self.renameCount)",
                 isPresented: $isRenameComplete
+            ) {
+                Button("Shared.OK", role: .cancel, action: {})
+            }
+            .alert(
+                "Alert.OrganizeComplete.\(self.organizeCount)",
+                isPresented: $isOrganizeComplete
             ) {
                 Button("Shared.OK", role: .cancel, action: {})
             }
@@ -217,6 +242,27 @@ struct OrganizerView: View {
 
     func openPicker() {
         isPickingFolder = true
+    }
+
+    func openPhotosPicker() {
+        isPickingPhotos = true
+    }
+
+    func loadPhotosContents(results: [PHPickerResult]) {
+        isFirstBatchOfFilesOpened = true
+        UIApplication.shared.isIdleTimerDisabled = true
+        withAnimation {
+            isLoadingFiles = true
+        } completion: {
+            Task {
+                await nao.add(pickerResults: results)
+                withAnimation {
+                    isLoadingFiles = false
+                } completion: {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                }
+            }
+        }
     }
 
     func loadFolderContents(url: URL) {
@@ -293,10 +339,32 @@ struct OrganizerView: View {
                 includeCharacterNames: organizerRenameIncludesCharacters,
                 rehearse: true
             ) {
-                renameExamples.append("\(url.lastPathComponent) → \(newURL.lastPathComponent)")
+                let example = "\(url.lastPathComponent) → \(newURL.lastPathComponent)"
+                if !renameExamples.contains(example) {
+                    renameExamples.append(example)
+                }
             }
             self.renameExamples = renameExamples.joined(separator: "\n")
             self.isConfirmingRename = true
+        }
+    }
+
+    func startPhotosOrganize() {
+        UIApplication.shared.isIdleTimerDisabled = true
+        self.organizeCount = 0
+        withAnimation {
+            isOrganizingPhotos = true
+        } completion: {
+            Task {
+                let count = await nao.organizeInPhotos()
+                self.organizeCount = count
+                withAnimation {
+                    isOrganizingPhotos = false
+                } completion: {
+                    UIApplication.shared.isIdleTimerDisabled = false
+                    self.isOrganizeComplete = true
+                }
+            }
         }
     }
 

@@ -62,6 +62,31 @@ extension SauceNAO {
             }
         }
 
+        func albumName() -> String {
+            switch source {
+            case .danbooru, .gelbooru:
+                var name = material ?? ""
+                if !characters.isEmpty {
+                    let chars = characters.joined(separator: ", ")
+                    if !name.isEmpty {
+                        name += " - \(chars)"
+                    } else {
+                        name = chars
+                    }
+                }
+                return name
+            case .pixiv:
+                return memberName ?? "Pixiv"
+            case .elonX:
+                if let xUserHandle {
+                    return "@\(xUserHandle)"
+                }
+                return "X"
+            default:
+                return displayName()?.description ?? "Unknown"
+            }
+        }
+
         static func < (lhs: Category, rhs: Category) -> Bool {
             return lhs.displayName()?.description ?? "" < rhs.displayName()?.description ?? ""
         }

@@ -79,6 +79,9 @@ extension SauceNAO {
             self.categorized.removeAll()
             self.noMatches.removeAll()
             self.thumbnails.removeAll()
+            self.photosImportedURLs.removeAll()
+            self.photoAssetIdentifiers.removeAll()
+            self.urlToAssetIdentifier.removeAll()
         }
     }
 }

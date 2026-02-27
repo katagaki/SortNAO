@@ -1,5 +1,5 @@
 {
-  "originHash" : "7ce14168985c48421c0f082d852521ce0cd6c819d9d22b8dbe677e3aaebd72bf",
+  "originHash" : "66a6a949fdba0c8e2d2ee5d1637381bd2c2db0b2250d648e45f5ddf85224589a",
   "pins" : [
     {
       "identity" : "keychainaccess",
@@ -16,7 +16,7 @@
       "location" : "https://github.com/katagaki/Komponents",
       "state" : {
         "branch" : "main",
-        "revision" : "ac1ef7aefb1c4b5a0af65251cb8f14dd42bd1eb6"
+        "revision" : "93f484d6f2cef9c179387fcca2b2048413f9f0a6"
       }
     },
     {

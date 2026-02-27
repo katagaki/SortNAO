@@ -7,16 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA00000000000000000000D1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000000D2 /* KeychainAccess */; };
+		AA00000000000000000000D3 /* Search with SortNAO.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000000A1 /* Search with SortNAO.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		E4EA44012D851B4E004358B1 /* Komponents in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44002D851B4E004358B1 /* Komponents */; };
 		E4EA44042D85210B004358B1 /* VariableBlurView in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44032D85210B004358B1 /* VariableBlurView */; };
 		E4EA44412D85D000004358B1 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = E4EA44402D85D000004358B1 /* KeychainAccess */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AA00000000000000000000C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4EA43E62D8519BD004358B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA00000000000000000000B1;
+			remoteInfo = SortNAOAction;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA00000000000000000000E1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AA00000000000000000000D3 /* Search with SortNAO.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		AA00000000000000000000A1 /* Search with SortNAO.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Search with SortNAO.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4EA43EE2D8519BD004358B1 /* SortNAO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SortNAO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "Search with SortNAO" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
+		};
 		E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -24,13 +58,29 @@
 			);
 			target = E4EA43ED2D8519BD004358B1 /* SortNAO */;
 		};
+		E4FDCC272F507A8600A69579 /* Exceptions for "SortNAO" folder in "Search with SortNAO" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		AA00000000000000000000F2 /* SortNAOAction */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA00000000000000000000F1 /* Exceptions for "SortNAOAction" folder in "Search with SortNAO" target */,
+			);
+			path = SortNAOAction;
+			sourceTree = "<group>";
+		};
 		E4EA43F02D8519BD004358B1 /* SortNAO */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				E4EA44372D85659A004358B1 /* Exceptions for "SortNAO" folder in "SortNAO" target */,
+				E4FDCC272F507A8600A69579 /* Exceptions for "SortNAO" folder in "Search with SortNAO" target */,
 			);
 			path = SortNAO;
 			sourceTree = "<group>";
@@ -38,6 +88,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA00000000000000000000F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA00000000000000000000D1 /* KeychainAccess in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4EA43EB2D8519BD004358B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -55,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				E4EA43F02D8519BD004358B1 /* SortNAO */,
+				AA00000000000000000000F2 /* SortNAOAction */,
 				E4EA43EF2D8519BD004358B1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				E4EA43EE2D8519BD004358B1 /* SortNAO.app */,
+				AA00000000000000000000A1 /* Search with SortNAO.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +130,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AA00000000000000000000B1 /* Search with SortNAO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "Search with SortNAO" */;
+			buildPhases = (
+				AA00000000000000000000F4 /* Sources */,
+				AA00000000000000000000F3 /* Frameworks */,
+				AA00000000000000000000F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA00000000000000000000F2 /* SortNAOAction */,
+			);
+			name = "Search with SortNAO";
+			packageProductDependencies = (
+				AA00000000000000000000D2 /* KeychainAccess */,
+			);
+			productName = SortNAOAction;
+			productReference = AA00000000000000000000A1 /* Search with SortNAO.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		E4EA43ED2D8519BD004358B1 /* SortNAO */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4EA43FC2D8519BE004358B1 /* Build configuration list for PBXNativeTarget "SortNAO" */;
@@ -78,10 +161,12 @@
 				E4EA43EB2D8519BD004358B1 /* Frameworks */,
 				E4EA43EC2D8519BD004358B1 /* Resources */,
 				E4EA44492D85D6C2004358B1 /* ShellScript */,
+				AA00000000000000000000E1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA00000000000000000000C2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				E4EA43F02D8519BD004358B1 /* SortNAO */,
@@ -104,8 +189,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 2610;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					AA00000000000000000000B1 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					E4EA43ED2D8519BD004358B1 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -132,11 +220,19 @@
 			projectRoot = "";
 			targets = (
 				E4EA43ED2D8519BD004358B1 /* SortNAO */,
+				AA00000000000000000000B1 /* Search with SortNAO */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA00000000000000000000F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4EA43EC2D8519BD004358B1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +264,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA00000000000000000000F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4EA43EA2D8519BD004358B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -177,7 +280,79 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AA00000000000000000000C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA00000000000000000000B1 /* Search with SortNAO */;
+			targetProxy = AA00000000000000000000C1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		AA00000000000000000000F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
+				CODE_SIGN_ENTITLEMENTS = SortNAO/SortNAO.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YYM4Z6MU8F;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAOAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Search with SortNAO";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.SearchAction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA00000000000000000000F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = ActionExtensionIcon;
+				CODE_SIGN_ENTITLEMENTS = SortNAO/SortNAO.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YYM4Z6MU8F;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SortNAOAction/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Search with SortNAO";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO.SearchAction;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E4EA43FA2D8519BE004358B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -311,8 +486,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SortNAO/SortNAO.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
@@ -330,9 +507,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -350,8 +528,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SortNAO/SortNAO.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YYM4Z6MU8F;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
@@ -369,9 +549,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tsubuzaki.SortNAO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -386,6 +567,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA00000000000000000000F8 /* Build configuration list for PBXNativeTarget "Search with SortNAO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA00000000000000000000F6 /* Debug */,
+				AA00000000000000000000F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E4EA43E92D8519BD004358B1 /* Build configuration list for PBXProject "SortNAO" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -434,6 +624,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AA00000000000000000000D2 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4EA443F2D85D000004358B1 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
+		};
 		E4EA44002D851B4E004358B1 /* Komponents */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E4EA43FF2D851B4E004358B1 /* XCRemoteSwiftPackageReference "Komponents" */;

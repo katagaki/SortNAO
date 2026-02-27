@@ -1,6 +1,203 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "Action.Artist" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artist"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アーティスト"
+          }
+        }
+      }
+    },
+    "Action.Characters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Characters"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャラクター"
+          }
+        }
+      }
+    },
+    "Action.CopyLink.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy %@ Link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のリンクをコピー"
+          }
+        }
+      }
+    },
+    "Action.Creator" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creator"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリエイター"
+          }
+        }
+      }
+    },
+    "Action.Match.%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%% match"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@%%マッチ"
+          }
+        }
+      }
+    },
+    "Action.Material" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Material"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "原作"
+          }
+        }
+      }
+    },
+    "Action.NoAPIKey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No SauceNAO API key set. Please set your API key in the SortNAO app first."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOのAPIキーが設定されていません。最初にSortNAOアプリでAPIキーを設定してください。"
+          }
+        }
+      }
+    },
+    "Action.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources found."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "Action.ResultsFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "結果"
+          }
+        }
+      }
+    },
+    "Action.Searching" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Searching for sauce..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを検索中…"
+          }
+        }
+      }
+    },
+    "Action.SearchResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果"
+          }
+        }
+      }
+    },
     "Alert.ConfirmOrganize" : {
       "localizations" : {
         "en" : {
@@ -29,6 +226,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ファイル名を変更すると、元に戻すことはできません。\n\n以下3つの例のように、ファイル名が変更されます。\n\n%@"
+          }
+        }
+      }
+    },
+    "Alert.OrganizeComplete.%lld" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photo organized into albums."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld photos organized into albums."
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No photos were organized."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld枚の写真がアルバムに整理されました。"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "整理された写真はありませんでした。"
+                }
+              }
+            }
           }
         }
       }
@@ -169,6 +412,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "APIキーをリセット"
+          }
+        }
+      }
+    },
+    "Artist" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アーティスト"
           }
         }
       }
@@ -333,18 +586,18 @@
         }
       }
     },
-    "Card.Welcome.Description.%@" : {
+    "Card.Welcome.Description" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "To get started, select %@ and select a folder to add your images."
+            "value" : "To get started, add images from either the Files app or your Photos library."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "画像を読み込むには、%@を選択し、フォルダーを一つ選択してください。"
+            "value" : "始めるには、「ファイル」アプリまたは「写真」ライブラリから画像を選択してください。"
           }
         }
       }
@@ -361,6 +614,81 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SortNAOへようこそ"
+          }
+        }
+      }
+    },
+    "Character" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャラクター"
+          }
+        }
+      }
+    },
+    "Entity.Sauce.Count.%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件"
+          }
+        }
+      }
+    },
+    "Entity.Sauce.Name" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソース結果"
+          }
+        }
+      }
+    },
+    "Error.ImageProcessing" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not process the provided image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指定された画像を処理できませんでした。"
+          }
+        }
+      }
+    },
+    "Error.NoAPIKey" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please set your SauceNAO API key in the SortNAO app first."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初にSortNAOアプリでSauceNAOのAPIキーを設定してください。"
           }
         }
       }
@@ -477,6 +805,87 @@
         }
       }
     },
+    "Intent.Error.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources were found for this image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この画像に一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "Intent.OpenSauce.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Source"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを開く"
+          }
+        }
+      }
+    },
+    "Intent.SearchSauce.Description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for the source of an image using SauceNAO."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOを使用して画像のソースを検索します。"
+          }
+        }
+      }
+    },
+    "Intent.SearchSauce.Error.URLConstruction" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not construct search URL."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索URLを構築できませんでした。"
+          }
+        }
+      }
+    },
+    "Intent.SearchSauce.Title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Sauce"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースを検索"
+          }
+        }
+      }
+    },
     "More.Sections.Advanced" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -545,6 +954,56 @@
         }
       }
     },
+    "Intents.SearchResult" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索結果"
+          }
+        }
+      }
+    },
+    "Intents.SearchResult.Count.%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld results"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld件"
+          }
+        }
+      }
+    },
+    "Search.MatchFound.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found a %@%% match via SauceNAO."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SauceNAOで%@%%の一致が見つかりました。"
+          }
+        }
+      }
+    },
     "Shared.Account" : {
       "localizations" : {
         "en" : {
@@ -573,6 +1032,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "フォルダーを読み込む"
+          }
+        }
+      }
+    },
+    "Shared.AddPhotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add from Photos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真から読み込む"
           }
         }
       }
@@ -609,6 +1084,39 @@
         }
       }
     },
+    "Shared.Done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了"
+          }
+        }
+      }
+    },
+    "Shared.Image" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像"
+          }
+        }
+      }
+    },
     "Shared.Images.Organize" : {
       "localizations" : {
         "en" : {
@@ -621,6 +1129,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "画像を整理"
+          }
+        }
+      }
+    },
+    "Shared.Images.OrganizePhotos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Organize in Photos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真アプリで整理"
           }
         }
       }
@@ -769,6 +1293,22 @@
         }
       }
     },
+    "Shared.SourceResult" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source Result"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソース結果"
+          }
+        }
+      }
+    },
     "Shared.Start" : {
       "localizations" : {
         "en" : {
@@ -787,6 +1327,16 @@
     },
     "SortNAO" : {
       "shouldTranslate" : false
+    },
+    "Source Link" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ソースリンク"
+          }
+        }
+      }
     },
     "Source.Danbooru" : {
       "localizations" : {
@@ -848,6 +1398,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pixiv"
+          }
+        }
+      }
+    },
+    "X" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X"
           }
         }
       }

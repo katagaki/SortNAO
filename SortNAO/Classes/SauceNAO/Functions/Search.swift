@@ -60,6 +60,7 @@ extension SauceNAO {
     }
     // swiftlint:enable large_tuple
 
+    @MainActor
     public func search(in sources: [Source], _ imageURL: URL) async throws -> Response {
         guard let apiKey = self.apiKey else {
             throw APIError.noAPIKeySpecified
