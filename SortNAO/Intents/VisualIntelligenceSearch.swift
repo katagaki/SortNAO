@@ -48,7 +48,7 @@ struct SauceEntity: AppEntity {
         subtitleParts.append(String(format: NSLocalizedString("Action.Match.%@", comment: ""), similarity))
 
         let image: DisplayRepresentation.Image = if let thumbnailData {
-            .init(data: thumbnailData, uniformTypeIdentifier: "public.jpeg")
+            .init(data: thumbnailData)
         } else {
             .init(systemName: "sparkle.magnifyingglass")
         }
