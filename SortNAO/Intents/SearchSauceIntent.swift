@@ -124,7 +124,7 @@ struct SauceSearchResult: AppEntity {
         DisplayRepresentation(title: "\(similarity)% match")
     }
 
-    static var defaultQuery = SauceSearchResultQuery()
+    static let defaultQuery = SauceSearchResultQuery()
 
     init(id: String, similarity: String, character: String? = nil, artist: String? = nil, sourceURL: URL? = nil) {
         self.id = id

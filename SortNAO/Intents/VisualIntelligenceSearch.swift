@@ -122,7 +122,7 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             (Double($0.header.similarity) ?? 0) > (Double($1.header.similarity) ?? 0)
         }
 
-        return sortedResults.prefix(10).enumerated().compactMap { index, result in
+        return sortedResults.prefix(10).enumerated().compactMap { index, result -> SauceEntity? in
             let similarity = result.header.similarity
             guard (Double(similarity) ?? 0) >= 50.0 else { return nil }
 
