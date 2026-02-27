@@ -45,7 +45,7 @@ struct SauceEntity: AppEntity {
         if let artist, !artist.isEmpty {
             subtitleParts.append(artist)
         }
-        subtitleParts.append("\(similarity)% match")
+        subtitleParts.append(String(format: NSLocalizedString("Action.Match.%@", comment: ""), similarity))
 
         let image: DisplayRepresentation.Image = if let thumbnailData {
             .init(data: thumbnailData, uniformTypeIdentifier: "public.jpeg")
