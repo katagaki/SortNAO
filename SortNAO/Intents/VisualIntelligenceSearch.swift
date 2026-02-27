@@ -39,7 +39,9 @@ struct SauceEntity: AppEntity {
     var sourceURL: URL?
 
     var displayRepresentation: DisplayRepresentation {
-        var subtitleParts: [String] = []
+        let title = character ?? sourceName
+
+        var subtitleParts: [String] = [sourceName]
         if let artist, !artist.isEmpty {
             subtitleParts.append(artist)
         }
@@ -52,7 +54,7 @@ struct SauceEntity: AppEntity {
         }
 
         return DisplayRepresentation(
-            title: "\(sourceName)",
+            title: "\(title)",
             subtitle: "\(subtitleParts.joined(separator: " · "))",
             image: image
         )
