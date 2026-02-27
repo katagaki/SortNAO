@@ -185,17 +185,8 @@ class ActionViewModel {
             for attachment in attachments {
                 if attachment.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
                     do {
-                        let data = try await loadItemAsync(attachment: attachment)
-                        if let url = data as? URL,
-                           let imageData = try? Data(contentsOf: url),
-                           let loadedImage = UIImage(data: imageData) {
-                            image = loadedImage
-                            await searchSauce(for: loadedImage)
-                        } else if let imageData = data as? Data,
-                                  let loadedImage = UIImage(data: imageData) {
-                            image = loadedImage
-                            await searchSauce(for: loadedImage)
-                        } else if let loadedImage = data as? UIImage {
+                        let imageData = try await loadItemAsync(attachment: attachment)
+                        if let imageData, let loadedImage = UIImage(data: imageData) {
                             image = loadedImage
                             await searchSauce(for: loadedImage)
                         } else {
@@ -212,13 +203,23 @@ class ActionViewModel {
         statusMessage = "No image found in the shared content."
     }
 
-    private func loadItemAsync(attachment: NSItemProvider) async throws -> NSSecureCoding? {
+    private func loadItemAsync(attachment: NSItemProvider) async throws -> Data? {
         try await withCheckedThrowingContinuation { continuation in
-            attachment.loadItem(forTypeIdentifier: UTType.image.identifier, options: nil) { data, error in
+            attachment.loadItem(forTypeIdentifier: UTType.image.identifier, options: nil) { item, error in
                 if let error {
                     continuation.resume(throwing: error)
-                } else {
+                    return
+                }
+                // Perform all casting and I/O on this background thread so we
+                // only cross the actor boundary with a Sendable Data value.
+                if let url = item as? URL {
+                    continuation.resume(returning: try? Data(contentsOf: url))
+                } else if let data = item as? Data {
                     continuation.resume(returning: data)
+                } else if let uiImage = item as? UIImage {
+                    continuation.resume(returning: uiImage.jpegData(compressionQuality: 0.9))
+                } else {
+                    continuation.resume(returning: nil)
                 }
             }
         }
