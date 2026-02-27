@@ -18,11 +18,11 @@ struct SearchSauceIntent: AppIntent {
     @Parameter(title: "Shared.Image")
     var image: IntentFile
 
-    func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<SauceSearchResult> & ProvidesDialog {
         let keychain = Keychain(service: "com.tsubuzaki.SortNAO")
         guard let apiKey = try? keychain.get("SauceNAOAPIKey") else {
             return .result(
-                value: "No API key set",
+                value: SauceSearchResult(id: "error-no-api-key", similarity: "0"),
                 dialog: "Error.NoAPIKey"
             )
         }
@@ -31,7 +31,7 @@ struct SearchSauceIntent: AppIntent {
         guard let uiImage = UIImage(data: imageData),
               let jpegData = uiImage.jpegData(compressionQuality: 0.9) else {
             return .result(
-                value: "Invalid image",
+                value: SauceSearchResult(id: "error-invalid-image", similarity: "0"),
                 dialog: "Error.ImageProcessing"
             )
         }
@@ -45,7 +45,10 @@ struct SearchSauceIntent: AppIntent {
         ]
 
         guard let url = components.url else {
-            return .result(value: "Error", dialog: "Intent.SearchSauce.Error.URLConstruction")
+            return .result(
+                value: SauceSearchResult(id: "error-url-construction", similarity: "0"),
+                dialog: "Intent.SearchSauce.Error.URLConstruction"
+            )
         }
 
         var request = URLRequest(url: url)
@@ -76,35 +79,66 @@ struct SearchSauceIntent: AppIntent {
         }
 
         guard let topResult = sortedResults.first else {
-            return .result(value: "No matches", dialog: "Search.NoSourcesFound")
+            return .result(
+                value: SauceSearchResult(id: "no-matches", similarity: "0"),
+                dialog: "Search.NoSourcesFound"
+            )
         }
 
         let similarity = topResult.header.similarity
-        var resultText = "\(similarity)% match"
+        let artist = topResult.data.memberName ?? topResult.data.creator
+        let sourceURL: URL? = topResult.data.externalURLs?.first.flatMap { URL(string: $0) }
 
-        if let material = topResult.data.material, !material.isEmpty {
-            resultText += "\nMaterial: \(material)"
-        }
-        if let characters = topResult.data.characters, !characters.isEmpty {
-            resultText += "\nCharacters: \(characters)"
-        }
-        if let memberName = topResult.data.memberName {
-            resultText += "\nArtist: \(memberName)"
-        }
-        if let creator = topResult.data.creator, !creator.isEmpty {
-            resultText += "\nCreator: \(creator)"
-        }
-        if let xHandle = topResult.data.xUserHandle {
-            resultText += "\nX: @\(xHandle)"
-        }
-        if let urls = topResult.data.externalURLs, let firstURL = urls.first {
-            resultText += "\n\(firstURL)"
-        }
+        let result = SauceSearchResult(
+            id: "\(topResult.header.indexId)-\(similarity)",
+            similarity: similarity,
+            character: topResult.data.characters,
+            artist: artist,
+            sourceURL: sourceURL
+        )
 
         return .result(
-            value: resultText,
+            value: result,
             dialog: "Search.MatchFound.\(similarity)"
         )
+    }
+}
+
+@available(iOS 18.0, *)
+struct SauceSearchResult: AppEntity {
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Search Result"
+
+    var id: String
+    var similarity: String
+
+    @Property(title: "Character")
+    var character: String?
+
+    @Property(title: "Artist")
+    var artist: String?
+
+    @Property(title: "Source Link")
+    var sourceURL: URL?
+
+    var displayRepresentation: DisplayRepresentation {
+        DisplayRepresentation(title: "\(similarity)% match")
+    }
+
+    static var defaultQuery = SauceSearchResultQuery()
+
+    init(id: String, similarity: String, character: String? = nil, artist: String? = nil, sourceURL: URL? = nil) {
+        self.id = id
+        self.similarity = similarity
+        self.character = character
+        self.artist = artist
+        self.sourceURL = sourceURL
+    }
+}
+
+@available(iOS 18.0, *)
+struct SauceSearchResultQuery: EntityQuery {
+    func entities(for identifiers: [String]) async throws -> [SauceSearchResult] {
+        return []
     }
 }
 
