@@ -79,23 +79,29 @@ struct SearchSauceIntent: AppIntent {
         }
 
         guard let topResult = sortedResults.first else {
-            return .result(
-                value: SauceSearchResult(id: "no-matches", similarity: "0"),
-                dialog: "Search.NoSourcesFound"
-            )
+            throw SortNAOIntentError.noResults
         }
 
         let similarity = topResult.header.similarity
         let artist = topResult.data.memberName ?? topResult.data.creator
         let sourceURL: URL? = topResult.data.externalURLs?.first.flatMap { URL(string: $0) }
 
+        var thumbnailData: Data?
+        if let thumbnailURL = URL(string: topResult.header.thumbnail) {
+            thumbnailData = try? await URLSession.shared.data(from: thumbnailURL).0
+        }
+
         let result = SauceSearchResult(
             id: "\(topResult.header.indexId)-\(similarity)",
             similarity: similarity,
+            sourceName: topResult.header.indexName,
+            thumbnailData: thumbnailData,
             character: topResult.data.characters,
             artist: artist,
             sourceURL: sourceURL
         )
+
+        await SauceSearchResultCache.shared.store(result)
 
         return .result(
             value: result,
@@ -108,8 +114,12 @@ struct SearchSauceIntent: AppIntent {
 struct SauceSearchResult: AppEntity {
     static let typeDisplayRepresentation: TypeDisplayRepresentation = "Search Result"
 
+    static let defaultQuery = SauceSearchResultQuery()
+
     var id: String
     var similarity: String
+    var sourceName: String
+    var thumbnailData: Data?
 
     @Property(title: "Character")
     var character: String?
@@ -121,14 +131,40 @@ struct SauceSearchResult: AppEntity {
     var sourceURL: URL?
 
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(similarity)% match")
+        let title = character ?? sourceName
+
+        var subtitleParts: [String] = [sourceName]
+        if let artist, !artist.isEmpty {
+            subtitleParts.append(artist)
+        }
+        subtitleParts.append(String(format: NSLocalizedString("Action.Match.%@", comment: ""), similarity))
+
+        let image: DisplayRepresentation.Image = if let thumbnailData {
+            .init(data: thumbnailData)
+        } else {
+            .init(systemName: "sparkle.magnifyingglass")
+        }
+
+        return DisplayRepresentation(
+            title: "\(title)",
+            subtitle: "\(subtitleParts.joined(separator: " · "))",
+            image: image
+        )
     }
 
-    static let defaultQuery = SauceSearchResultQuery()
-
-    init(id: String, similarity: String, character: String? = nil, artist: String? = nil, sourceURL: URL? = nil) {
+    init(
+        id: String,
+        similarity: String,
+        sourceName: String = "",
+        thumbnailData: Data? = nil,
+        character: String? = nil,
+        artist: String? = nil,
+        sourceURL: URL? = nil
+    ) {
         self.id = id
         self.similarity = similarity
+        self.sourceName = sourceName
+        self.thumbnailData = thumbnailData
         self.character = character
         self.artist = artist
         self.sourceURL = sourceURL
@@ -136,9 +172,23 @@ struct SauceSearchResult: AppEntity {
 }
 
 @available(iOS 18.0, *)
+actor SauceSearchResultCache {
+    static let shared = SauceSearchResultCache()
+    private var cache: [String: SauceSearchResult] = [:]
+
+    func store(_ result: SauceSearchResult) {
+        cache[result.id] = result
+    }
+
+    func fetch(ids: [String]) -> [SauceSearchResult] {
+        ids.compactMap { cache[$0] }
+    }
+}
+
+@available(iOS 18.0, *)
 struct SauceSearchResultQuery: EntityQuery {
     func entities(for identifiers: [String]) async throws -> [SauceSearchResult] {
-        return []
+        return await SauceSearchResultCache.shared.fetch(ids: identifiers)
     }
 }
 

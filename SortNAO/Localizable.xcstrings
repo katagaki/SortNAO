@@ -12,6 +12,7 @@
       }
     },
     "%@%% match" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -808,6 +809,23 @@
         }
       }
     },
+    "Intent.Error.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources were found for this image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この画像に一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
     "Intent.OpenSauce.Title" : {
       "localizations" : {
         "en" : {
@@ -967,6 +985,7 @@
       }
     },
     "Search.NoSourcesFound" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

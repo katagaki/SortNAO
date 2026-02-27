@@ -203,6 +203,10 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             ))
         }
 
+        guard !entities.isEmpty else {
+            throw SortNAOIntentError.noResults
+        }
+
         await SauceEntityCache.shared.store(entities)
         return entities
     }
