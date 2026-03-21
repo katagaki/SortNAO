@@ -17,23 +17,105 @@
   },
   "groups" : [
     {
+      "blur-material" : 1,
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "automatic-gradient" : "extended-gray:0.88300,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "automatic-gradient" : "gray:1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "SortNAO.007 2.png",
+          "name" : "Magnifying",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -17.528202399556903,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "Magnifying",
+      "position" : {
+        "scale" : 1,
+        "translation-in-points" : [
+          -23.654350749881814,
+          -26.968602294283755
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.59
+      }
+    },
+    {
+      "blur-material" : 0.5,
+      "layers" : [
+        {
+          "image-name" : "SortNAO.008 2.png",
+          "name" : "Glass",
+          "position" : {
+            "scale" : 0.92,
+            "translation-in-points" : [
+              -1.1282023995568125,
+              13.21363341400297
+            ]
+          }
+        }
+      ],
+      "name" : "Glass",
+      "position" : {
+        "scale" : 1,
+        "translation-in-points" : [
+          -23.654350749881814,
+          -26.968602294283755
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 1
+      }
+    },
+    {
       "hidden" : false,
       "layers" : [
         {
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "SortNAO.009.png",
+          "image-name" : "SortNAO.006 2.png",
           "name" : "Nao-chan",
           "position" : {
-            "scale" : 0.55,
+            "scale" : 1,
             "translation-in-points" : [
-              144.92890436086418,
-              15.621645820690901
+              10.360931675526672,
+              17.592339035811392
             ]
           }
         }
       ],
       "name" : "Nao-chan",
+      "position" : {
+        "scale" : 1,
+        "translation-in-points" : [
+          17.317446850561282,
+          10.135904499615322
+        ]
+      },
       "shadow" : {
         "kind" : "layer-color",
         "opacity" : 1
@@ -45,130 +127,63 @@
       }
     },
     {
-      "blur-material" : 0.5,
       "layers" : [
         {
           "fill" : {
-            "automatic-gradient" : "srgb:0.67065,0.29804,0.94902,1.00000"
+            "linear-gradient" : [
+              "display-p3:0.38403,0.64839,1.04685,1.00000",
+              "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0.41078569954303357,
+                "y" : 0.09675522618383199
+              },
+              "stop" : {
+                "x" : 0.5885386036085709,
+                "y" : 0.8005505338887484
+              }
+            }
           },
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "SortNAO.004 2.png",
-          "name" : "1",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              179.88727739790875,
-              145.7425245129271
-            ]
-          }
-        }
-      ],
-      "name" : "Card 1",
-      "shadow" : {
-        "kind" : "neutral",
-        "opacity" : 0.5
-      },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.4
-      }
-    },
-    {
-      "blur-material" : null,
-      "layers" : [
-        {
-          "fill" : {
-            "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
-          },
-          "hidden" : false,
-          "image-name" : "SortNAO.005 2.png",
-          "name" : "2",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              103.06460940496481,
-              199.32164582069095
-            ]
-          }
+          "image-name" : "SortNAO.005.png",
+          "name" : "1"
         },
         {
           "fill" : {
-            "automatic-gradient" : "srgb:0.18824,0.81961,0.34510,1.00000"
+            "linear-gradient" : [
+              "display-p3:0.45253,0.81120,0.15099,1.00000",
+              "srgb:0.42371,0.88897,0.00000,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0.5,
+                "y" : 1
+              },
+              "stop" : {
+                "x" : 0.39912918160682287,
+                "y" : 0.1136021595654927
+              }
+            }
           },
-          "hidden" : false,
-          "image-name" : "SortNAO.006.png",
-          "name" : "3",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              29,
-              263.2979395231612
-            ]
-          }
+          "image-name" : "SortNAO.004.png",
+          "name" : "2"
         },
         {
           "fill" : {
-            "automatic-gradient" : "srgb:1.00000,0.98923,0.26190,1.00000"
+            "automatic-gradient" : "srgb:1.00000,0.40818,0.67479,1.00000"
           },
-          "hidden" : false,
-          "image-name" : "SortNAO.007.png",
-          "name" : "4",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              -36.278164996212354,
-              308.6742551791983
-            ]
-          }
-        },
-        {
-          "fill" : {
-            "automatic-gradient" : "srgb:1.00000,0.76523,0.37299,1.00000"
-          },
-          "hidden" : false,
-          "image-name" : "SortNAO.008.png",
-          "name" : "5",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              -83.18275412741173,
-              378.396194795274
-            ]
-          }
-        },
-        {
-          "fill" : {
-            "automatic-gradient" : "srgb:1.00000,0.39997,0.31339,1.00000"
-          },
-          "hidden" : false,
-          "image-name" : "SortNAO.009.png",
-          "name" : "6",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              -172.0952436392713,
-              476.9801525447124
-            ]
-          }
+          "image-name" : "SortNAO.003.png",
+          "name" : "3"
         }
       ],
       "name" : "Cards",
-      "shadow" : {
-        "kind" : "layer-color",
-        "opacity" : 1
+      "position" : {
+        "scale" : 1,
+        "translation-in-points" : [
+          17.317446850561282,
+          10.135904499615322
+        ]
       },
-      "specular" : true,
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.68
-      }
-    },
-    {
-      "layers" : [
-
-      ],
-      "name" : "Cards Behind",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
