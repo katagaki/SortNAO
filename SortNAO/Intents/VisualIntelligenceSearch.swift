@@ -5,6 +5,8 @@
 //  Created by Claude on 2026/02/26.
 //
 
+#if !targetEnvironment(macCatalyst)
+
 import AppIntents
 import CoreImage
 import KeychainAccess
@@ -232,3 +234,5 @@ struct OpenSauceIntent: OpenIntent {
         return .result()
     }
 }
+#endif
+
