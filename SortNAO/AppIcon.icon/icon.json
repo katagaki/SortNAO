@@ -22,13 +22,13 @@
         {
           "glass" : true,
           "hidden" : false,
-          "image-name" : "SortNAO.010.png",
+          "image-name" : "SortNAO.009.png",
           "name" : "Nao-chan",
           "position" : {
-            "scale" : 0.48,
+            "scale" : 0.55,
             "translation-in-points" : [
-              142.39007465062582,
-              32.57009156478773
+              144.92890436086418,
+              15.621645820690901
             ]
           }
         }
@@ -45,7 +45,7 @@
       }
     },
     {
-      "blur-material" : null,
+      "blur-material" : 0.5,
       "layers" : [
         {
           "fill" : {
@@ -62,7 +62,21 @@
               145.7425245129271
             ]
           }
-        },
+        }
+      ],
+      "name" : "Card 1",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.4
+      }
+    },
+    {
+      "blur-material" : null,
+      "layers" : [
         {
           "fill" : {
             "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
@@ -155,25 +169,6 @@
 
       ],
       "name" : "Cards Behind",
-      "shadow" : {
-        "kind" : "neutral",
-        "opacity" : 0.5
-      },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.5
-      }
-    },
-    {
-      "hidden" : true,
-      "layers" : [
-        {
-          "hidden" : false,
-          "image-name" : "SortNAO.001.png",
-          "name" : "SortNAO.001"
-        }
-      ],
-      "name" : "Reference",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
