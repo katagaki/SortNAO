@@ -121,25 +121,25 @@ struct SauceEntityQuery: EntityQuery {
 
 @available(iOS 26.0, *)
 private func renderErrorThumbnail(systemName: String, message: String) -> Data? {
-    let size = CGSize(width: 200, height: 200)
+    let size = CGSize(width: 280, height: 280)
     let renderer = UIGraphicsImageRenderer(size: size)
     let image = renderer.image { context in
         // Background
         UIColor.secondarySystemBackground.setFill()
         context.fill(CGRect(origin: .zero, size: size))
 
-        // Icon
-        let iconConfig = UIImage.SymbolConfiguration(pointSize: 48, weight: .medium)
+        // Icon (multicolor rendering)
+        let iconConfig = UIImage.SymbolConfiguration(pointSize: 56, weight: .medium)
+            .applying(UIImage.SymbolConfiguration.preferringMulticolor())
         if let icon = UIImage(systemName: systemName, withConfiguration: iconConfig) {
-            let tintedIcon = icon.withTintColor(.secondaryLabel, renderingMode: .alwaysOriginal)
-            let iconSize = tintedIcon.size
+            let iconSize = icon.size
             let iconRect = CGRect(
                 x: (size.width - iconSize.width) / 2,
-                y: 48 - iconSize.height / 2,
+                y: 68 - iconSize.height / 2,
                 width: iconSize.width,
                 height: iconSize.height
             )
-            tintedIcon.draw(in: iconRect)
+            icon.draw(in: iconRect)
         }
 
         // Text
@@ -147,11 +147,11 @@ private func renderErrorThumbnail(systemName: String, message: String) -> Data? 
         paragraphStyle.alignment = .center
         paragraphStyle.lineBreakMode = .byWordWrapping
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 13, weight: .medium),
+            .font: UIFont.systemFont(ofSize: 15, weight: .medium),
             .foregroundColor: UIColor.secondaryLabel,
             .paragraphStyle: paragraphStyle
         ]
-        let textRect = CGRect(x: 16, y: 100, width: size.width - 32, height: 84)
+        let textRect = CGRect(x: 20, y: 140, width: size.width - 40, height: 120)
         (message as NSString).draw(in: textRect, withAttributes: attributes)
     }
     return image.pngData()
