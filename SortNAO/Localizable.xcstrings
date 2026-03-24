@@ -1402,6 +1402,91 @@
         }
       }
     },
+    "VisualIntelligence.Error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    },
+    "VisualIntelligence.Error.ImageProcessing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not process the image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像を処理できませんでした。"
+          }
+        }
+      }
+    },
+    "VisualIntelligence.Error.NoAPIKey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No API key set.\nSet your SauceNAO API key in SortNAO."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APIキーが未設定です。\nSortNAOでSauceNAOのAPIキーを設定してください。"
+          }
+        }
+      }
+    },
+    "VisualIntelligence.Error.NoResults" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching sources found for this image."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この画像に一致するソースが見つかりませんでした。"
+          }
+        }
+      }
+    },
+    "VisualIntelligence.Error.SearchFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search failed.\nPlease try again."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索に失敗しました。\nもう一度お試しください。"
+          }
+        }
+      }
+    },
     "X" : {
       "localizations" : {
         "ja" : {

@@ -117,6 +117,46 @@ struct SauceEntityQuery: EntityQuery {
     }
 }
 
+// MARK: - Error Thumbnail Generation
+
+@available(iOS 26.0, *)
+private func renderErrorThumbnail(systemName: String, message: String) -> Data? {
+    let size = CGSize(width: 200, height: 200)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    let image = renderer.image { context in
+        // Background
+        UIColor.secondarySystemBackground.setFill()
+        context.fill(CGRect(origin: .zero, size: size))
+
+        // Icon
+        let iconConfig = UIImage.SymbolConfiguration(pointSize: 48, weight: .medium)
+        if let icon = UIImage(systemName: systemName, withConfiguration: iconConfig) {
+            let tintedIcon = icon.withTintColor(.secondaryLabel, renderingMode: .alwaysOriginal)
+            let iconSize = tintedIcon.size
+            let iconRect = CGRect(
+                x: (size.width - iconSize.width) / 2,
+                y: 48 - iconSize.height / 2,
+                width: iconSize.width,
+                height: iconSize.height
+            )
+            tintedIcon.draw(in: iconRect)
+        }
+
+        // Text
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 13, weight: .medium),
+            .foregroundColor: UIColor.secondaryLabel,
+            .paragraphStyle: paragraphStyle
+        ]
+        let textRect = CGRect(x: 16, y: 100, width: size.width - 32, height: 84)
+        (message as NSString).draw(in: textRect, withAttributes: attributes)
+    }
+    return image.pngData()
+}
+
 // MARK: - Visual Intelligence Search Query
 
 @available(iOS 26.0, *)
@@ -124,12 +164,32 @@ struct SauceVisualSearchQuery: IntentValueQuery {
     // swiftlint:disable function_body_length
     func values(for input: SemanticContentDescriptor) async throws -> [SauceEntity] {
         guard let pixelBuffer = input.pixelBuffer else {
-            return []
+            let entity = SauceEntity(
+                id: "error-no-image",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "exclamationmark.triangle",
+                    message: NSLocalizedString("VisualIntelligence.Error.ImageProcessing", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
         }
 
         let keychain = Keychain(service: "com.tsubuzaki.SortNAO")
         guard let apiKey = try? keychain.get("SauceNAOAPIKey") else {
-            return []
+            let entity = SauceEntity(
+                id: "error-no-api-key",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "key.slash",
+                    message: NSLocalizedString("VisualIntelligence.Error.NoAPIKey", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
         }
 
         // Convert pixel buffer to JPEG inside withUnsafeBuffer for memory safety
@@ -140,7 +200,17 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             let uiImage = UIImage(cgImage: cgImage)
             return uiImage.jpegData(compressionQuality: 0.9)
         }) else {
-            return []
+            let entity = SauceEntity(
+                id: "error-image-processing",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "exclamationmark.triangle",
+                    message: NSLocalizedString("VisualIntelligence.Error.ImageProcessing", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
         }
 
         // Build API request
@@ -152,7 +222,19 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             URLQueryItem(name: "numres", value: "5")
         ]
 
-        guard let url = components.url else { return [] }
+        guard let url = components.url else {
+            let entity = SauceEntity(
+                id: "error-url",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "exclamationmark.triangle",
+                    message: NSLocalizedString("VisualIntelligence.Error.SearchFailed", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
+        }
 
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -174,8 +256,32 @@ struct SauceVisualSearchQuery: IntentValueQuery {
 
         request.httpBody = body
 
-        guard let (data, _) = try? await URLSession.shared.data(for: request) else { return [] }
-        guard let response = try? JSONDecoder().decode(SauceResponse.self, from: data) else { return [] }
+        guard let (data, _) = try? await URLSession.shared.data(for: request) else {
+            let entity = SauceEntity(
+                id: "error-network",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "wifi.exclamationmark",
+                    message: NSLocalizedString("VisualIntelligence.Error.SearchFailed", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
+        }
+        guard let response = try? JSONDecoder().decode(SauceResponse.self, from: data) else {
+            let entity = SauceEntity(
+                id: "error-decode",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "exclamationmark.triangle",
+                    message: NSLocalizedString("VisualIntelligence.Error.SearchFailed", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
+        }
 
         let sortedResults = response.results.sorted {
             (Double($0.header.similarity) ?? 0) > (Double($1.header.similarity) ?? 0)
@@ -206,7 +312,17 @@ struct SauceVisualSearchQuery: IntentValueQuery {
         }
 
         guard !entities.isEmpty else {
-            throw SortNAOIntentError.noResults
+            let entity = SauceEntity(
+                id: "error-no-results",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "magnifyingglass",
+                    message: NSLocalizedString("VisualIntelligence.Error.NoResults", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
         }
 
         await SauceEntityCache.shared.store(entities)
@@ -235,4 +351,3 @@ struct OpenSauceIntent: OpenIntent {
     }
 }
 #endif
-
