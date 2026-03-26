@@ -1470,6 +1470,23 @@
         }
       }
     },
+    "VisualIntelligence.Error.RateLimited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate limit reached.\nPlease wait a moment and try again."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レート制限に達しました。\nしばらく待ってからもう一度お試しください。"
+          }
+        }
+      }
+    },
     "VisualIntelligence.Error.SearchFailed" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -256,7 +256,7 @@ struct SauceVisualSearchQuery: IntentValueQuery {
 
         request.httpBody = body
 
-        guard let (data, _) = try? await URLSession.shared.data(for: request) else {
+        guard let (data, httpResponse) = try? await URLSession.shared.data(for: request) else {
             let entity = SauceEntity(
                 id: "error-network",
                 similarity: "0",
@@ -269,6 +269,21 @@ struct SauceVisualSearchQuery: IntentValueQuery {
             await SauceEntityCache.shared.store([entity])
             return [entity]
         }
+
+        if let statusCode = (httpResponse as? HTTPURLResponse)?.statusCode, statusCode == 429 {
+            let entity = SauceEntity(
+                id: "error-rate-limited",
+                similarity: "0",
+                sourceName: NSLocalizedString("VisualIntelligence.Error", comment: ""),
+                thumbnailData: renderErrorThumbnail(
+                    systemName: "hourglass",
+                    message: NSLocalizedString("VisualIntelligence.Error.RateLimited", comment: "")
+                )
+            )
+            await SauceEntityCache.shared.store([entity])
+            return [entity]
+        }
+
         guard let response = try? JSONDecoder().decode(SauceResponse.self, from: data) else {
             let entity = SauceEntity(
                 id: "error-decode",
